@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-102 问答系统</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3>学习进度</h3>
+                <div class="progress-stats">
+                    <div class="stat-item">
+                        <span class="stat-label">总题数</span>
+                        <span class="stat-value" id="totalCount">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">已答题</span>
+                        <span class="stat-value" id="answeredCount">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">正确数</span>
+                        <span class="stat-value correct" id="correctCount">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">错误数</span>
+                        <span class="stat-value incorrect" id="incorrectCount">-</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">正确率</span>
+                        <span class="stat-value" id="correctRate">-</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>快速操作</h3>
+                <button id="viewStatsBtn" class="btn btn-secondary">📊 查看统计</button>
+                <button id="reviewErrorsBtn" class="btn btn-secondary">❌ 错题回顾</button>
+                <button id="restartBtn" class="btn btn-secondary">🔄 重新开始</button>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>题目导航</h3>
+                <input type="text" id="jumpInput" placeholder="输入题号跳转" class="jump-input">
+                <button id="jumpBtn" class="btn btn-secondary btn-small">跳转</button>
+            </div>
+        </aside>
+
+        <!-- 主内容区域 -->
+        <main class="main-content">
+            <!-- 页头 -->
+            <header class="app-header">
+                <h1>🎓 AI-102 问答系统</h1>
+                <div class="header-info">
+                    <span id="questionNumber">第 - 题</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressBar"></div>
+                    </div>
+                    <span id="progressText">0 / -</span>
+                </div>
+            </header>
+
+            <!-- 初始加载状态 -->
+            <div id="loadingState" class="state-container loading-state">
+                <div class="spinner"></div>
+                <p>正在加载题库...</p>
+            </div>
+
+            <!-- 主要内容（隐藏）-->
+            <div id="mainState" class="state-container main-state hidden">
+                <!-- 题目容器 -->
+                <section class="question-section">
+                    <div class="background-box">
+                        <h3>背景信息</h3>
+                        <div id="questionBackground" class="background-content"></div>
+                    </div>
+
+                    <div class="question-box">
+                        <h3>题目</h3>
+                        <div id="questionText" class="question-text"></div>
+                    </div>
+                </section>
+
+                <!-- 选项容器 -->
+                <section class="options-section">
+                    <h3>请选择答案</h3>
+                    <div id="optionsContainer" class="options-grid"></div>
+                </section>
+
+                <!-- 按钮操作区 -->
+                <section class="action-section">
+                    <button id="submitBtn" class="btn btn-primary btn-large" disabled>提交答案</button>
+                    <button id="nextBtn" class="btn btn-success btn-large hidden">下一题 →</button>
+                </section>
+
+                <!-- 答题结果区（初始隐藏）-->
+                <section id="resultSection" class="result-section hidden">
+                    <div class="result-header">
+                        <div id="resultStatus" class="result-status"></div>
+                        <p id="resultMessage" class="result-message"></p>
+                    </div>
+
+                    <div class="result-body">
+                        <div class="result-item">
+                            <h4>你的答案</h4>
+                            <p id="userAnswer" class="user-answer"></p>
+                        </div>
+
+                        <div class="result-item">
+                            <h4>正确答案</h4>
+                            <div id="correctAnswer" class="correct-answer"></div>
+                        </div>
+
+                        <div class="result-item">
+                            <h4>详细解析</h4>
+                            <div id="explanation" class="explanation-text"></div>
+                        </div>
+
+                        <div id="controversyBox" class="result-item controversy-box hidden">
+                            <h4>⚠️ 争议说明</h4>
+                            <p id="controversy"></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- 完成状态 -->
+            <div id="completionState" class="state-container completion-state hidden">
+                <div class="completion-content">
+                    <h2>🎉 恭喜！你已完成所有题目</h2>
+                    <div class="completion-stats">
+                        <div class="stat-box">
+                            <div class="stat-number" id="finalCorrect">-</div>
+                            <div class="stat-label">正确</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="finalIncorrect">-</div>
+                            <div class="stat-label">错误</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="finalRate">-</div>
+                            <div class="stat-label">正确率</div>
+                        </div>
+                    </div>
+                    <div class="completion-actions">
+                        <button id="reviewBtn" class="btn btn-primary btn-large">📋 查看错题</button>
+                        <button id="restartAgainBtn" class="btn btn-secondary btn-large">🔄 重新开始</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 统计视图 -->
+            <div id="statsState" class="state-container stats-state hidden">
+                <div class="stats-header">
+                    <h2>📊 学习统计</h2>
+                    <button id="backToQuestionBtn" class="btn btn-secondary">← 返回答题</button>
+                </div>
+                <div class="stats-content">
+                    <div class="stats-grid">
+                        <div class="stats-card">
+                            <div class="card-title">总题数</div>
+                            <div class="card-value" id="statsTotalCount">-</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="card-title">已答题</div>
+                            <div class="card-value" id="statsAnsweredCount">-</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="card-title">正确数</div>
+                            <div class="card-value correct" id="statsCorrectCount">-</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="card-title">错误数</div>
+                            <div class="card-value incorrect" id="statsIncorrectCount">-</div>
+                        </div>
+                        <div class="stats-card">
+                            <div class="card-title">正确率</div>
+                            <div class="card-value" id="statsCorrectRate">-</div>
+                        </div>
+                    </div>
+                    <div id="errorListContainer" class="error-list-container hidden">
+                        <h3>错题列表</h3>
+                        <div id="errorList" class="error-list"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
