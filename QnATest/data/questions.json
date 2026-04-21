@@ -391,7 +391,28 @@
     "id": 15,
     "background": "你构建了一个零售聊天机器人，使用 QnA Maker 服务，并上传了一份内部支持文档。文档中包含问题\"What is your warranty period?\"（保修期是多少？）\n\n用户反映，当他们询问\"How long is the warranty coverage?\"（保修覆盖多长时间？）时，机器人返回了默认的无答案回复。\n\n你需要提高机器人对这两种表达方式的识别准确率。",
     "title": "应按顺序执行哪三项操作？",
-    "options": [],
+    "options": [
+      {
+        "label": "A",
+        "text": "向问答对添加替代提问方式（Alternate Questions）"
+      },
+      {
+        "label": "B",
+        "text": "重新训练模型（Retrain the model）"
+      },
+      {
+        "label": "C",
+        "text": "重新发布模型（Republish the model）"
+      },
+      {
+        "label": "D",
+        "text": "删除原有问答对并重新创建"
+      },
+      {
+        "label": "E",
+        "text": "创建新的知识库（Knowledge Base）"
+      }
+    ],
     "answer": "A → B → C",
     "explanation": "当用户使用不同表达方式提问同一个问题时，正确的做法是：\n\n1. **添加替代提问方式（A）**：为已有问答对添加\"How long is the warranty coverage?\"作为替代问法，无需删除原有内容\n2. **重新训练模型（B）**：保存并训练，以使修改生效\n3. **重新发布模型（C）**：发布后，新的问法才能在生产环境生效\n\n删除知识库或创建新知识库代价过大，且无法利用已有训练数据。",
     "controversy": "QnA Maker 已于 2025 年 3 月退役，新服务为 **Azure AI Language 的自定义问题解答（Custom Question Answering）**。操作步骤在 Language Studio 中类似，但界面和部分术语有所不同。"
