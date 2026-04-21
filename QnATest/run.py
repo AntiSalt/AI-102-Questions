@@ -19,6 +19,13 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         self.project_root = Path(directory).parent  # 项目根目录
         super().__init__(*args, directory=directory, **kwargs)
     
+    def end_headers(self):
+        """添加缓存控制头，禁用缓存"""
+        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        self.send_header('Pragma', 'no-cache')
+        self.send_header('Expires', '0')
+        super().end_headers()
+    
     def translate_path(self, path):
         """重写路径转换，允许访问项目的 data 目录"""
         if path.startswith('/data/'):

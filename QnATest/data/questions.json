@@ -413,8 +413,8 @@
         "text": "创建新的知识库（Knowledge Base）"
       }
     ],
-    "answer": "A → B → C",
-    "explanation": "当用户使用不同表达方式提问同一个问题时，正确的做法是：\n\n1. **添加替代提问方式（A）**：为已有问答对添加\"How long is the warranty coverage?\"作为替代问法，无需删除原有内容\n2. **重新训练模型（B）**：保存并训练，以使修改生效\n3. **重新发布模型（C）**：发布后，新的问法才能在生产环境生效\n\n删除知识库或创建新知识库代价过大，且无法利用已有训练数据。",
+    "answer": "A、B、C",
+    "explanation": "当用户使用不同表达方式提问同一个问题时，正确的做法是按照 A → B → C 的顺序执行：\n\n1. **添加替代提问方式（A）**：为已有问答对添加\"How long is the warranty coverage?\"作为替代问法，无需删除原有内容\n2. **重新训练模型（B）**：保存并训练，以使修改生效\n3. **重新发布模型（C）**：发布后，新的问法才能在生产环境生效\n\n删除知识库或创建新知识库代价过大，且无法利用已有训练数据。",
     "controversy": "QnA Maker 已于 2025 年 3 月退役，新服务为 **Azure AI Language 的自定义问题解答（Custom Question Answering）**。操作步骤在 Language Studio 中类似，但界面和部分术语有所不同。"
   },
   {
@@ -544,7 +544,7 @@
     "background": "你正在构建一个多语言聊天机器人，使用 Azure Cognitive Services 语言模型。该机器人频繁回复默认的\"Sorry, I don't understand that.\"（对不起，我不理解你的意思）。\n\n你需要提升机器人的响应能力。",
     "title": "应按照哪个顺序执行以下三项操作？",
     "options": [],
-    "answer": "A → C → B",
+    "answer": "A 、 C 、 B",
     "explanation": "主动学习（Active Learning）是 LUIS 的重要功能，可以从用户的真实请求中学习改进：\n\n1. **启用主动学习（A）**：在预测端点 URL 中添加 `log=true` 参数，开始记录用户请求\n2. **审核建议的语料（C）**：在 LUIS 门户中查看\"Review endpoint utterances\"，验证并接受/拒绝系统建议的语料\n3. **训练并发布模型（B）**：将审核后的改进训练进模型，重新发布\n\n---",
     "controversy": ""
   },
@@ -613,7 +613,7 @@
     "background": "你正在开发一个使用 Custom Vision 构建的移动应用，该模型用于识别零售商品（使用 Retail 领域）。你计划将该模型部署到 Android 手机端（离线使用）。",
     "title": "应按顺序执行哪三项操作来准备模型部署？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "要将 Custom Vision 模型部署到移动设备（Android/iOS）离线使用，必须：\n\n1. **更改为紧凑型域（A）**：标准域（General、Retail 等）不可导出；紧凑型域（如 General (compact)、Retail (compact)）专为设备端部署优化\n2. **重新训练模型（B）**：更换域后必须重新训练\n3. **导出模型（C）**：导出为 TensorFlow、CoreML、ONNX 或 Docker 等格式，用于本地部署\n\n不需要删除原有模型或创建新资源。\n\n---",
     "controversy": ""
   },
@@ -1042,7 +1042,7 @@
     "background": "你有一个 Azure AI 搜索 Web 应用，在审查活动日志时发现搜索查询量远超预期，怀疑**查询密钥（Query Key）已泄露**。\n\n你需要在**最大限度减少应用停机时间**的前提下，阻止未授权访问并确保用户仅有只读访问权限。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "正确的零停机更换流程：\n\n1. **添加新查询密钥（A）**：在 Azure 门户为同一个搜索服务生成一个新的查询密钥，此时两个密钥均有效，应用不中断\n2. **切换应用使用新密钥（B）**：更新应用配置（如环境变量、连接字符串），使其使用新密钥进行身份验证\n3. **删除旧的泄露密钥（C）**：确认应用正常后，删除被泄露的旧密钥，阻止未授权访问\n\n查询密钥仅有读权限，不涉及管理员密钥；无需禁用整个资源。\n\n---",
     "controversy": ""
   },
@@ -1211,7 +1211,7 @@
     "background": "你有一个 Azure AI Search 富化管道（Enrichment Pipeline），其中包含一个**自定义技能（Custom Skill）**，用于对文档执行语言检测和情感分析。",
     "title": "Azure AI Search 在索引文档时，会按照什么顺序依次处理各个阶段？（将所有阶段排序）",
     "options": [],
-    "answer": "A → B → C → D → E",
+    "answer": "A 、 B 、 C 、 D 、 E",
     "explanation": "Azure AI Search 索引器处理文档的完整顺序：\n\n1. **文档破解（Document Cracking）**：读取源数据（如 Blob 中的 PDF），提取原始文本和元数据\n2. **字段映射（Field Mapping）**：将数据源的原始字段映射到索引器的中间表示\n3. **技能执行（Skill Execution）**：按技能集定义的顺序执行所有 AI 技能（包括内置技能和自定义技能）\n4. **输出字段映射（Output Field Mapping）**：将技能执行产生的富化数据映射到目标索引字段\n5. **索引写入（Index Write）**：将所有映射后的数据写入 Azure AI Search 索引\n\n---",
     "controversy": ""
   },
@@ -1912,7 +1912,7 @@
     "background": "你有一个 Azure AI Search 资源（AlSearch1），其索引包含一个向量字段。\n\n你需要：\n- 使用 Azure AI Agent Service 部署一个新代理\n- 将 AlSearch1 索引连接到该代理\n- 验证索引与代理的集成",
     "title": "应按顺序执行哪四项操作？",
     "options": [],
-    "answer": "A → C → B → D",
+    "answer": "A 、 C 、 B 、 D",
     "explanation": "部署并验证 AI Agent 与 Azure AI Search 集成的完整流程：\n\n1. **在 Azure AI Foundry 中创建新项目（A）**：Azure AI Agent Service 运行在 AI Foundry 项目中\n2. **创建 AlSearch1 的连接（C）**：在 AI Foundry 项目中配置与 Azure AI Search 资源的连接，提供端点和 API 密钥\n3. **创建代理并配置 AzureAISearchTool（B）**：使用已创建的连接初始化搜索工具，并将其添加到代理的工具列表中\n4. **测试代理（D）**：发送测试查询验证代理能否正确检索 Search 索引中的数据\n\n---",
     "controversy": ""
   },
@@ -2353,7 +2353,7 @@
     "background": "你构建了一个使用 Azure AI Language 自定义问题解答服务的聊天机器人，知识库基于内部支持 FAQ 文档训练。\n\n你发现聊天机器人**无法对常见问题提供正确答案**。你需要提高响应准确性，且解决方案必须**最小化开发工作量**。",
     "title": "应在 Language Studio 中按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A → B（含 C）→ D → E",
+    "answer": "A 、 B（含 C）、 D 、 E",
     "explanation": "使用主动学习提高问答准确性的完整流程：\n\n1. **启用主动学习（A）**：系统开始根据用户查询自动建议改进的问答对\n2. **查看并接受建议（B/C）**：在 Language Studio 中审核主动学习推荐的替代问法，接受合适的建议\n3. **保存并训练（D）**：将修改保存并重新训练知识库\n4. **重新发布（E）**：发布使修改生效\n\n主动学习通过分析用户真实查询来改进知识库，是成本最低、工作量最小的改进方式。\n\n---",
     "controversy": ""
   },
@@ -2648,7 +2648,7 @@
     "background": "你正在构建一个电话处理解决方案，使用 Azure AI Speech 服务和**自定义神经语音（Custom Neural Voice）**。\n\n你需要从 Speech Studio 创建自定义语音模型。",
     "title": "在 Speech Studio 中，创建自定义语音模型应按顺序执行哪五项操作？",
     "options": [],
-    "answer": "D → A → B → C → E",
+    "answer": "D 、 A 、 B 、 C 、 E",
     "explanation": "创建自定义神经语音的完整流程（符合微软负责任 AI 要求）：\n\n1. **获取语音人才同意（D）**：必须先获得声音原型人的书面同意，这是合规要求，不可跳过\n2. **创建项目（A）**：在 Speech Studio 中新建 Custom Neural Voice 项目\n3. **上传训练数据（B）**：上传录音数据（WAV 文件）和对应的文字稿（TXT）\n4. **训练模型（C）**：使用上传的数据训练神经语音模型\n5. **部署到端点（E）**：将训练好的模型部署为可调用的端点\n\n---",
     "controversy": ""
   },
@@ -3125,7 +3125,7 @@
     "background": "你需要实现一个批量文档翻译解决方案。源文档（德语的 Word 和 PowerPoint 文件）存储在 Azure Blob 容器中，需要翻译为法语，同时满足：\n\n- 保留原始文件格式\n- 支持使用**自定义术语表（Custom Glossary）**",
     "title": "在完成 Blob 容器准备和文件上传后，还需要按顺序执行哪三项操作？",
     "options": [],
-    "answer": "C → B → E",
+    "answer": "C 、 B 、 E",
     "explanation": "批量文档翻译（Document Translation）的完整流程（假设 Translator 资源和源/目标容器已准备好）：\n\n1. **上传自定义术语表（C）**：将 TSV 格式的术语表文件上传到 Blob 容器，生成 SAS URL 供翻译请求引用\n2. **提交翻译请求（B）**：调用 `POST /batches` 端点，在请求体中指定源容器 SAS URL、目标容器 SAS URL、语言对（de→fr）和术语表 SAS URL\n3. **查询翻译状态（E）**：批量翻译是异步操作，需要轮询状态直到完成（`status: Succeeded`）\n\n---",
     "controversy": ""
   },
@@ -3186,7 +3186,7 @@
     "background": "你正在使用 Azure AI Content Understanding 分析 1,000 段视频，需要**识别特定公司名称是否在视频中被提及**（包括语音和文字）。",
     "title": "应按顺序执行哪三项操作来实现公司名称识别？",
     "options": [],
-    "answer": "A → C → D",
+    "answer": "A 、 C 、 D",
     "explanation": "使用 Video Indexer 识别特定品牌/公司名称的流程：\n\n1. **创建自定义品牌（A）**：在 Video Indexer 门户中，添加要识别的公司名称到自定义品牌列表，这样 Video Indexer 在索引时会特别关注这些名称\n2. **索引视频（C）**：调用 Video Indexer API 对视频进行索引（包括语音转文字、场景分析、品牌检测等）\n3. **提取品牌洞察（D）**：从索引结果中获取品牌出现的时间戳、频率等详情\n\n注意：视频可以通过 URL 直接提供给 Video Indexer，不一定需要先上传到 Blob Storage。但若已在 Blob Storage 中，则需提供 SAS URL。\n\n---",
     "controversy": ""
   },
@@ -3493,7 +3493,7 @@
     "background": "你有一个 Azure OpenAI 资源，需要构建一个应用来写新闻稿（Press Releases），使用 Azure OpenAI Studio 部署模型。",
     "title": "在 Azure OpenAI Studio 中，应按顺序执行哪三项操作来完成部署？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "在 Azure OpenAI Studio 中部署模型的标准三步流程：\n\n1. **打开 Deployments 页面（A）**：在 Azure OpenAI Studio 左侧导航中选择\"Deployments\"（部署）\n2. **选择基础模型（B）**：点击\"Create new deployment\"，从可用模型列表中选择适合文本生成的模型（如 GPT-4、GPT-3.5-Turbo）\n3. **命名并完成部署（C）**：输入部署名称（供 API 调用时使用），设置容量参数，完成创建\n\n部署完成后可以在 Playground 中测试，但测试（D）不是部署操作的必要步骤。\n\n---",
     "controversy": ""
   },
@@ -3528,7 +3528,7 @@
     "background": "你有一个含有 DockerFile 的本地开发环境，并有 Azure 订阅中的自定义语音转文字模型（model1）。\n\n你需要在名为 Host1 的 Docker 主机上运行 model1。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "在 Docker 主机上运行自定义语音转文字模型的步骤：\n\n1. **导出 model1（A）**：从 Azure 门户或 Azure CLI 将自定义语音模型导出为容器镜像，使其可以在 Docker 环境中运行\n2. **运行容器（B）**：在 Host1 上使用 `docker run` 命令启动容器，包含 Billing 端点和 API 密钥参数\n3. **配置日志记录（C）**（可选但推荐）：配置磁盘日志以监控容器的运行状态和性能\n\n---",
     "controversy": ""
   },
@@ -3615,7 +3615,7 @@
     "background": "你有一个 Azure 认知搜索（Azure Cognitive Search）服务，其中一个使用主管理密钥的 Web 应用在安全审查中发现主密钥可能已被泄露，存在未授权的**索引管理操作**。\n\n你需要防止未授权访问，且解决方案必须**最小化停机时间**。",
     "title": "应按顺序执行哪些步骤？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "零停机轮换管理密钥的正确流程：\n\n1. **重新生成辅助管理密钥（A）**：此时应用仍使用主密钥正常运行，生成新的辅助密钥作为切换目标\n2. **将应用切换到辅助管理密钥（B）**：更新应用配置，使用新的辅助密钥，应用继续正常运行（无停机）\n3. **重新生成主管理密钥（C）**：旧的泄露主密钥失效，未授权访问被终止\n\n注意：不能直接删除管理密钥（D），Azure 认知搜索服务始终保持两个管理密钥；切换到查询密钥（E）会导致索引管理功能不可用。\n\n---",
     "controversy": ""
   },
@@ -4244,7 +4244,7 @@
     "background": "你需要使用 Azure OpenAI Studio 对 GPT-4 模型进行图像分析。你需要在 Azure OpenAI Studio 中配置模型以获取图像的文字描述。",
     "title": "在 Azure OpenAI Studio 中，应按顺序执行哪四项操作？",
     "options": [],
-    "answer": "A → B → C → D",
+    "answer": "A 、 B 、 C 、 D",
     "explanation": "使用 Azure OpenAI Studio 分析图像的完整流程：\n\n1. **部署 GPT-4 Vision 模型（A）**：必须选择支持视觉功能的 GPT-4 模型版本（`vision-preview` 或 `gpt-4o`）\n2. **打开 Chat playground（B）**：图像分析通过聊天界面进行，而非 Completions playground\n3. **设置系统消息（C）**：定义助手角色，告知模型处理图像描述任务\n4. **上传图像并提问（D）**：在聊天窗格通过附件上传图像，并输入分析提示词\n\n---",
     "controversy": ""
   },
@@ -4391,7 +4391,7 @@
     "background": "你正在使用 Bot Framework SDK 构建一个机器人，并需要在**本地计算机上以交互方式测试**该机器人。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "在本地交互测试机器人的步骤：\n\n1. **本地启动机器人（A）**：在命令行或 IDE 中运行机器人项目（如 `dotnet run` 或 `node index.js`），使其监听本地端口（默认 3978）\n2. **打开 Bot Framework Emulator（B）**：启动 Emulator 桌面应用\n3. **连接本地端点（C）**：在 Emulator 中点击\"Open Bot\"，输入本地端点 URL `http://localhost:3978/api/messages`，即可开始交互测试\n\n不需要部署到 Azure（D）或注册（E）即可进行本地测试。\n\n---",
     "controversy": ""
   },
@@ -4478,7 +4478,7 @@
     "background": "你有一个自定义 Azure Vision 项目，用于通用对象检测（General 领域），其中包含一个已训练的模型。你需要将该模型**导出用于断网环境（Disconnected Network）**。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "离线/导出部署的流程：\n\n1. **切换到紧凑型域（A）**：标准 General 域的模型**不可导出**，必须先切换为 General (compact) 或 Object Detection (compact) 等紧凑型域\n2. **重新训练（B）**：更换域后需要重新训练模型\n3. **导出模型（C）**：导出为适合目标平台的格式，如 TensorFlow（Android）、CoreML（iOS）、ONNX（Windows ML）、Docker 容器等\n\n---",
     "controversy": ""
   },
@@ -4617,7 +4617,7 @@
     "background": "你构建了一个 Language Understanding（LUIS）Docker 容器解决方案。\n\n你从 Microsoft Container Registry（MCR）下载了 Language Understanding 容器镜像。\n\n你需要**将容器镜像部署到主机计算机**。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "D → B → C",
+    "answer": "D 、 B 、 C",
     "explanation": "部署 LUIS 容器的步骤：\n\n1. **拉取容器镜像（D）**：`docker pull mcr.microsoft.com/azure-cognitive-services/luis:latest`\n2. **运行容器（B）**：使用 `docker run` 命令，必须包含计费端点（`Billing`）和 API 密钥（`ApiKey`）参数，否则容器无法启动\n3. **配置日志（C）**：（可选但推荐）配置日志输出以便监控容器运行状态\n\n---",
     "controversy": ""
   },
@@ -5198,7 +5198,7 @@
     "background": "你有一个使用 Azure Anomaly Detector 服务的监控解决方案。你配置了一台名为 Server1 的服务器，具有间歇性互联网访问。\n\n你需要**在 Server1 上部署 Azure AI 异常检测器服务**。",
     "title": "应按顺序执行哪四项操作？",
     "options": [],
-    "answer": "B → D → A → C",
+    "answer": "B 、 D 、 A 、 C",
     "explanation": "在服务器上部署 Azure AI 容器的完整流程：\n\n1. **创建 Azure 资源（B）**：在 Azure 门户创建 Anomaly Detector 资源，获取端点 URL 和 API 密钥（容器运行时需要向 Azure 汇报计费信息）\n2. **安装 Docker（D）**：在 Server1 上安装 Docker Engine（先决条件）\n3. **拉取容器镜像（A）**：`docker pull mcr.microsoft.com/azure-cognitive-services/decision/anomaly-detector:latest`\n4. **运行容器（C）**：`docker run` 命令中必须包含 `Billing={ENDPOINT}` 和 `ApiKey={KEY}` 参数\n\n---",
     "controversy": ""
   },
@@ -5714,7 +5714,7 @@
     "background": "你有一个 Azure DevOps 流水线，用于部署一个使用 Azure AI Search 的应用。你怀疑查询密钥已被泄露，需要在**最小化停机时间**的前提下更换密钥。",
     "title": "应按什么顺序执行以下操作？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "零停机密钥轮换的标准流程（针对查询密钥）：\n\n1. **创建新查询密钥（A）**：在 Azure AI Search 的\"密钥（Keys）\"页面创建新的查询密钥，此时旧密钥仍有效，应用不中断\n2. **更新应用配置（B）**：将 Web 应用、API 或 CI/CD 流水线中的查询密钥替换为新密钥，完成后验证应用正常运行\n3. **删除旧密钥（C）**：确认新密钥正常工作后，删除被泄露的旧密钥，彻底阻断未授权访问\n\n此流程确保在任何时刻都有有效密钥，无需停机。\n\n---",
     "controversy": ""
   },
@@ -5753,7 +5753,7 @@
     "background": "你正在使用 Azure AI 语言服务中的**自定义问题解答（Custom Question Answering）** 功能，需要将一个 QnA 项目从一个 Language Service 实例迁移到**另一个 Azure 区域**的 Language Service 实例。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "跨区域迁移自定义问题解答项目的步骤：\n\n1. **导出项目（A）**：在 Language Studio 中导出现有项目（生成 JSON/TSV 格式文件，包含所有问答对）\n2. **在目标实例创建新项目（B）**：在目标区域的 Language Service 实例中创建一个新的问题解答项目\n3. **导入数据（C）**：将导出文件导入新项目\n\n完成后还需要重新训练和发布（D），但题目问的是\"迁移\"的核心三步，通常答案为 A → B → C（或 A → C → D 取决于是否先建项目）。\n\n---",
     "controversy": ""
   },
@@ -5918,7 +5918,7 @@
     "background": "你正在使用 Azure AI Speech 服务构建一个**转录技术播客**的服务。在测试中发现，服务无法准确识别技术术语（如 API 名称、编程语言关键词等）。\n\n你需要提高转录准确性。",
     "title": "应按顺序执行哪五项操作？",
     "options": [],
-    "answer": "A → B → C → D → E",
+    "answer": "A 、 B 、 C 、 D 、 E",
     "explanation": "Custom Speech 模型训练流程（与原题 240 一致）：\n\n1. **创建项目（A）**：在 Speech Studio 中新建 Custom Speech 项目\n2. **上传测试数据（B）**：上传评估用的音频和转录文本，用于训练前后对比\n3. **上传训练数据（C）**：包含技术术语的文本语料（相关文本）和/或带标注的音频\n4. **训练模型（D）**：使用上传的数据训练自定义语音模型\n5. **部署到端点（E）**：将训练好的模型部署为自定义端点，应用程序使用该端点进行转录\n\n---",
     "controversy": ""
   },
@@ -6355,7 +6355,7 @@
     "background": "你正在为 Azure AI Translator 服务的批量文档翻译构建流程。源文档存储在 Azure Blob Storage 的 German-files 容器中，目标是将翻译后的法语文件存储到 French-files 容器。\n\n你已将原始 Word 文档上传到 German-files 容器，并准备好自定义术语表。",
     "title": "接下来应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A → B → C",
+    "answer": "A 、 B 、 C",
     "explanation": "假设 Translator 资源和 Blob 容器已存在，批量文档翻译的步骤：\n\n1. **上传术语表（A）**：将 TSV 格式的自定义术语表上传到 Blob 容器，获取其 SAS URL（供翻译请求引用）\n2. **提交翻译请求（B）**：调用 `POST /batches` 端点，在请求体中指定：\n   - 源容器 SAS URL（German-files）\n   - 目标容器 SAS URL（French-files）\n   - 语言对：`sourceLanguage: \"de\"`, `targetLanguage: \"fr\"`\n   - 术语表 SAS URL\n3. **轮询状态等待完成（C）**：批量翻译是异步操作，需要定期调用状态查询 API 直到 `status: \"Succeeded\"`\n\n---",
     "controversy": ""
   },
