@@ -23,7 +23,8 @@
     ],
     "answer": "B",
     "explanation": "- **AllUsers** 需要能创建和修改问答对（编辑权限），应分配 **QnA Maker Editor** 角色。该角色权限包含：创建/更新/替换知识库 API 等。\n- **LeadershipTeam** 需要能发布更新，\"发布\"等同于部署到生产，应分配 **Contributor** 角色（具备除了添加新成员到角色之外的所有权限）。",
-    "controversy": "QnA Maker 已在 2025 年 3 月 31 日正式退役，现由 **Azure AI Language 服务中的\"自定义问题解答\"（Custom question answering）** 替代。对应的角色体系也随之更新（在 Language Studio 中使用 Language Service Contributor 等角色）。若题目场景换为新服务，分配逻辑相似但角色名称不同，请以当前 Azure 文档为准。"
+    "controversy": "QnA Maker 已在 2025 年 3 月 31 日正式退役，现由 **Azure AI Language 服务中的\"自定义问题解答\"（Custom question answering）** 替代。对应的角色体系也随之更新（在 Language Studio 中使用 Language Service Contributor 等角色）。若题目场景换为新服务，分配逻辑相似但角色名称不同，请以当前 Azure 文档为准。",
+    "answer_key": "B"
   },
   {
     "id": 2,
@@ -49,7 +50,8 @@
     ],
     "answer": "C",
     "explanation": "Azure Form Recognizer（现已更名为 **Azure AI Document Intelligence**）内置了针对收据的预构建模型（prebuilt receipt model），可以直接提取商家名称、交易日期、总金额等字段，无需自定义训练，开发工作量最小。\n\nComputer Vision 的 OCR 功能可提取文本，但需要额外开发逻辑来解析收据字段，开发量更大。",
-    "controversy": "Form Recognizer 已更名为 **Azure AI Document Intelligence**，功能等同，但若考题使用新名称，答案对应选项也应更新。"
+    "controversy": "Form Recognizer 已更名为 **Azure AI Document Intelligence**，功能等同，但若考题使用新名称，答案对应选项也应更新。",
+    "answer_key": "C"
   },
   {
     "id": 3,
@@ -83,7 +85,8 @@
     ],
     "answer": "C、D、F",
     "explanation": "- **`to=el`（选项 D）**：必填参数，指定目标输出语言为希腊语。\n- **`textType=html`（选项 C）**：可选参数，网页内容为 HTML 格式，需指定文本类型为 html，否则 HTML 标签可能被误翻译。\n- **`toScript=Latn`（选项 F）**：可选参数，指定翻译结果使用拉丁（罗马）字母音译，即题目要求的 Roman alphabet。\n\n`toScript=Cyrl` 是西里尔字母，与要求不符。`from=el` 是指定来源语言为希腊语，而题目是要翻译成希腊语，故不需要。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C、D、F"
   },
   {
     "id": 4,
@@ -109,7 +112,8 @@
     ],
     "answer": "C",
     "explanation": "目标是在不停机的情况下阻止已泄露的主管理密钥继续被使用：\n\n1. **先重新生成辅助管理密钥**（此时应用仍在用主密钥正常运行，不中断）\n2. **将应用切换为使用辅助管理密钥**（应用继续正常运行）\n3. **再重新生成主管理密钥**（使旧的泄露密钥失效）\n\n选项 A 的错误在于先重新生成了主密钥（会立即中断应用），然后才切换到辅助密钥，会造成短暂中断。选项 B 中使用查询密钥无法进行索引管理写操作（查询密钥是只读的）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 5,
@@ -139,7 +143,8 @@
     ],
     "answer": "B、D",
     "explanation": "- **情感分析（B）**：识别用户消息中的正面、负面或中性情感，这是实现\"根据情感发送不同回答\"的核心能力。\n- **语言检测（D）**：由于是多语言聊天机器人，需要先检测用户使用的语言，再选择对应语言模型的情感分析，确保准确性。\n\n关键短语提取和命名实体识别用于提取内容中的关键词和实体，与情感判断无关。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、D"
   },
   {
     "id": 6,
@@ -165,7 +170,8 @@
     ],
     "answer": "D",
     "explanation": "要加速大规模索引，核心策略是**并行处理**：\n\n- 将数据拆分到多个虚拟文件夹（或容器）中，每个文件夹对应一个数据源和一个索引器\n- 增加搜索单元（每个搜索单元可同时运行一个索引器）\n- 配置**并行**执行（而非顺序）\n\n选项 B 错误在于使用了顺序执行，无法并行。选项 A 创建多个搜索服务会增加成本且不必要。正确方式是在同一个搜索服务中增加副本/分区（即搜索单元）来支持并行索引。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 7,
@@ -191,7 +197,8 @@
     ],
     "answer": "D",
     "explanation": "触发人工审核的条件应该是置信度**低于** 0.7（70%），且需要针对具体字段进行判断。选项 D 指定了具体的字段名（MerchantName）并使用了 `< 0.7` 的条件，符合要求。\n\n- 选项 A 只判断文档类型，不涉及置信度\n- 选项 B 语法上不规范（`*.confidence` 不是标准 JSON 路径表达式）\n- 选项 C 条件是 `> 0.7`（大于），这是置信度高的情况，不应触发审核\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 8,
@@ -217,7 +224,8 @@
     ],
     "answer": "A",
     "explanation": "账单地址由多个子组件组成（门牌号、街道名、城市、邮编、国家），结构复杂且格式灵活（特别是语音输入时），最适合使用**机器学习实体（ML 实体）**。\n\nML 实体可以由多个子实体组成，例如：\n```\n地址: 4567 Main Street, NY, 98052, USA\n  ├── 门牌号: 4567\n  ├── 街道名: Main Street\n  ├── 州: NY\n  ├── 邮编: 98052\n  └── 国家: USA\n```\n\n正则表达式适合固定格式（如邮政编码单独提取），但无法处理地址的复杂结构。",
-    "controversy": "题目 83（原题库中另一版本）答案为 B（Regex），这是因为该题强调\"用户通过语音或文字输入\"，有观点认为地址是固定模式的。但考虑到地址的复杂性和多语言特性，ML 实体是微软官方推荐的方式，本题标准答案应为 A。"
+    "controversy": "题目 83（原题库中另一版本）答案为 B（Regex），这是因为该题强调\"用户通过语音或文字输入\"，有观点认为地址是固定模式的。但考虑到地址的复杂性和多语言特性，ML 实体是微软官方推荐的方式，本题标准答案应为 A。",
+    "answer_key": "A"
   },
   {
     "id": 9,
@@ -243,7 +251,8 @@
     ],
     "answer": "A",
     "explanation": "LUIS SDK 中，为模型批量添加短语列表（Phrase List Feature）使用的是：\n\n```csharp\nvar phraselistId = await client.Features.AddPhraseListAsync(appId, versionId, \n    new PhraselistCreateObject\n    {\n        EnabledForAllModels = false,\n        IsExchangeable = true,\n        Name = \"QuantityPhraselist\",\n        Phrases = \"few,more,extra\"\n    });\n```\n\n短语列表（Phrase List）是 LUIS 中用于提高模型识别能力的特性（Feature），通过 `AddPhraseListAsync` 方法和 `PhraselistCreateObject` 对象完成创建。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 10,
@@ -269,7 +278,8 @@
     ],
     "answer": "D",
     "explanation": "微软负责任 AI 的**包容性原则**要求 AI 系统能够赋能所有人，包括有残障需求的用户。为 bot1 添加 **Direct Line Speech** 频道，可以让用户通过语音与机器人交互，从而支持有视觉障碍或行动不便的用户，体现了包容性设计。\n\nDirect Line Speech 是 Bot Framework 提供的端到端语音解决方案，支持\"语音输入 → 语音输出\"的交互模式。\n\n其他选项（身份验证、主动学习、容器托管）均与包容性原则关系不大。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 11,
@@ -295,7 +305,8 @@
     ],
     "answer": "B",
     "explanation": "1. **正确**：自定义技能的输出字段可以通过 `outputFieldMappings` 映射到搜索索引的对应字段。\n2. **正确**：调用 Web API 的自定义技能在技能集定义中确实使用 `WebApiSkill` 类型（`@odata.type: \"#Microsoft.Skills.Custom.WebApiSkill\"`）。\n3. **错误**：技能会为每个识别到的组织调用 Web API，但返回的是与该技能 `outputs` 定义相关的信息（如组织描述），不一定仅有描述，还可能包含其他实体级别的信息。更准确的说法是\"为每个实体识别出的组织调用 API\"，而该技能的范围不仅限于组织实体。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 12,
@@ -321,7 +332,8 @@
     ],
     "answer": "B",
     "explanation": "要求在\"本地网络、间歇性互联网连接\"的环境中运行模型，应使用 **Azure Stack Hub** 上的 Kubernetes 集群。Azure Stack Hub 是微软的混合云产品，允许将 Azure 服务运行在本地数据中心，适合网络受限场景。\n\n- AKS（选项 A）是完全云端托管，不适合断网环境\n- Azure Container Instances（选项 C）也是纯云服务\n- Docker Engine（选项 D）技术上可行，但没有 Kubernetes 的编排能力，不是官方推荐方案",
-    "controversy": "此题答案可能因考试版本而异。部分资料认为答案为 D（Docker Engine，成本最低），因为题目明确说\"最小化成本\"。Azure Stack Hub 的成本远高于 Docker Engine。建议结合具体考纲判断，若强调\"间歇网络+成本最小\"，D 更合理；若强调\"生产级可靠性\"，B 更合理。"
+    "controversy": "此题答案可能因考试版本而异。部分资料认为答案为 D（Docker Engine，成本最低），因为题目明确说\"最小化成本\"。Azure Stack Hub 的成本远高于 Docker Engine。建议结合具体考纲判断，若强调\"间歇网络+成本最小\"，D 更合理；若强调\"生产级可靠性\"，B 更合理。",
+    "answer_key": "B"
   },
   {
     "id": 13,
@@ -351,7 +363,8 @@
     ],
     "answer": "A、B、E",
     "explanation": "定义表投影（Table Projection）时，每个 `table` 节点需要以下三个必填属性：\n\n- **`tableName`**：Azure 存储中的表名\n- **`generatedKeyName`**：唯一标识每行的键列名\n- **`source`**：来自富化树（enrichment tree）的节点，通常是 Shaper 技能的输出\n\n`dataSource` 和 `dataSourceConnection` 是索引器（indexer）级别的属性，不属于表投影节点的配置。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、E"
   },
   {
     "id": 14,
@@ -385,37 +398,18 @@
     ],
     "answer": "A、B、C",
     "explanation": "为机器人启用语音功能需要：\n\n1. **创建 Speech 服务（B）**：提供语音转文字和文字转语音能力\n2. **注册 Direct Line Speech 频道（C）**：这是将语音能力与 Bot Framework 集成的官方通道，内部使用文字转语音（TTS）服务\n3. **启用 Web Sockets（A）**：Direct Line Speech 通道使用 WebSocket 协议进行实时双向通信\n\nCortana 频道（D）已被微软逐步淘汰，不推荐使用。CORS（E）用于浏览器跨域请求，与语音功能无关。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 15,
     "background": "你构建了一个零售聊天机器人，使用 QnA Maker 服务，并上传了一份内部支持文档。文档中包含问题\"What is your warranty period?\"（保修期是多少？）\n\n用户反映，当他们询问\"How long is the warranty coverage?\"（保修覆盖多长时间？）时，机器人返回了默认的无答案回复。\n\n你需要提高机器人对这两种表达方式的识别准确率。",
     "title": "应按顺序执行哪三项操作？",
-    "options": [
-      {
-        "label": "A",
-        "text": "向问答对添加替代提问方式（Alternate Questions）"
-      },
-      {
-        "label": "B",
-        "text": "重新训练模型（Retrain the model）"
-      },
-      {
-        "label": "C",
-        "text": "重新发布模型（Republish the model）"
-      },
-      {
-        "label": "D",
-        "text": "删除原有问答对并重新创建"
-      },
-      {
-        "label": "E",
-        "text": "创建新的知识库（Knowledge Base）"
-      }
-    ],
-    "answer": "A、B、C",
-    "explanation": "当用户使用不同表达方式提问同一个问题时，正确的做法是按照 A → B → C 的顺序执行：\n\n1. **添加替代提问方式（A）**：为已有问答对添加\"How long is the warranty coverage?\"作为替代问法，无需删除原有内容\n2. **重新训练模型（B）**：保存并训练，以使修改生效\n3. **重新发布模型（C）**：发布后，新的问法才能在生产环境生效\n\n删除知识库或创建新知识库代价过大，且无法利用已有训练数据。",
-    "controversy": "QnA Maker 已于 2025 年 3 月退役，新服务为 **Azure AI Language 的自定义问题解答（Custom Question Answering）**。操作步骤在 Language Studio 中类似，但界面和部分术语有所不同。"
+    "options": [],
+    "answer": "A → B → C",
+    "explanation": "当用户使用不同表达方式提问同一个问题时，正确的做法是：\n\n1. **添加替代提问方式（A）**：为已有问答对添加\"How long is the warranty coverage?\"作为替代问法，无需删除原有内容\n2. **重新训练模型（B）**：保存并训练，以使修改生效\n3. **重新发布模型（C）**：发布后，新的问法才能在生产环境生效\n\n删除知识库或创建新知识库代价过大，且无法利用已有训练数据。",
+    "controversy": "QnA Maker 已于 2025 年 3 月退役，新服务为 **Azure AI Language 的自定义问题解答（Custom Question Answering）**。操作步骤在 Language Studio 中类似，但界面和部分术语有所不同。",
+    "answer_key": "A、B、C"
   },
   {
     "id": 16,
@@ -441,25 +435,54 @@
     ],
     "answer": "B",
     "explanation": "- **列表类型**：`FaceList` 最多支持 1,000 张人脸；`LargeFaceList` 最多支持 1,000,000 张人脸。由于员工列表有 60,000 张图像，必须使用 **`largeFaceListId`**。\n- **匹配模式**：\n  - `matchPerson`：在满足同一人阈值的前提下查找相似人脸（严格，适合查找同一人的照片）\n  - `matchFace`：忽略同一人阈值，直接返回外观最相似的人脸，即使相似度较低也会返回（适合查找\"看起来像\"的人脸，比如名人相似度查询）\n  - 题目要求从员工列表查找\"相似人脸\"，应使用 `matchFace` 模式",
-    "controversy": "Azure Face API 中涉及人脸识别的功能（尤其是面部比对和人员识别）在 2023 年后受到访问限制，需申请审批才能使用。实际项目中请确认访问权限。"
+    "controversy": "Azure Face API 中涉及人脸识别的功能（尤其是面部比对和人员识别）在 2023 年后受到访问限制，需申请审批才能使用。实际项目中请确认访问权限。",
+    "answer_key": "B"
   },
   {
     "id": 17,
     "background": "你正在开发一个 Custom Vision（自定义视觉）分类器来识别花卉品种。你收到了新花卉品种的图像，需要将这些新图像添加到分类器中。\n\n以下哪种操作能实现目标？",
-    "title": "",
-    "options": [],
-    "answer": "",
+    "title": "针对同一场景，以下三种解决方案，哪种能满足需求？（三选一，每题独立判断）",
+    "options": [
+      {
+        "label": "A",
+        "text": "方案1: 添加新图像，然后使用 Smart Labeler 工具"
+      },
+      {
+        "label": "B",
+        "text": "方案2: 将新图像和对应标签添加到现有模型中，重新训练，然后发布模型"
+      },
+      {
+        "label": "C",
+        "text": "方案3: 创建一个新模型，然后上传新图像和标签"
+      }
+    ],
+    "answer": "B",
     "explanation": "扩展已有 Custom Vision 分类器的正确流程是：上传新类别图像 → 添加标签 → 重新训练 → 发布。不应重新创建模型，否则原有 1000+ 张训练图像的数据将丢失。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 18,
-    "background": "",
-    "title": "",
-    "options": [],
-    "answer": "",
+    "background": "你有一个 Azure 认知搜索（Cognitive Search）服务，过去 12 个月内查询量持续增长。你发现部分搜索请求正在被**限速（Throttled）**。\n\n以下三种解决方案，哪种可以减少被限速的可能性？（三题独立判断）",
+    "title": "以下三种解决方案，哪种可以减少被限速的可能性？（三题独立判断）",
+    "options": [
+      {
+        "label": "A",
+        "text": "迁移到使用更高定价层的认知搜索服务 → 能否解决？"
+      },
+      {
+        "label": "B",
+        "text": "添加更多索引（Add indexes）→ 能否解决？"
+      },
+      {
+        "label": "C",
+        "text": "启用客户托管密钥（CMK）加密 → 能否解决？"
+      }
+    ],
+    "answer": "A",
     "explanation": "缓解查询限速的有效方法是增加**副本数（Replicas）**（针对查询限速）或**分区数（Partitions）**（针对索引限速），更高定价层允许配置更多副本和分区。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 19,
@@ -485,7 +508,8 @@
     ],
     "answer": "B（1-是，2-否，3-否）",
     "explanation": "Computer Vision 的品牌检测 API 返回的 `brands` 集合：\n\n1. **正确**：一张图像中可以检测到多个品牌，因此集合可以包含多个条目\n2. **错误**：Computer Vision 品牌检测结果中的置信度属性名为 `confidence`（小写），且该属性反映的是品牌存在的可信度。注意此 API 中的置信度含义与面部检测不同，需要区分\n3. **错误**：品牌位置信息使用的是 `rectangle` 属性（不是 `Rectangle`，且即使有该属性，上面代码也没有测试它的准确性）\n\n> **注意**：此题因为没有具体代码原文，判断存在一定不确定性，实际考试中应参照原始代码截图。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 20,
@@ -511,7 +535,8 @@
     ],
     "answer": "A",
     "explanation": "**Anomaly Detector（异常检测器）** 专门设计用于时间序列数据的异常检测，支持：\n- 单变量异常检测（Univariate）：检测单条时间序列\n- 多变量异常检测（Multivariate）：检测多个相关传感器之间的联合异常\n\n对于5,000个时间序列的工厂传感器场景，Anomaly Detector 是最合适的服务，无需自定义 ML 开发。\n\n> 注意：当多个传感器之间存在关联性时（如本题场景），**多变量异常检测（Multivariate Anomaly Detection）** 更能识别跨传感器的复合异常模式（见题目 207）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 21,
@@ -537,16 +562,18 @@
     ],
     "answer": "B",
     "explanation": "Azure 认知搜索的索引器（Indexer）支持以下 Azure 数据源：\n- Azure Blob Storage / Data Lake Storage\n- Azure Table Storage ✅（Logs 支持）\n- Azure Cosmos DB ✅（Sales 支持）\n- Azure SQL Database ✅（HR 支持）\n- Azure VM 上的 SQL Server ✅\n\n**本地 SQL Server 数据库**（Finance）**不在支持列表中**，因此需要将其迁移/镜像到 Azure SQL 数据库，才能被认知搜索索引器访问。\n\n选项 A/C/D 均与解决 Finance 数据的可访问性问题无关。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 22,
     "background": "你正在构建一个多语言聊天机器人，使用 Azure Cognitive Services 语言模型。该机器人频繁回复默认的\"Sorry, I don't understand that.\"（对不起，我不理解你的意思）。\n\n你需要提升机器人的响应能力。",
     "title": "应按照哪个顺序执行以下三项操作？",
     "options": [],
-    "answer": "A 、 C 、 B",
+    "answer": "A → C → B",
     "explanation": "主动学习（Active Learning）是 LUIS 的重要功能，可以从用户的真实请求中学习改进：\n\n1. **启用主动学习（A）**：在预测端点 URL 中添加 `log=true` 参数，开始记录用户请求\n2. **审核建议的语料（C）**：在 LUIS 门户中查看\"Review endpoint utterances\"，验证并接受/拒绝系统建议的语料\n3. **训练并发布模型（B）**：将审核后的改进训练进模型，重新发布\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、C、B"
   },
   {
     "id": 23,
@@ -580,7 +607,8 @@
     ],
     "answer": "A、B、F",
     "explanation": "根据 Microsoft 文档，启用 CMK 加密的三个关键影响：\n\n- **索引大小增加（A）**：加密开销导致存储量增大\n- **查询性能降低（B）**（查询时间增加）：加密解密操作增加了每次查询的延迟\n- **需要 Azure Key Vault（F）**：CMK 是将密钥存储在 Azure Key Vault 中，而非 Microsoft 管理，Key Vault 是必须要创建的额外资源（且会产生额外费用）\n\n不需要自签名证书（C），Key Vault 使用的是 Azure 的密钥托管机制。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、F"
   },
   {
     "id": 24,
@@ -606,16 +634,18 @@
     ],
     "answer": "C",
     "explanation": "**Azure Cognitive Services 多服务资源**（也称为\"全功能资源\"）允许通过单一密钥和端点访问多个认知服务，包括 Decision、Language、Speech、Vision 等类别下的所有服务，并统一计费。\n\n单一服务资源（如 Language 资源、Speech 资源）只能访问各自对应的服务，无法同时访问 Decision API 和 Language API。\n\n> **注意**：Azure Cognitive Services 已更名为 **Azure AI Services**，功能相同。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 25,
     "background": "你正在开发一个使用 Custom Vision 构建的移动应用，该模型用于识别零售商品（使用 Retail 领域）。你计划将该模型部署到 Android 手机端（离线使用）。",
     "title": "应按顺序执行哪三项操作来准备模型部署？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "要将 Custom Vision 模型部署到移动设备（Android/iOS）离线使用，必须：\n\n1. **更改为紧凑型域（A）**：标准域（General、Retail 等）不可导出；紧凑型域（如 General (compact)、Retail (compact)）专为设备端部署优化\n2. **重新训练模型（B）**：更换域后必须重新训练\n3. **导出模型（C）**：导出为 TensorFlow、CoreML、ONNX 或 Docker 等格式，用于本地部署\n\n不需要删除原有模型或创建新资源。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 26,
@@ -641,7 +671,8 @@
     ],
     "answer": "A",
     "explanation": "按照最小权限原则：\n\n| 组 | 需求 | 角色 |\n|---|---|---|\n| Management-Accountants | 审批/发布 FAQ（拥有发布权限的读写角色） | **Cognitive Service User**（具备发布权限） |\n| Consultant-Accountants | 创建和修改 FAQ（编辑权限） | **QnA Maker Editor**（可创建/更新知识库） |\n| Agent-CustomerServices | 仅浏览 FAQ（只读） | **QnA Maker Reader**（只能下载/列出知识库） |",
-    "controversy": "QnA Maker 已退役，新版\"自定义问题解答\"角色体系有所变化。建议以 Azure AI Language 文档为准。"
+    "controversy": "QnA Maker 已退役，新版\"自定义问题解答\"角色体系有所变化。建议以 Azure AI Language 文档为准。",
+    "answer_key": "A"
   },
   {
     "id": 27,
@@ -667,7 +698,8 @@
     ],
     "answer": "B",
     "explanation": "获取 Text-to-Speech（TTS）可用语音列表的标准端点格式为：\n```\nhttps://{region}.tts.speech.microsoft.com/cognitiveservices/voices/list\n```\n\n- 选项 A 是长音频合成（Long Audio Synthesis）的语音列表端点，用于超长文本（超过10分钟），非标准用途\n- 选项 B 是标准 TTS 语音列表端点，返回该区域所有可用的标准语音和神经语音\n- 选项 C 是自定义神经语音（Custom Neural Voice）的端点\n- 选项 D 是语音转文字（STT）基础模型列表端点，功能不符",
-    "controversy": "实际考题答案为 C，部分题库存在分歧。请以 Azure Speech Service 官方文档的\"List voices\"端点为最终依据。"
+    "controversy": "实际考题答案为 C，部分题库存在分歧。请以 Azure Speech Service 官方文档的\"List voices\"端点为最终依据。",
+    "answer_key": "B"
   },
   {
     "id": 28,
@@ -693,7 +725,8 @@
     ],
     "answer": "B",
     "explanation": "**瀑布对话（Waterfall Dialog）** 专门用于定义一系列有序的步骤（Step），每个步骤完成后自动进入下一步，非常适合引导用户完成有固定流程的任务（如产品设置、表单填写等）。\n\n- 组件对话：用于封装可复用的对话逻辑\n- 自适应对话：更灵活，支持事件驱动和条件分支\n- 技能对话：用于调用独立部署的技能（Skills）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 29,
@@ -719,7 +752,8 @@
     ],
     "answer": "C",
     "explanation": "本题的关键是\"**多个相关传感器**\"。当多个传感器之间存在物理关联性时（如发动机的转速、温度和压力通常是相互关联的），**多变量异常检测（Multivariate）** 能够捕获跨变量的联合异常模式，例如\"温度正常但压力低\"这种组合异常，而单变量检测无法发现这类问题。\n\n单变量异常检测只能分析单条时间序列，适合独立传感器监测。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 30,
@@ -745,7 +779,8 @@
     ],
     "answer": "D",
     "explanation": "**预设引导（Priming）** 是指通过系统消息或初始提示来设定模型的角色、行为方式和输出风格，从而引导后续所有响应的一种提示工程技术。示例中通过系统消息告诉模型\"扮演数学谜题助手\"并\"用4岁孩子能理解的方式解释\"，这正是 Priming 的典型用法。\n\n- 少样本学习：通过提供示例（input→output 对）来引导模型输出格式\n- 思维链：要求模型逐步推理，通常在提示中加入\"Let's think step by step\"\n- Affordance：利用模型对特定上下文的自然联想\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 31,
@@ -771,7 +806,8 @@
     ],
     "answer": "A",
     "explanation": "- **方案 A（正确）**：`qna_chitchat_professional.tsv` 是 Microsoft 提供的预设 chit-chat 数据集，风格为**专业/正式**，适合需要正式语气的场景\n- **方案 B（错误）**：`qna_chitchat_friendly.tsv` 是**友好/随意**风格，无法解决语气不够正式的问题\n- **方案 C（错误）**：删除所有 chit-chat 配对会使机器人无法处理任何随意问题，用户体验更差\n- **方案 D（错误）**：添加替代措辞是针对特定问题的改进，无法系统性地改变整体语气风格",
-    "controversy": "多版本考题（226、227、228）显示这些方案的答案均为 B（Not meet the goal），但这里方案 A 使用了 professional 数据集，逻辑上应该是正确的方案。请注意原题中方案 A 的考题标号（#238）参考答案为 A（Yes，meets the goal）。各平台资料对此有分歧，请以 Microsoft Learn 官方文档中 chit-chat personality 的说明为准。"
+    "controversy": "多版本考题（226、227、228）显示这些方案的答案均为 B（Not meet the goal），但这里方案 A 使用了 professional 数据集，逻辑上应该是正确的方案。请注意原题中方案 A 的考题标号（#238）参考答案为 A（Yes，meets the goal）。各平台资料对此有分歧，请以 Microsoft Learn 官方文档中 chit-chat personality 的说明为准。",
+    "answer_key": "A"
   },
   {
     "id": 32,
@@ -797,7 +833,8 @@
     ],
     "answer": "B",
     "explanation": "Computer Vision 的 `Analyze Image`（图像分析）API 支持多种视觉特性（Visual Features），通过单次调用即可获取：\n\n- **图像描述（Description）**：生成完整句子描述，可用作 Alt Text\n- **成人内容检测（Adult）**：返回 `isAdultContent` 和 `isRacyContent` 等属性，用于检测不适当图像\n\n使用同一个 `analyzeImage` 端点（指定不同的 `visualFeatures` 参数）可以同时完成两项需求，最小化开发工作量。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 33,
@@ -823,7 +860,8 @@
     ],
     "answer": "B",
     "explanation": "Computer Vision 的 `Analyze Image` API 中，`imageType`（图像类型）特性正是用于区分照片、剪贴画和线条画：\n\n- `imageType.clipArtType`：0=非剪贴画，1=可能是，2=普通剪贴画，3=好的剪贴画\n- `imageType.lineDrawingType`：0=非线条画，1=是线条画（手绘图）\n\n此功能无需自定义训练，直接调用即可分类，开发成本最低。Custom Vision 需要自定义训练数据，不符合最小化开发努力的要求。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 34,
@@ -849,7 +887,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Document Intelligence 的响应中，`boundingBox`（或新版 API 中的 `polygon`）属性描述了识别到的文本或字段在文档页面上的坐标位置（用于定位显示）。\n\n- 选项 A 错误：`confidence` 为 0 并不意味着未识别，只是置信度极低\n- 选项 C 错误：自定义模型同样会返回 `confidence` 值\n- 选项 D 错误：API 会返回所有识别到的字段，无论置信度如何，由调用方决定如何处理低置信度结果\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 35,
@@ -879,7 +918,8 @@
     ],
     "answer": "D、E",
     "explanation": "知识存储（Knowledge Store）的 JSON 定义中，`projections` 节点支持三种投影类型：\n\n- `tables`：将数据存储为 Azure 表存储\n- **`objects`**（选项 E）：将 JSON 数据以对象形式存储（适合非结构化 JSON 数据，如社交媒体帖子）\n- **`files`**（选项 D）：将文件（如图像）存储为 blob（适合情感分析等结果的扩展存储）\n\n`storageConnectionString` 是知识存储顶层节点的属性（而非需要\"包含\"的字段），`storageContainer` 不是标准属性名。",
-    "controversy": "微软文档中知识存储的标准投影类型为 `tables`、`objects`、`files`。但原题答案为 D（files）和 E（objects），这与常规理解略有出入（对于社交媒体帖子通常使用 `objects`；`files` 更多用于图像 blob）。请以官方文档的最新 Knowledge Store 定义为准。"
+    "controversy": "微软文档中知识存储的标准投影类型为 `tables`、`objects`、`files`。但原题答案为 D（files）和 E（objects），这与常规理解略有出入（对于社交媒体帖子通常使用 `objects`；`files` 更多用于图像 blob）。请以官方文档的最新 Knowledge Store 定义为准。",
+    "answer_key": "D、E"
   },
   {
     "id": 36,
@@ -905,7 +945,8 @@
     ],
     "answer": "C",
     "explanation": "**自定义命名实体识别（Custom NER）** 允许训练一个专门识别特定领域实体（如公司产品名、内部代码名）的模型，这些名称不在通用 NER 的识别范围内，需要自定义训练。\n\n- 实体链接（B）是将文本中的实体链接到 Wikipedia 等知识库，无法处理内部代码名\n- 关键短语提取（D）提取的是通用关键词，不能识别特定实体类型\n- 自定义文本分类（A）是将文档分类到预定义类别，功能不符\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 37,
@@ -931,7 +972,8 @@
     ],
     "answer": "A",
     "explanation": "要让机器人能够准确回答旅行社特定的预订问题（如特定行程、价格、座位状态），模型必须能够**访问旅行社的最新数据库**。这可以通过 Azure OpenAI 的 \"Add your data\" 功能（接入 Azure Cognitive Search 索引）来实现。\n\n- 选项 C（Temperature=0）可以使输出更确定性，但若模型没有准确数据，仍然会产生幻觉\n- 选项 B/D 可以稍微改善输出质量，但无法替代准确数据的接入\n- 选项 A 是根本性解决方案：让模型基于实时/准确数据回答，而非依赖训练时的参数知识\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 38,
@@ -957,7 +999,8 @@
     ],
     "answer": "A",
     "explanation": "`text-embedding-ada-002` 是专门用于生成文本嵌入（Text Embeddings）的模型，可以将文本转换为高维向量，用于计算余弦相似度来判断文本的语义相似性。这是语义搜索、文档相似度比较的标准做法。\n\nGPT-4 和 GPT-3.5-Turbo 是对话/补全模型（Completion models），不适合用于生成嵌入向量。\n\n> **注意**：2024 年后，微软推出了新版嵌入模型 `text-embedding-3-small` 和 `text-embedding-3-large`，性能优于 `ada-002`，但考题仍以 `ada-002` 作为标准答案。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 39,
@@ -983,7 +1026,8 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI API 的调用需要：\n\n1. **端点（Endpoint）**：如 `https://your-resource.openai.azure.com/`\n2. **API 密钥（Key）**：用于身份验证\n3. **部署名称（Deployment Name）**：在 Azure OpenAI Studio 中部署模型时指定的名称，用于区分同一资源中的不同模型部署\n\n注意：Azure OpenAI 的 REST API 调用路径中使用的是**部署名称**（而非模型名称），例如：\n```\nPOST /openai/deployments/{deployment-name}/chat/completions\n```\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 40,
@@ -1009,7 +1053,8 @@
     ],
     "answer": "C",
     "explanation": "两项任务的完整流程：\n\n1. **将法语/德语语音转为文字（转录）**：使用 **Speech-to-Text（语音转文字）** 服务\n2. **按需以英语回放（意味着要先翻译再合成语音）**：\n   - 使用 **Translator（翻译）** 将法语/德语文本翻译成英语\n   - 使用 **Text-to-Speech（文字转语音）** 将英文文本合成为语音播放\n\n选项 A 缺少翻译步骤（只有 TTS 无法将法语直接转为英语语音）。正确答案需要 Speech-to-Text + Translator + Text-to-Speech 三个服务的组合。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 41,
@@ -1035,16 +1080,18 @@
     ],
     "answer": "D",
     "explanation": "**虚拟网络规则（Virtual Network Rules）** 允许你为 Azure AI 服务配置特定的虚拟网络和子网访问许可，只有来自指定虚拟网络的请求才能访问该服务。这是限制特定 Azure 资源访问认知服务的最简单方式，配置简单、管理工作量小。\n\n- Application Gateway 是 Web 应用防火墙/负载均衡器，用于保护 Web 应用而非 AI 服务\n- IPsec 规则适用于 VPN 隧道加密，配置复杂\n- 虚拟网络网关用于 VPN 或 ExpressRoute 连接，非本题场景\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 42,
     "background": "你有一个 Azure AI 搜索 Web 应用，在审查活动日志时发现搜索查询量远超预期，怀疑**查询密钥（Query Key）已泄露**。\n\n你需要在**最大限度减少应用停机时间**的前提下，阻止未授权访问并确保用户仅有只读访问权限。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "正确的零停机更换流程：\n\n1. **添加新查询密钥（A）**：在 Azure 门户为同一个搜索服务生成一个新的查询密钥，此时两个密钥均有效，应用不中断\n2. **切换应用使用新密钥（B）**：更新应用配置（如环境变量、连接字符串），使其使用新密钥进行身份验证\n3. **删除旧的泄露密钥（C）**：确认应用正常后，删除被泄露的旧密钥，阻止未授权访问\n\n查询密钥仅有读权限，不涉及管理员密钥；无需禁用整个资源。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 43,
@@ -1070,7 +1117,8 @@
     ],
     "answer": "B",
     "explanation": "Content Moderator 的 Text Moderation API 返回三个类别的得分：\n\n| 类别 | 含义 |\n|------|------|\n| Category1 | 明确的成人内容（sexually explicit） |\n| **Category2** | **性暗示内容（sexually suggestive）** |\n| Category3 | 侮辱性/攻击性语言 |\n\n题目要求识别\"色情/性暗示\"（sexually explicit language），对应 **Category2**（性暗示）或 Category1（明确成人），但性暗示语言最接近 Category2 的定义范围。",
-    "controversy": "Content Moderator 已于 2024 年 2 月宣布将在 2027 年退役，建议迁移到 **Azure AI Content Safety**。新服务使用 Hate、Violence、SelfHarm、Sexual 等类别代替原有的三分类体系。"
+    "controversy": "Content Moderator 已于 2024 年 2 月宣布将在 2027 年退役，建议迁移到 **Azure AI Content Safety**。新服务使用 Hate、Violence、SelfHarm、Sexual 等类别代替原有的三分类体系。",
+    "answer_key": "B"
   },
   {
     "id": 44,
@@ -1096,7 +1144,8 @@
     ],
     "answer": "C",
     "explanation": "Key Phrase Extraction（关键短语提取）API 会从文本中识别出在语义上最重要的短语，并过滤掉停用词（如 \"The\"、\"over\"、\"the\" 等功能词）。\n\n对于 \"The quick brown fox jumps over the lazy dog\" 这个句子，提取出的关键短语通常为：\n- **quick brown fox**（动作主体描述）\n- **lazy dog**（动作对象描述）\n\n注意：\n- 返回的是关键短语，而非完整句子\n- 停用词（the、over、jumps 等）不会被作为关键词返回\n- 关键短语提取结果**没有置信度分数**\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 45,
@@ -1122,7 +1171,8 @@
     ],
     "answer": "B",
     "explanation": "- **上传位置**：Azure AI Document Intelligence 训练数据必须存储在 **Azure 存储账户**（Blob 容器）中，这是训练自定义模型的唯一支持来源\n- **模型类型**：\n  - **自定义模板模型（Custom template）**：适用于固定版式、结构一致的表单（如标准化发票）\n  - **自定义神经模型（Custom neural）**：适用于**版式不固定、包含手写内容**的文档，能处理语义层面的理解而非仅依赖位置特征\n\n由于问卷版式不一致且为手写，应选用 **Custom neural 模型**。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 46,
@@ -1148,7 +1198,8 @@
     ],
     "answer": "B",
     "explanation": "最小化成本意味着**不更换模型**（GPT-4-32k 成本更高）、不增加额外复杂度。\n\n在代码块后直接以注释形式添加问题提示 `// what does function F do?` 是一种低成本且有效的提示工程技巧：\n- 代码注释格式自然符合代码上下文\n- 模型能理解这是对代码的解释请求\n- 不需要增加额外 Token 开销\n\n更改 Temperature 参数不会改变模型的理解能力，只影响输出随机性。更换为 GPT-4-32k 成本大幅增加，不符合\"最小化成本\"要求。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 47,
@@ -1174,7 +1225,8 @@
     ],
     "answer": "B",
     "explanation": "**越狱风险检测（Jailbreak risk detection）** 专门用于识别用户试图通过特殊构造的提示词来绕过 AI 模型安全限制的行为，例如要求模型\"扮演没有限制的 AI\"等攻击模式。\n\n- 受保护材料检测：检测输出中是否含有受版权保护的内容\n- 文本内容审核：检测仇恨、暴力等一般有害内容\n- 监控在线活动：用于查看历史日志和趋势分析\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 48,
@@ -1204,16 +1256,18 @@
     ],
     "answer": "A、B",
     "explanation": "- **系统消息（A）**：通过在系统提示中明确要求\"使用简洁正式的商务语言\"，可直接引导模型的输出风格，这是最直接的控制方式\n- **降低最大响应 Token 数（B）**：简洁回答意味着每次回复使用的 Token 更少，降低 `max_tokens` 限制可以直接减少每次调用消耗的 Token 数量，从而**降低成本**。同时，历史窗口大小不变，整体上下文消耗保持稳定\n\n更换为小模型（E）虽然也能降低成本，但题目要求在不改变历史窗口大小的前提下降低成本，更换模型属于较大改动且题意不明确允许。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 49,
     "background": "你有一个 Azure AI Search 富化管道（Enrichment Pipeline），其中包含一个**自定义技能（Custom Skill）**，用于对文档执行语言检测和情感分析。",
     "title": "Azure AI Search 在索引文档时，会按照什么顺序依次处理各个阶段？（将所有阶段排序）",
     "options": [],
-    "answer": "A 、 B 、 C 、 D 、 E",
+    "answer": "A → B → C → D → E",
     "explanation": "Azure AI Search 索引器处理文档的完整顺序：\n\n1. **文档破解（Document Cracking）**：读取源数据（如 Blob 中的 PDF），提取原始文本和元数据\n2. **字段映射（Field Mapping）**：将数据源的原始字段映射到索引器的中间表示\n3. **技能执行（Skill Execution）**：按技能集定义的顺序执行所有 AI 技能（包括内置技能和自定义技能）\n4. **输出字段映射（Output Field Mapping）**：将技能执行产生的富化数据映射到目标索引字段\n5. **索引写入（Index Write）**：将所有映射后的数据写入 Azure AI Search 索引\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C、D、E"
   },
   {
     "id": 50,
@@ -1239,7 +1293,8 @@
     ],
     "answer": "B",
     "explanation": "本题需要将文档**分类为三个类别**（书籍、漫画、杂志）。由于一个文档可能跨多个类别（例如一本图文并茂的漫画书既是书籍也是漫画），使用 **多标签分类（Multi-label classification）** 最为合适。\n\n- 自定义提取模型：用于从文档中抽取特定字段（如日期、金额），不是分类任务\n- 自定义 NER：用于识别命名实体，不是文档级分类\n- 图像分类模型：本题处理的是 PDF 文本内容，不是图像分类任务\n\nLanguage Studio 支持在 Azure AI Language 中直接创建和训练文本分类项目，开发工作量最小。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 51,
@@ -1265,7 +1320,8 @@
     ],
     "answer": "A",
     "explanation": "将三个需求逐一对应：\n\n| 需求 | 所需属性 |\n|------|---------|\n| 在搜索结果中显示 category 值 | **Retrievable**（可检索/返回） |\n| 用户可对 category 字段进行关键词搜索 | **Searchable**（可搜索） |\n| 支持基于分类的下钻过滤（分面导航） | **Facetable**（可分面） |\n\n选项 A（Searchable + Facetable + Retrievable）完整涵盖了三个需求。\n\n- Filterable 允许在查询中使用 `$filter`，但不能实现分面导航（Facet）\n- Sortable 允许按字段排序，不是本题需求\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 52,
@@ -1291,7 +1347,8 @@
     ],
     "answer": "A",
     "explanation": "语言检测（Language Detection）属于 **Azure AI Translator** 服务的功能之一，对应的 NuGet 包为 `Azure.AI.Translation.Text`。\n\n该包提供 `TextTranslationClient`，通过调用 `DetectLanguage` 方法可以识别文本中使用的语言。\n\n- `Microsoft.CognitiveServices.Speech`：用于语音转文字 / 文字转语音，不是文本语言检测\n- `Azure.AI.Translation.Document`：用于文档整体翻译（批量文档翻译服务）\n- `Azure.AI.Translation.Speech`：不是标准包名",
-    "controversy": "语言检测功能同时也存在于 Azure AI Language 服务（`Azure.AI.TextAnalytics` 包）中。题目 344 的场景（社交媒体实时消息语言识别）给出的答案是 **D（Azure AI Language）**，与本题答案不同。两个服务均可检测语言，但 Language 服务在语言检测上的准确率和覆盖语种更全面。请结合具体考题场景判断。"
+    "controversy": "语言检测功能同时也存在于 Azure AI Language 服务（`Azure.AI.TextAnalytics` 包）中。题目 344 的场景（社交媒体实时消息语言识别）给出的答案是 **D（Azure AI Language）**，与本题答案不同。两个服务均可检测语言，但 Language 服务在语言检测上的准确率和覆盖语种更全面。请结合具体考题场景判断。",
+    "answer_key": "A"
   },
   {
     "id": 53,
@@ -1321,7 +1378,8 @@
     ],
     "answer": "A、B",
     "explanation": "构建有害内容检测原型的最简流程：\n\n1. **创建 Azure AI Content Safety 资源（B）**：这是使用 Content Safety Studio 的前提，需要先在 Azure 门户创建资源\n2. **使用 Content Safety Studio 的文本内容审核功能（A）**：该功能可以对输入的文本进行仇恨、暴力、色情、自伤等类别的检测，支持直接粘贴文本进行测试，开发工作量最小\n\n不需要 Azure OpenAI 资源来进行内容审核原型构建。受保护材料检测（E）用于版权保护内容检测，与歧视性语言检测不符。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 54,
@@ -1347,7 +1405,8 @@
     ],
     "answer": "C",
     "explanation": "- **提取路标文字**：使用 **Computer Vision 的 Read API（OCR）** 从图像中提取文字内容，该 API 专为复杂图像中的文字提取优化\n- **识别知名地点**：使用 **Azure AI Language 的命名实体识别（NER）**，识别文本中的地理位置（Location 类别）是 NER 的标准功能，无需自定义训练\n\n注意 NER（C）与实体链接（B）的区别：\n- **NER**：识别实体类型（如\"这是一个地点\"）\n- **实体链接（Entity Linking）**：将识别到的实体链接到 Wikipedia 等外部知识库\n\n题目只要求\"识别知名地点\"，NER 已足够，且开发工作量更小。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 55,
@@ -1373,7 +1432,8 @@
     ],
     "answer": "D",
     "explanation": "**Entity Recognition Skill（实体识别技能）** 是 Azure AI Search 的内置技能，可以从文本中识别多种实体类型，包括：\n- Person（人物）\n- Location（地理位置）✅\n- Organization（组织）\n- Quantity、DateTime、URL、Email 等\n\n通过将 `categories` 参数设置为 `[\"Location\"]`，可以专门提取地理位置实体。\n\nEntity Linking Skill 用于将实体链接到 Wikipedia，功能更重但不是基础地理位置识别的最简方案。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 56,
@@ -1399,7 +1459,8 @@
     ],
     "answer": "C",
     "explanation": "**Azure AI Language 自定义问题解答（Custom Question Answering）** 是专为构建 FAQ 型聊天机器人设计的服务：\n\n- 可以直接上传 PDF 文档作为知识来源，自动提取问答对\n- 无需复杂的模型训练\n- 提供基于置信度的答案匹配\n- 成本和开发工作量均最小\n\nAzure OpenAI（选项 D）虽然功能更强，但配置复杂（需要设置向量数据库、嵌入模型等），成本更高，不符合\"最小化\"的要求。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 57,
@@ -1425,7 +1486,8 @@
     ],
     "answer": "B",
     "explanation": "要访问**近期（90天内）公开发布的网络数据**，需要实时网络搜索能力。**BingGroundingTool** 使用 Bing Search API 来检索最新的公开网络内容，可以获取模型训练截止日期之后发布的信息。\n\n- FileSearchTool：用于搜索已上传到代理的文件\n- CodeInterpreterTool：用于执行代码和数据分析\n- AzureAISearchTool：用于搜索私有的 Azure AI Search 索引，不是实时网络数据\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 58,
@@ -1455,7 +1517,8 @@
     ],
     "answer": "A、B",
     "explanation": "在 Semantic Kernel 中：\n\n- **`FunctionChoiceBehavior.Auto()`**：允许内核自动决定何时调用插件中的函数，当指令与函数匹配时自动触发——满足\"所有匹配函数都被触发\"的需求\n- **`FunctionChoiceBehavior.Required()`**（或配合参数验证）：确保代理在调用函数前验证所有必填参数，若用户未提供则主动请求——满足\"向用户索要必要参数\"的需求\n\n具体实现中，这两个设置配合使用可以实现完整的函数调用工作流。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 59,
@@ -1485,7 +1548,8 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Document Intelligence 自定义模型训练支持的**文件格式**包括：\n- **PDF**（文字型或扫描型）✅\n- **JPEG / JPG** ✅\n- **PNG** ✅\n- **TIFF** ✅\n- **BMP**：⚠️ 部分版本不支持，通常不在官方列表内\n\n**不支持**的格式：\n- **DOCX**（Word 文档）❌\n\n因此，File1（PDF）、File2（JPEG）和 File4（PNG）可以上传；File3（DOCX）不支持；File5（BMP）视具体 API 版本而定，标准上不在支持列表。",
-    "controversy": "不同版本 API 对 BMP 的支持状态有所不同，建议以当前 Azure 官方文档为准。"
+    "controversy": "不同版本 API 对 BMP 的支持状态有所不同，建议以当前 Azure 官方文档为准。",
+    "answer_key": "C"
   },
   {
     "id": 60,
@@ -1511,7 +1575,8 @@
     ],
     "answer": "D",
     "explanation": "`<voice>` 元素的 **`effect` 属性** 专门用于针对特定使用场景优化语音输出效果。其中 `effect=\"eq_car\"` 可以优化语音在车内环境的听觉效果（均衡车载音响特性），使合成语音在机动车辆中更清晰自然。\n\n- `style`（A）：用于调整语音情感风格（如开心、悲伤等）\n- `level`（B）：用于强调语音中某些词汇的重音\n- `pitch`（C）：用于调整音调高低\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 61,
@@ -1537,7 +1602,8 @@
     ],
     "answer": "D",
     "explanation": "**Azure AI Language 自定义文本分类（Custom Text Classification）** 允许在 Language Studio 中定义分类标签并训练模型，支持单标签和多标签分类。对于\"类别在推理时定义\"的需求，自定义分类通过在系统提示或配置中动态指定类别标签来实现灵活分类。\n\n- Azure OpenAI 文本分类（B）：通过提示词实现零样本（Zero-shot）分类，更灵活，但这里题目指定了使用语言服务\n- 自定义 NER（C）：用于实体抽取，不是文档分类任务",
-    "controversy": "若题目强调\"动态定义类别\"和\"推理时定义\"，Azure OpenAI 的零样本分类可能是更好的答案。但题目明确提到\"AI Language 服务\"，故选 D。"
+    "controversy": "若题目强调\"动态定义类别\"和\"推理时定义\"，Azure OpenAI 的零样本分类可能是更好的答案。但题目明确提到\"AI Language 服务\"，故选 D。",
+    "answer_key": "D"
   },
   {
     "id": 62,
@@ -1563,7 +1629,8 @@
     ],
     "answer": "B",
     "explanation": "根据微软最佳实践：\n\n- **提供访问**：使用 **Microsoft Entra ID（前 Azure AD）的 Bearer 令牌**（通过托管标识 Managed Identity 获取），可以通过 Azure RBAC 精确控制哪个应用可以访问哪个资源，避免长期有效的 API 密钥泄露风险\n- **连接到特定部署**：Azure OpenAI REST API 的路径格式为 `/openai/deployments/{deployment-name}/...`，必须使用**部署名称（Deployment Name）**而非模型名称来指定使用哪个部署",
-    "controversy": "在实际使用中，API 密钥（选项 A/C）也是有效的认证方式，操作更简单。但\"solution must ensure that only the apps can access\"通常暗示需要更安全的 RBAC 控制，微软推荐使用 Entra ID 令牌。选项 B 是微软推荐的安全最佳实践答案。"
+    "controversy": "在实际使用中，API 密钥（选项 A/C）也是有效的认证方式，操作更简单。但\"solution must ensure that only the apps can access\"通常暗示需要更安全的 RBAC 控制，微软推荐使用 Entra ID 令牌。选项 B 是微软推荐的安全最佳实践答案。",
+    "answer_key": "B"
   },
   {
     "id": 63,
@@ -1589,7 +1656,8 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Content Safety 对图像进行安全审核的 REST API 端点为：\n```\nPOST {endpoint}/contentsafety/image:analyze?api-version=2024-09-01\n```\n\n请求体为 JSON 格式，包含图像 URL 或 Base64 编码数据，以及需要检测的类别（如 Violence、Hate、Sexual、SelfHarm），Content-Type 应为 `application/json`。\n\n不应使用 Computer Vision 的 `/vision/v3.1/analyze` 端点，该端点不提供 Content Safety 类别检测。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 64,
@@ -1615,7 +1683,8 @@
     ],
     "answer": "B",
     "explanation": "**Embeddings（嵌入）模型** 专门用于将文本转换为高维数值向量，这些向量捕获了文本的语义含义。通过计算两个向量之间的余弦相似度，可以衡量文档之间的语义相似性。\n\n- GPT-3.5 / GPT-4 是对话补全模型，不直接输出向量\n- DALL-E 是图像生成模型\n- 标准嵌入模型（如 `text-embedding-ada-002` 或更新的 `text-embedding-3-small`）直接输出向量，API 简单，开发工作量最小\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 65,
@@ -1645,7 +1714,8 @@
     ],
     "answer": "A",
     "explanation": "Azure OpenAI 微调训练数据支持的文件格式为：\n- **JSONL**（首选格式，每行一个 JSON 对象）\n- **TSV**（制表符分隔）✅\n\n不支持的格式：\n- XML ❌\n- PDF ❌\n- XLSX ❌\n\nOpenAI CLI 数据准备工具（`openai tools fine_tunes.prepare_data`）会自动将 TSV 等格式转换为 JSONL 格式，因此 **File1.tsv** 是唯一可以使用的文件。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 66,
@@ -1671,7 +1741,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Vision 的图像分析（Analyze Image）端点：\n\n- **HTTP 方法**：**POST**（分析包含图像数据或 URL 的请求体时，需使用 POST）\n- **visualFeatures 参数**：**`imageType`**（返回 `clipArtType` 和 `lineDrawingType` 两个属性，分别表示剪贴画可能性和线条画可能性）\n\n`description` 返回图像的自然语言描述；`tags` 返回内容标签；`objects` 检测对象位置——均不能区分图像类型。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 67,
@@ -1701,7 +1772,8 @@
     ],
     "answer": "B、E",
     "explanation": "Azure AI Language 自定义问题解答支持导入以下格式：\n\n- **TSV**（制表符分隔值文件）✅\n- **CSV**（逗号分隔值文件）✅\n- URL（从 FAQ 网页自动提取）\n- PDF/DOCX（自动提取问答对）\n\nExcel（.xlsx）、JSON 和 LU 文件不是该功能的直接导入格式（LU 是 Bot Framework 格式，JSON 需要特定 API 格式）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、E"
   },
   {
     "id": 68,
@@ -1727,7 +1799,8 @@
     ],
     "answer": "B",
     "explanation": "**Azure AI Language 自定义问题解答** 是构建 FAQ 型知识库聊天机器人的最简方案：\n\n- 直接上传支持文档（PDF、URL、TSV 等）\n- 自动提取问答对，无需复杂开发\n- 提供内置的置信度评分和多轮对话支持\n- 成本低（按请求计费，无需 GPU 资源）\n\n相比之下：\n- Azure OpenAI GPT-4（C）需要配置 Azure AI Search、向量索引等，开发复杂度和成本更高\n- Phi-3 微调（A）需要准备训练数据，成本和时间最高\n- Document Intelligence（D）用于文档字段提取，不是问答型聊天机器人\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 69,
@@ -1753,7 +1826,8 @@
     ],
     "answer": "B",
     "explanation": "- **供应商发票**：Azure AI Document Intelligence 提供**预构建发票模型（prebuilt-invoice）**，可以直接提取供应商名称、金额、日期、行项目等标准字段，无需自定义训练，开发工作量最小\n- **内部授权表单**：这是公司内部定制的表单，格式因公司而异，没有对应的预构建模型，需要**自定义模型**来识别特定字段\n\n因此，两者结合使用可以在最小化工作量的同时处理两种场景。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 70,
@@ -1779,7 +1853,8 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Language 的 **PII 识别（RecognizePiiEntities）** API 专门用于识别文档中的个人可识别信息（如电话号码、邮箱、姓名、证件号等），并在响应中返回遮蔽后的文本（`redactedText`）。\n\n默认情况下，该 API 会识别所有支持的 PII 类别，包括 PhoneNumber 和 Email。`domainFilter = \"phi\"` 是用于医疗健康信息（Protected Health Information）过滤的特定参数。\n\n`RecognizeEntities` 是通用实体识别，不提供 PII 遮蔽功能。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 71,
@@ -1805,7 +1880,8 @@
     ],
     "answer": "B",
     "explanation": "**BingGroundingTool** 通过 Bing Search API 使代理能够访问实时的公开网络数据，包括 90 天内发布的新闻、文章和更新。这是 Azure AI Foundry Agent Service 中接入实时互联网数据的标准工具。\n\n在代码中，通常通过 Bing Search 连接资源（Connection）来配置此工具：\n\n```python\nbing_tool = BingGroundingTool(connection_id=bing_connection.id)\n```\n\n其他选项（FileSearch、CodeInterpreter、AzureAISearch）均只能访问预先准备好的静态数据，无法获取近期公开发布的新内容。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 72,
@@ -1831,7 +1907,8 @@
     ],
     "answer": "B",
     "explanation": "- **生成路标描述**：使用 **Computer Vision Image Analysis** 中的 `Description` 功能（`visualFeatures=Description`），可以为图像生成自然语言描述，无需自定义训练，成本低\n- **生成报告（统计分析）**：使用 **Azure AI Language 关键短语提取（Key Phrase Extraction）** 分析描述文本，提取路标类型关键词，然后统计频率生成报告；Language 服务比 Azure OpenAI 成本更低\n\n使用 Azure OpenAI 虽然功能更强，但成本更高，不符合\"最小化成本\"的要求。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 73,
@@ -1857,7 +1934,8 @@
     ],
     "answer": "A / D（取决于实现方式）",
     "explanation": "要实现\"平静语调 + 年轻成年女性声音\"：\n\n1. **声音选择**：在 `<voice>` 标签中指定具有年轻女性特征的神经语音（如 `en-US-AriaNeural`、`en-US-JennyNeural` 等），这些语音经过训练以模仿特定年龄性别的声音\n2. **风格调整**：使用 SSML 的 `<mstts:express-as style=\"calm\">` 标签设置平静（calm）情感风格\n\n完整 SSML 示例：\n```xml\n<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\"\n       xmlns:mstts=\"http://www.w3.org/2001/mstts\" xml:lang=\"en-US\">\n  <voice name=\"en-US-AriaNeural\">\n    <mstts:express-as style=\"calm\">\n      Your text here.\n    </mstts:express-as>\n  </voice>\n</speak>\n```\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、D"
   },
   {
     "id": 74,
@@ -1883,7 +1961,8 @@
     ],
     "answer": "C",
     "explanation": "**Azure AI Document Intelligence（前 Form Recognizer）** 提供预构建的发票模型（prebuilt-invoice），可以提取发票中的结构化字段（如供应商、金额、日期、行项目等）。\n\n在 Azure AI Search 的富化管道中，可以将 Document Intelligence 封装为**自定义技能（Custom Skill）**，通过 Web API 接口调用，将发票字段提取结果添加到搜索索引中。\n\nImmersive Reader 用于提高阅读可访问性；Custom Vision 用于图像分类/对象检测，不适合结构化文档字段提取。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 75,
@@ -1905,16 +1984,18 @@
     ],
     "answer": "B",
     "explanation": "**媒体资产管理（Media asset management）** 模板是 Azure AI Content Understanding 中用于对视频内容进行全面分析的模板，包括：\n- 情感分析\n- 关键帧提取\n- 语音转文字\n- 内容标签生成\n\n它提供了对视频媒体资产进行端到端理解的能力，适合大量视频文件的批量分析场景，开发工作量最小。\n\n- 视频镜头分析：专注于视频镜头的切换检测和分析\n- 广告分析：针对广告内容的品牌和产品识别\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 76,
     "background": "你有一个 Azure AI Search 资源（AlSearch1），其索引包含一个向量字段。\n\n你需要：\n- 使用 Azure AI Agent Service 部署一个新代理\n- 将 AlSearch1 索引连接到该代理\n- 验证索引与代理的集成",
     "title": "应按顺序执行哪四项操作？",
     "options": [],
-    "answer": "A 、 C 、 B 、 D",
+    "answer": "A → C → B → D",
     "explanation": "部署并验证 AI Agent 与 Azure AI Search 集成的完整流程：\n\n1. **在 Azure AI Foundry 中创建新项目（A）**：Azure AI Agent Service 运行在 AI Foundry 项目中\n2. **创建 AlSearch1 的连接（C）**：在 AI Foundry 项目中配置与 Azure AI Search 资源的连接，提供端点和 API 密钥\n3. **创建代理并配置 AzureAISearchTool（B）**：使用已创建的连接初始化搜索工具，并将其添加到代理的工具列表中\n4. **测试代理（D）**：发送测试查询验证代理能否正确检索 Search 索引中的数据\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、C、B、D"
   },
   {
     "id": 77,
@@ -1940,7 +2021,8 @@
     ],
     "answer": "B",
     "explanation": "- **防止互联网访问**：为 Azure AI Search 创建**私有端点（Private Endpoint）**，使其只在虚拟网络内可访问，完全阻断公共互联网流量\n- **限制每个应用的查询范围**：为不同应用创建独立的**查询密钥（Query Keys）**，不同密钥可以通过索引级别权限控制各应用能访问哪些文档/字段\n\n虽然 IP 防火墙规则也可以限制访问，但私有端点提供更彻底的网络隔离。RBAC 角色控制的是管理层面的权限，不能精确限制查询内容。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 78,
@@ -1966,7 +2048,8 @@
     ],
     "answer": "B",
     "explanation": "完整流程：\n\n1. **捕获语音（法语/德语）→ 文字**：使用 **Speech-to-Text** 服务将法语或德语语音转换为对应语言的文字\n2. **以英语回放**（先翻译，再合成语音）：\n   - 使用 **Translator** 将法语/德语文字翻译成英语\n   - 使用 **Text-to-Speech** 将英文文字合成为语音输出\n\n选项 A 缺少翻译步骤，无法将非英语文本直接以英语播放。完整的流程必须包含翻译环节。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 79,
@@ -1992,7 +2075,8 @@
     ],
     "answer": "C",
     "explanation": "在 Semantic Kernel 中实现完整函数调用工作流的推荐方式：\n\n- **`ToolCallBehavior.AutoInvokeKernelFunctions`**：允许内核自动识别并调用已注册的插件函数，当 LLM 决定需要调用某个函数时自动执行\n- 配合参数验证逻辑：若函数定义中标记了必要参数（`Required`），且用户未提供，模型会生成追问请求，代理会自动向用户索取缺少的参数\n\n`FunctionChoiceBehavior.Required()` 强制模型必须调用函数，但可能导致不必要的函数调用。`Auto()` 允许模型自由决定。具体实现取决于 Semantic Kernel 版本的 API 设计。",
-    "controversy": "Semantic Kernel 的 API 在不断演进，具体的设置名称和枚举值在不同版本中有所变化。请以当前稳定版 Semantic Kernel 文档为准。"
+    "controversy": "Semantic Kernel 的 API 在不断演进，具体的设置名称和枚举值在不同版本中有所变化。请以当前稳定版 Semantic Kernel 文档为准。",
+    "answer_key": "C"
   },
   {
     "id": 80,
@@ -2018,7 +2102,8 @@
     ],
     "answer": "D",
     "explanation": "`az cognitiveservices account show` 命令用于**显示特定 Azure 认知服务账户的详细信息**，包括端点、密钥、SKU、区域等，适合在 CI/CD 流水线中用于识别已创建的资源。\n\n- `az resource link`：管理资源之间的链接关系\n- `az account list`：列出订阅信息，不是认知服务账户\n- `az cognitiveservices account network-rule`：管理认知服务的网络规则\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 81,
@@ -2048,7 +2133,8 @@
     ],
     "answer": "C、D",
     "explanation": "两种最小化开发工作量的图像内容审核方案：\n\n- **Azure AI Vision（C）**：提供图像分析功能，包括成人内容检测（Adult detection），可以判断图像是否包含成人内容或色情内容，内置功能无需自定义训练\n- **Azure AI Content Safety（D）**：专门提供内容安全检测，支持对图像中的 Sexual（性内容）、Violence（暴力）、Hate（仇恨）、SelfHarm（自伤）等类别进行检测，API 简单、开发工作量极小\n\nCustom Vision（B）需要自定义训练，开发工作量较大；Document Intelligence（E）用于文档字段提取，不适用于内容审核。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C、D"
   },
   {
     "id": 82,
@@ -2078,7 +2164,8 @@
     ],
     "answer": "B、C",
     "explanation": "> ⚠️ **高争议题目**：原题答案为 B（创建私有端点）和 C（申请 X.509 证书），但这两个选项组合在逻辑上存在明显问题：\n> - 使用 Entra ID 令牌认证 Azure AI 服务通常只需要**配置自定义子域（D）** 并进行 Entra ID 应用注册，不需要 X.509 证书\n> - 私有端点是网络隔离措施，与令牌认证方式无直接关系\n\n> 微软官方文档显示，对于 Azure Cognitive Services 的 Entra ID 令牌认证，关键步骤是**配置自定义子域（Custom Subdomain）**，因为令牌请求需要通过自定义子域端点。\n\n> 建议以 Azure 官方文档\"Authenticate with Microsoft Entra ID\"为最终参考，此题答案可能因考题版本不同而有差异。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、C"
   },
   {
     "id": 83,
@@ -2104,7 +2191,8 @@
     ],
     "answer": "C",
     "explanation": "**Azure AI Immersive Reader（沉浸式阅读器）** 是专为改善阅读可访问性设计的服务，特别适合有阅读障碍、学习差异或正在学习语言的用户。它提供：\n\n- 大字体、间距调整等视觉优化\n- 文本朗读（TTS）\n- 音节分割、词性高亮\n- 图片词汇解释\n- 翻译功能\n\n这些功能直接针对阅读理解困难问题，是处理此类场景的专用服务。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 84,
@@ -2134,7 +2222,8 @@
     ],
     "answer": "E（File1 和 File3）",
     "explanation": "Azure AI Video Indexer 网站上传的限制：\n- **支持格式**：MP4、MOV、WMV、AVI、M2TS 等\n- **最大时长**：4 小时（240 分钟）\n- **最大文件大小**：通过网站上传为 **2 GB**\n\n按此规则逐一检查：\n- **File1**（WMV，34 分钟，400 MB）✅ 格式、时长、大小均符合\n- **File2**（AVI，90 分钟，1,200 MB）❌ 文件大小 1.2 GB < 2 GB，格式支持，**但部分资料显示 AVI 不在支持列表内** → 视考题版本而定\n- **File3**（MOV，300 分钟，980 MB）✅ MOV 支持，980 MB < 2 GB，300 分钟 = 5 小时 > 4 小时... ❌ 超出时长限制",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "E"
   },
   {
     "id": 85,
@@ -2160,7 +2249,8 @@
     ],
     "answer": "A",
     "explanation": "在 Azure AI Content Safety 中，创建自定义类别使用：\n\n```\nPOST {endpoint}/contentsafety/text/categories?api-version=2024-09-15-preview\n```\n\n请求体为 JSON，包含类别名称、描述和示例数据（positive/negative examples）。\n\n使用 `POST` 创建新资源是 REST API 的标准约定；`PUT` 通常用于更新已知 ID 的资源；`PATCH` 用于部分更新。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 86,
@@ -2186,7 +2276,8 @@
     ],
     "answer": "B",
     "explanation": "**自定义命名实体识别（Custom NER）** 允许训练模型识别特定领域的专有术语（如行业技术术语、内部产品名称、专业词汇等），这些术语不在通用 NER 的标准实体类型中。\n\n- 关键短语提取（A）提取通用重要短语，不能精确识别特定实体类型\n- CLU（C）用于意图识别和对话理解，不是文档实体提取\n- 语言检测（D）只检测文本语言，不识别术语\n\n虽然 Custom NER 需要准备训练数据，但在三个选项中，它是唯一能完成\"识别特定行业术语\"任务的功能。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 87,
@@ -2212,7 +2303,8 @@
     ],
     "answer": "A",
     "explanation": "`text-embedding-ada-002`（或更新的 `text-embedding-3-small`/`text-embedding-3-large`）是 Azure OpenAI 提供的**文本嵌入模型**，专门将文本转换为语义向量，用于：\n\n- 语义相似度搜索\n- 向量数据库匹配\n- 文档聚类\n\n生成的向量可以与 Azure AI Search 的向量索引配合，实现向量相似度搜索（Vector Search）。其他选项均为对话/生成模型，不输出向量。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 88,
@@ -2238,7 +2330,8 @@
     ],
     "answer": "A",
     "explanation": "**Azure AI Language 自定义问题解答（Custom Question Answering）** 对于匹配到的问答对会**始终返回相同的确定性答案**，不会因随机性参数（如 Temperature）而产生不同输出。\n\nAzure OpenAI（C）基于大语言模型，即使 Temperature=0，对同一问题的回答也可能略有不同（特别是复杂问题）。此外，Azure OpenAI 的配置和成本更高。\n\n自定义问答服务的答案直接来自用户定义的问答对数据库，完全确定性，且开发工作量最小。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 89,
@@ -2268,7 +2361,8 @@
     ],
     "answer": "D",
     "explanation": "Azure AI Content Understanding 支持的文件格式包括：\n- **PDF** ✅\n- **JPEG / JPG** ✅\n- **DOCX**（Word 文档）✅\n- **PNG** ✅\n- **TIFF** ✅\n- **MP4**（视频）✅\n- **MP3**（音频）✅\n\n**不支持**的格式：\n- **WebP（File4.webp）** ❌：虽然 WebP 是常见图像格式，但目前不在 Content Understanding 的支持列表中\n\n因此 File1（PDF）、File2（JPG）、File3（DOCX）和 File5（PNG）均可分析，但 File4（WebP）不支持。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 90,
@@ -2294,7 +2388,8 @@
     ],
     "answer": "A",
     "explanation": "**实体链接（Entity Linking）** 是 Azure AI Language 的功能，可以：\n\n1. 识别文本中提到的已知实体（如地点、人物、组织、概念等）\n2. 将这些实体与 Wikipedia（或其他知识库）中的对应词条**建立链接**，返回相关 URL\n\n这正是题目要求的\"为文本添加 Wikipedia 参考链接\"的功能。\n\n示例：文本\"我们参观了伦敦的大英博物馆\"中，\"大英博物馆\"会被链接到其 Wikipedia 页面。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 91,
@@ -2320,7 +2415,8 @@
     ],
     "answer": "B",
     "explanation": "**Azure AI Foundry** 是微软提供的统一 AI 开发平台，专门用于：\n- 创建和管理 AI Agent 项目\n- 集成多种 Azure AI 服务（Language、Speech、OpenAI 等）\n- 构建端到端 AI 解决方案\n\nAzure AI Agent Service 在 AI Foundry 中进行配置和部署，这是创建具有语音输入/输出能力代理的统一入口。",
-    "controversy": "原题（355）给出的答案为 C（Speech Studio）。但从场景描述来看，该代理需要\"理解用户的书面和口头问题 + 生成答案 + 以语音输出\"这三个复合能力，仅用 Speech Studio 无法完成全部配置。Azure AI Foundry 是更完整的答案。请以官方考试题目为最终参考。"
+    "controversy": "原题（355）给出的答案为 C（Speech Studio）。但从场景描述来看，该代理需要\"理解用户的书面和口头问题 + 生成答案 + 以语音输出\"这三个复合能力，仅用 Speech Studio 无法完成全部配置。Azure AI Foundry 是更完整的答案。请以官方考试题目为最终参考。",
+    "answer_key": "B"
   },
   {
     "id": 92,
@@ -2346,16 +2442,18 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI 微调训练数据的**标准格式为 JSONL**（每行一个 JSON 对象），格式如下：\n\n```jsonl\n{\"messages\": [{\"role\": \"system\", \"content\": \"...\"}, {\"role\": \"user\", \"content\": \"...\"}, {\"role\": \"assistant\", \"content\": \"...\"}]}\n{\"messages\": [{\"role\": \"system\", \"content\": \"...\"}, {\"role\": \"user\", \"content\": \"...\"}, {\"role\": \"assistant\", \"content\": \"...\"}]}\n```\n\n每行包含一个完整的对话示例（Chat format），符合 OpenAI 微调数据要求。\n\nXML、CSV、TSV 均不是 Azure OpenAI 微调数据的支持格式。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 93,
     "background": "你构建了一个使用 Azure AI Language 自定义问题解答服务的聊天机器人，知识库基于内部支持 FAQ 文档训练。\n\n你发现聊天机器人**无法对常见问题提供正确答案**。你需要提高响应准确性，且解决方案必须**最小化开发工作量**。",
     "title": "应在 Language Studio 中按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A 、 B（含 C）、 D 、 E",
+    "answer": "A → B（含 C）→ D → E",
     "explanation": "使用主动学习提高问答准确性的完整流程：\n\n1. **启用主动学习（A）**：系统开始根据用户查询自动建议改进的问答对\n2. **查看并接受建议（B/C）**：在 Language Studio 中审核主动学习推荐的替代问法，接受合适的建议\n3. **保存并训练（D）**：将修改保存并重新训练知识库\n4. **重新发布（E）**：发布使修改生效\n\n主动学习通过分析用户真实查询来改进知识库，是成本最低、工作量最小的改进方式。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C、D、E"
   },
   {
     "id": 94,
@@ -2381,7 +2479,8 @@
     ],
     "answer": "C",
     "explanation": "- **任务1（提取课程计划关键字段）**：**Azure AI Document Intelligence** 可以从结构化或半结构化文档中提取特定字段（如日期、文本列表等），利用预构建或自定义模型提取\"课时\"、\"必读文本\"等字段，开发工作量小\n- **任务2（为词汇配图）**：**Azure AI Immersive Reader（沉浸式阅读器）** 内置了\"图片词汇表（Picture Vocabulary）\"功能，可以为文本中的常用词汇自动显示相关图片，这正是为语言学习者设计的功能，无需额外开发\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 95,
@@ -2407,7 +2506,8 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Document Intelligence 的**业务名片模型 v3.0** 新增了对二维码（QR Code）的支持，而 v2.1 不包含此功能。\n\n直接将 App1 中调用的 API 版本从 v2.1 升级到 v3.0 即可获得 QR 码识别能力，无需重新部署自定义模型或实现全新模型，管理工作量最小。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 96,
@@ -2433,7 +2533,8 @@
     ],
     "answer": "B",
     "explanation": "**Azure AI Foundry service**（原 Azure AI Services 的升级形态）提供了通过单一端点和凭据访问多种 Azure AI 服务的能力，包括 Speech 和 Language API。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 97,
@@ -2459,7 +2560,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Search 知识存储的三种投影类型：\n\n| 投影类型 | 用途 |\n|---------|------|\n| **Object projection（对象投影）** | 将 JSON 数据存储为 Azure Blob 中的 JSON 文件，适合非结构化/半结构化数据 |\n| **File projection（文件投影）** | 将二进制文件（如图像、规范化图像）存储到 Blob 存储，适合 PDF 中提取的图像 |\n| Table projection（表投影） | 将数据存储为 Azure 表存储中的行，适合结构化/表格数据 |\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 98,
@@ -2485,7 +2587,8 @@
     ],
     "answer": "A 或 C（视题目要求）",
     "explanation": "Azure AI Content Safety 图像检测 API 返回每个类别的**严重性得分（Severity Score）**，范围为 0-7（整数）：\n- **0**：未检测到该类别内容\n- **2**：轻微\n- **4**：中等\n- **6**：严重\n- **7**：非常严重\n\n对于只包含圆形的图像，**暴力内容得分应为 0**（没有暴力内容）。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、C"
   },
   {
     "id": 99,
@@ -2511,7 +2614,8 @@
     ],
     "answer": "D",
     "explanation": "命名实体识别（NER）API 会从文本中识别具有语义意义的命名实体，如：\n- **地理位置（Location）**：London、Buckingham Palace\n\n对于句子 \"Our tour of London included a visit to Buckingham Palace.\"：\n- \"London\"：地理位置实体 ✅\n- \"Buckingham Palace\"：地理位置实体（著名建筑/地点）✅\n- \"tour\"、\"visit\" 等词：动词/普通名词，不是命名实体，NER 不会返回\n\n因此输出为 **London 和 Buckingham Palace**。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 100,
@@ -2537,7 +2641,8 @@
     ],
     "answer": "C",
     "explanation": "**AzureAISearchTool** 是 Azure AI Agent Service 中专门用于连接 Azure AI Search 索引的工具。它允许代理在对话过程中**检索 Search 索引中的相关文档**，实现 RAG（检索增强生成）模式：\n\n```python\nfrom azure.ai.projects.models import AzureAISearchTool\n\nsearch_tool = AzureAISearchTool(\n    index_connection_id=connection.id,\n    index_name=\"your-index-name\"\n)\n```\n\n- FileSearchTool：用于搜索已上传到代理的文件（非 Search 索引）\n- BingGroundingTool：用于实时网络搜索\n- CodeInterpreterTool：用于代码执行和数据分析\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 101,
@@ -2563,7 +2668,8 @@
     ],
     "answer": "C",
     "explanation": "**内容过滤器（Content Filter）** 是 Azure OpenAI 的内置安全机制，可以对模型的输入和输出进行实时检测，自动拦截包含仇恨言论（Hate）、暴力（Violence）、色情（Sexual）、自伤（Self-harm）等有害内容的请求和响应。\n\n- Frequency penalty（A）：用于减少重复词汇，影响输出多样性，与内容安全无关\n- 滥用监控（B）：用于监控 API 使用是否符合使用政策，是事后监控而非实时拦截\n- Temperature（D）：控制输出随机性，不影响内容安全",
-    "controversy": "原题（248）给出的答案为 B（Abuse Monitoring），理由是\"滥用监控\"可以检测并标记包含有害内容的请求。但微软官方文档明确指出，**内容过滤器（Content Filter）** 才是主动防止有害内容输出的机制，滥用监控更偏向于合规审计。建议以 Azure OpenAI 内容安全文档为准，答案倾向于 C。"
+    "controversy": "原题（248）给出的答案为 B（Abuse Monitoring），理由是\"滥用监控\"可以检测并标记包含有害内容的请求。但微软官方文档明确指出，**内容过滤器（Content Filter）** 才是主动防止有害内容输出的机制，滥用监控更偏向于合规审计。建议以 Azure OpenAI 内容安全文档为准，答案倾向于 C。",
+    "answer_key": "C"
   },
   {
     "id": 102,
@@ -2589,7 +2695,8 @@
     ],
     "answer": "B",
     "explanation": "- **提供访问**：使用 **Microsoft Entra ID 的 Bearer 令牌**（托管标识 Managed Identity）。通过 Azure RBAC 为每个应用分配特定角色（如 Cognitive Services OpenAI User），可以精确控制哪些应用可以访问 AI1，是微软推荐的最安全方式\n- **连接到特定部署**：Azure OpenAI REST API 路径中使用**部署名称**（Deployment Name）：\n  ```\n  POST /openai/deployments/{deployment-name}/chat/completions\n  ```",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 103,
@@ -2615,7 +2722,8 @@
     ],
     "answer": "A",
     "explanation": "> ⚠️ **高争议题目**：原题（307）给出的答案为 B（Not meet the goal，方案 A），但从逻辑分析：\n\n- **方案 A（文本内容审核）**：Content Safety Studio 的\"Moderate text content\"功能正是用于测试文本内容过滤配置，允许输入示例文本并查看各类别的检测结果，可以据此调整过滤阈值。这实际上**满足**\"运行示例问题以优化内容过滤器配置\"的需求\n- **方案 B（受保护材料检测）**：用于检测内容是否涉及版权保护材料（如代码、歌词），与内容过滤器配置优化无直接关系\n- **方案 C（在线活动监控）**：用于查看历史使用趋势和日志分析，不能运行测试\n\n实际上微软文档中指出方案 A 是正确的测试方式，但原题多个版本（282、283、284）均答 B（No）。建议考生以最新官方考试指南为准，注意题目细节差异。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 104,
@@ -2641,16 +2749,18 @@
     ],
     "answer": "D",
     "explanation": "各角色权限对比：\n\n| 角色 | 权限范围 |\n|------|---------|\n| Cognitive Services OpenAI User | 只能查询/使用已部署模型（读取），不能上传数据或微调 |\n| **Cognitive Services OpenAI Contributor** | 可以上传训练数据、微调模型、创建部署（写入操作），但不能管理资源本身 |\n| Cognitive Services Contributor | 可管理所有认知服务资源，权限过大 |\n| Contributor | 可管理整个资源组，权限最大 |\n\n**Cognitive Services OpenAI Contributor** 是在最小权限原则下满足上传数据集和微调模型需求的正确角色。",
-    "controversy": "原题（308）答案给出为 C（Cognitive Services OpenAI User），但按照微软 RBAC 文档，OpenAI User 只有使用权限，无法上传数据和微调。**D（Cognitive Services OpenAI Contributor）** 才是正确答案，请以 Azure OpenAI RBAC 文档为准。"
+    "controversy": "原题（308）答案给出为 C（Cognitive Services OpenAI User），但按照微软 RBAC 文档，OpenAI User 只有使用权限，无法上传数据和微调。**D（Cognitive Services OpenAI Contributor）** 才是正确答案，请以 Azure OpenAI RBAC 文档为准。",
+    "answer_key": "D"
   },
   {
     "id": 105,
     "background": "你正在构建一个电话处理解决方案，使用 Azure AI Speech 服务和**自定义神经语音（Custom Neural Voice）**。\n\n你需要从 Speech Studio 创建自定义语音模型。",
     "title": "在 Speech Studio 中，创建自定义语音模型应按顺序执行哪五项操作？",
     "options": [],
-    "answer": "D 、 A 、 B 、 C 、 E",
+    "answer": "D → A → B → C → E",
     "explanation": "创建自定义神经语音的完整流程（符合微软负责任 AI 要求）：\n\n1. **获取语音人才同意（D）**：必须先获得声音原型人的书面同意，这是合规要求，不可跳过\n2. **创建项目（A）**：在 Speech Studio 中新建 Custom Neural Voice 项目\n3. **上传训练数据（B）**：上传录音数据（WAV 文件）和对应的文字稿（TXT）\n4. **训练模型（C）**：使用上传的数据训练神经语音模型\n5. **部署到端点（E）**：将训练好的模型部署为可调用的端点\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D、A、B、C、E"
   },
   {
     "id": 106,
@@ -2676,7 +2786,8 @@
     ],
     "answer": "D",
     "explanation": "`az cognitiveservices account show --name <账户名> --resource-group <资源组>` 命令用于**显示指定 Azure AI 服务账户的完整详情**，包括：端点 URL、SKU、区域、密钥获取方式等。\n\n在 CI/CD 流水线中，该命令可以在创建账户后立即获取账户信息（如端点），供后续步骤使用，开发工作量极小。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 107,
@@ -2702,7 +2813,8 @@
     ],
     "answer": "A",
     "explanation": "在 Semantic Kernel 中：\n\n- **`FunctionChoiceBehavior.Auto()`**：允许内核自动判断何时调用插件函数，并在需要时自动触发所有匹配的函数\n- **`AutoInvokeKernelFunctions = true`**：启用自动调用内核函数，当 LLM 决定调用函数时，SDK 会自动执行对应的插件方法\n\n关于\"向用户索取缺少的参数\"：这通过插件函数的参数定义（`KernelFunction` 属性中标记的必要参数）实现，当参数缺失时，模型会生成追问。\n\n`Required()` 强制每次响应都必须调用函数，不适合一般对话场景。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 108,
@@ -2728,7 +2840,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Content Understanding 创建自定义分析器使用 `PUT` 方法：\n\n```\nPUT {endpoint}/contentunderstanding/analyzers/{analyzerName}?api-version=2024-12-01-preview\n```\n\n`PUT` 方法是\"创建或替换\"语义，用于按名称创建资源（幂等操作）。若分析器不存在则创建，若已存在则覆盖。\n\n`POST` 通常用于集合端点（如 `/analyzers`）创建新资源（服务端分配 ID），但 Content Understanding API 使用 PUT + 用户指定名称的模式。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 109,
@@ -2754,7 +2867,8 @@
     ],
     "answer": "B",
     "explanation": "当 `SpeechConfig` 未显式设置 `speech_synthesis_voice_name` 时，Azure AI Speech 服务会使用**默认语音**（通常为英语神经语音，如 en-US-JennyNeural）来合成文本。\n\n代码中使用 `AudioOutputConfig(filename=\"Output.mp3\")` 将输出保存为 MP3 文件（SDK 支持多种音频格式输出），不会失败。\n\n语音服务不会因为未指定 voice name 而报错，会使用区域的默认语音。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 110,
@@ -2780,7 +2894,8 @@
     ],
     "answer": "C",
     "explanation": "**实体链接（Entity Linking）** 不仅能识别文本中的命名实体，还能将识别到的实体**链接到 Wikipedia 等知识库中的对应词条**，返回实体的 Wikipedia URL、bingId 等信息。\n\n这正是\"识别乐队名称并提供 Wikipedia 链接\"所需的功能。\n\n区别于 NER（只识别实体类型，如\"乐队是一种组织\"，不提供外部链接）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 111,
@@ -2806,7 +2921,8 @@
     ],
     "answer": "A",
     "explanation": "**Azure AI Language 自定义问题解答** 对已定义的问答对提供**确定性答案**，相同问题总是返回相同答案（不像 LLM 会因随机性产生差异）。直接上传 PDF 文件后，系统自动提取问答对，开发工作量极小。\n\nAzure OpenAI（C）虽然可以配置 Temperature=0 以减少随机性，但无法保证对复杂问题 100% 返回完全相同的措辞，且配置更复杂。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 112,
@@ -2832,7 +2948,8 @@
     ],
     "answer": "C",
     "explanation": "测试**自定义 API 功能**时（而非测试代理本身），应直接调用 API 端点来验证其返回值是否正确。使用 cURL 对自定义 API URL 发起 GET 请求（如 `curl \"https://api.example.com/time?location=Tokyo\"`）是最直接的测试方式。\n\n只有确认自定义 API 本身工作正常后，才将其注册为代理的工具（Tool），这样可以隔离问题定位。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 113,
@@ -2858,7 +2975,8 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Search 索引器处理文档的标准顺序：\n\n1. **文档破解（Document Cracking）**：从源格式（PDF、图片、Word 等）中提取原始内容\n2. **字段映射（Field Mapping）**：将数据源字段映射到索引器的内部表示\n3. **技能执行（Skill Execution）**：依次执行技能集中定义的所有 AI 技能（OCR、NER、情感分析等）\n4. **输出字段映射（Output Field Mapping）**：将技能输出映射到目标搜索索引字段\n5. **索引写入（Index Write）**：将所有数据持久化到搜索索引\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 114,
@@ -2884,7 +3002,8 @@
     ],
     "answer": "B",
     "explanation": "在 Speech Translation SDK 中：\n\n- **`SpeechRecognitionLanguage`**：设置**源语言**（语音输入语言），使用完整区域代码，如 `\"en-US\"`（英语-美国）\n- **`AddTargetLanguage()`**：添加**翻译目标语言**，使用两字母语言代码，如 `\"it\"`（意大利语）\n\n注意：目标语言参数使用的是 `\"it\"`（ISO 639-1 代码），而非 `\"it-IT\"`（区域代码）。这是 Speech Translation API 的特有规范，与 `SpeechRecognitionLanguage` 使用区域代码不同。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 115,
@@ -2910,7 +3029,8 @@
     ],
     "answer": "B",
     "explanation": "1. **正确（是）**：Azure AI Content Safety 图像分析端点确实使用 `POST` 方法\n2. **正确（是）**：通过在请求体中指定 `categories` 数组（如 `[\"Hate\", \"SelfHarm\", \"Sexual\", \"Violence\"]`），可以在一次调用中同时检测多个内容类别\n3. **错误（否）**：API 接受**图像 URL** 或 **Base64 编码的图像数据**，无法直接处理本地文件路径。本地图像必须先转换为 Base64 编码或上传至可公开访问的 URL\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 116,
@@ -2936,7 +3056,8 @@
     ],
     "answer": "C",
     "explanation": "在 Azure OpenAI 的 ARM 模板中，模型部署（Deployment）资源的 **`sku.capacity`** 字段用于设置**每分钟 Token 数量（Tokens Per Minute，TPM）**，单位为\"千\"：\n\n```json\n{\n  \"type\": \"Microsoft.CognitiveServices/accounts/deployments\",\n  \"sku\": {\n    \"name\": \"Standard\",\n    \"capacity\": 60\n  }\n}\n```\n\n`capacity: 60` 表示 60,000 TPM，可以支持约 600 RPM（Requests Per Minute）的标准请求速率。\n\n不存在 `rateLimit` 或 `requestsPerMinute` 这样的直接属性。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 117,
@@ -2962,7 +3083,8 @@
     ],
     "answer": "B",
     "explanation": "Computer Vision 的 `Analyze Image` API 中，`ImageType` 特性专门提供以下信息：\n\n- **`clipArtType`**：0（非剪贴画）→ 3（高质量剪贴画）的整数评分\n- **`lineDrawingType`**：0（非线条画）或 1（是线条画/手绘图）\n\n通过这两个属性可以区分照片（两者均为 0）、剪贴画（clipArtType > 0）和手绘图（lineDrawingType = 1）。\n\n此功能无需自定义训练，开发工作量最小。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 118,
@@ -2988,7 +3110,8 @@
     ],
     "answer": "B",
     "explanation": "`recognize_entities`（命名实体识别，NER）会从文本中提取具有语义类型的命名实体：\n\n- **\"London\"**：地理位置（Location）类型的命名实体 ✅\n- **\"Buckingham Palace\"**：地理位置/地标（Location/Landmark）类型的命名实体 ✅\n- \"tour\"、\"visit\"：普通动词/名词，不是命名实体 ❌\n- 整个句子不会被返回\n\n输出的 `entities` 列表包含 **London** 和 **Buckingham Palace** 两个实体对象，各含类型（Category）、文本（Text）和置信度（ConfidenceScore）属性。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 119,
@@ -3014,7 +3137,8 @@
     ],
     "answer": "B",
     "explanation": "Azure Translator 提供地区端点以满足数据主权要求：\n\n| 端点 | 覆盖地区 |\n|------|---------|\n| `api.cognitive.microsofttranslator.com` | 全球（请求路由到最近数据中心） |\n| **`api-nam.cognitive.microsofttranslator.com`** | **北美洲（Americas）** |\n| `api-eur.cognitive.microsofttranslator.com` | 欧洲 |\n| `api-apc.cognitive.microsofttranslator.com` | 亚太 |\n\n题目要求数据保留在**美洲**，应使用 `api-nam`（NAM = North AMericas）端点，确保所有翻译请求在美洲数据中心处理。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 120,
@@ -3040,7 +3164,8 @@
     ],
     "answer": "A",
     "explanation": "1. **正确**：Azure AI Vision 4.0 的 Image Analysis API 支持在**一次调用中**通过 `visual_features` 参数同时请求多个功能（Caption、Read、Objects、Tags 等）\n2. **正确**：`caption.text` 返回图像的自然语言描述字符串（如 \"A road through a forest\"）\n3. **正确**：`read.blocks` → `lines` → `words` 中，每个 `word` 对象包含 `confidence` 属性（置信度分数）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 121,
@@ -3066,7 +3191,8 @@
     ],
     "answer": "A",
     "explanation": "1. **正确**：Temperature=0 使模型始终选择概率最高的词汇，输出趋于确定性（贪婪解码）\n2. **正确**：`max_tokens` 限制生成的最大 Token 数，若达到上限则立即截断，不考虑语义完整性\n3. **正确**：Top P（nucleus sampling）= 0.5 意味着模型的词汇选择范围限制在累计概率达到 50% 的词汇集合中（概率较高的前 N 个词）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 122,
@@ -3092,7 +3218,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Language 自定义问题解答 API 的 `generateAnswer` 请求体中，置信度阈值参数为：\n\n```json\n{\n  \"question\": \"your question\",\n  \"scoreThreshold\": 0.95,\n  \"top\": 1\n}\n```\n\n- 参数名为 **`scoreThreshold`**（而非 confidenceThreshold 或 minimumConfidence）\n- 值范围为 **0 到 1**（浮点数），0.95 对应 95%\n- 当最高匹配答案的置信度低于此阈值时，API 返回\"no good match found\"\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 123,
@@ -3118,16 +3245,18 @@
     ],
     "answer": "D",
     "explanation": "**Prompt Dialog（提示对话）** 专门设计用于向用户请求特定类型的输入，并包含**内置的验证和重试逻辑**：\n\n- 若用户输入无效（如日期格式错误），自动重新提示\n- 支持自定义验证函数\n- 内置重试次数限制和取消处理\n\nBot Framework SDK 提供多种 Prompt 类型：`DateTimePrompt`（日期时间）、`TextPrompt`（文本）、`ChoicePrompt`（选择）等。\n\nWaterfall Dialog 定义线性步骤流程，但不自动处理输入验证重试；Adaptive Dialog 更灵活但更复杂。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 124,
     "background": "你需要实现一个批量文档翻译解决方案。源文档（德语的 Word 和 PowerPoint 文件）存储在 Azure Blob 容器中，需要翻译为法语，同时满足：\n\n- 保留原始文件格式\n- 支持使用**自定义术语表（Custom Glossary）**",
     "title": "在完成 Blob 容器准备和文件上传后，还需要按顺序执行哪三项操作？",
     "options": [],
-    "answer": "C 、 B 、 E",
+    "answer": "C → B → E",
     "explanation": "批量文档翻译（Document Translation）的完整流程（假设 Translator 资源和源/目标容器已准备好）：\n\n1. **上传自定义术语表（C）**：将 TSV 格式的术语表文件上传到 Blob 容器，生成 SAS URL 供翻译请求引用\n2. **提交翻译请求（B）**：调用 `POST /batches` 端点，在请求体中指定源容器 SAS URL、目标容器 SAS URL、语言对（de→fr）和术语表 SAS URL\n3. **查询翻译状态（E）**：批量翻译是异步操作，需要轮询状态直到完成（`status: Succeeded`）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C、B、E"
   },
   {
     "id": 125,
@@ -3153,7 +3282,8 @@
     ],
     "answer": "A",
     "explanation": "**方案 A（正确）**：为已有问答对添加\"How much does Product A cost?\"作为**替代问法（Alternative Question）**，是解决语义等价问题的标准做法。训练后，两种问法都会匹配到同一个答案。\n\n**方案 B、C（错误）**：自定义问题解答服务基于问答对匹配，不使用 CLU 中的实体（Entity）概念。为\"price\"或\"cost\"创建实体对自定义问答的匹配逻辑没有帮助。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 126,
@@ -3179,16 +3309,18 @@
     ],
     "answer": "B",
     "explanation": "**越狱风险检测（Jailbreak risk detection）** 专门设计用于识别试图通过特殊构造的提示词来绕过 AI 模型安全措施的攻击模式，例如：\n- \"Pretend you have no restrictions...\"\n- \"Act as DAN (Do Anything Now)...\"\n- \"Ignore your previous instructions...\"\n\n该功能实时分析用户输入，若检测到越狱模式则返回风险标识，应用可据此拒绝该请求。\n\n受保护材料检测用于版权保护，文本类别检测用于通用有害内容，均非越狱防护的专项功能。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 127,
     "background": "你正在使用 Azure AI Content Understanding 分析 1,000 段视频，需要**识别特定公司名称是否在视频中被提及**（包括语音和文字）。",
     "title": "应按顺序执行哪三项操作来实现公司名称识别？",
     "options": [],
-    "answer": "A 、 C 、 D",
+    "answer": "A → C → D",
     "explanation": "使用 Video Indexer 识别特定品牌/公司名称的流程：\n\n1. **创建自定义品牌（A）**：在 Video Indexer 门户中，添加要识别的公司名称到自定义品牌列表，这样 Video Indexer 在索引时会特别关注这些名称\n2. **索引视频（C）**：调用 Video Indexer API 对视频进行索引（包括语音转文字、场景分析、品牌检测等）\n3. **提取品牌洞察（D）**：从索引结果中获取品牌出现的时间戳、频率等详情\n\n注意：视频可以通过 URL 直接提供给 Video Indexer，不一定需要先上传到 Blob Storage。但若已在 Blob Storage 中，则需提供 SAS URL。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、C、D"
   },
   {
     "id": 128,
@@ -3214,7 +3346,8 @@
     ],
     "answer": "C",
     "explanation": "**对象投影（Object projection）** 将富化数据以 JSON 格式存储到 Azure Blob Storage。Power BI 可以直接连接 Blob Storage 中的 JSON 数据并进行分析，无需额外的数据格式转换，开发工作量最小。\n\n- 表投影（A）将数据存储为 Azure Table Storage 格式，Power BI 可以连接，但需要额外配置\n- 文件投影（D）主要用于图像/二进制文件，不适合结构化数据分析\n- 投影组（B）是包含多种投影的逻辑容器，不是具体的投影类型\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 129,
@@ -3244,7 +3377,8 @@
     ],
     "answer": "B、D",
     "explanation": "- **自适应卡片（B）**：是实现丰富内容展示的最佳方式，支持在卡片中嵌入图像、按钮、文本等元素，每个选项可以包含图片和描述\n- **对话（D）**：用于封装与特定功能相关的交互逻辑，控制何时显示选项列表、如何处理用户的选择\n\n在 Bot Framework Composer 中，通过创建一个 Dialog 来组织交互逻辑，并在其中使用 \"Send an Activity\" 操作发送包含自适应卡片的响应。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、D"
   },
   {
     "id": 130,
@@ -3270,7 +3404,8 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI 的\"在自有数据上使用\"（On Your Data）功能通过 `data_sources` 参数实现：\n\n```python\nresponse = client.chat.completions.create(\n    model=\"gpt-4\",\n    messages=[{\"role\": \"user\", \"content\": \"question\"}],\n    extra_body={\n        \"data_sources\": [{\n            \"type\": \"azure_search\",\n            \"parameters\": {\n                \"endpoint\": \"https://search-resource.search.windows.net\",\n                \"index_name\": \"your-index\",\n                \"authentication\": {\"type\": \"system_assigned_managed_identity\"}\n            }\n        }]\n    }\n)\n```\n\n这会让模型先从 Azure AI Search 索引中检索相关文档，再基于检索到的内容生成答案，实现 RAG 模式。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 131,
@@ -3296,7 +3431,8 @@
     ],
     "answer": "B",
     "explanation": "`<voice effect=\"eq_car\">` 是 Azure Speech SSML 中专门为**车载环境**优化音频的属性，它应用了针对车内音响特性的均衡器（equalizer）调整，使合成语音在嘈杂的车辆环境中更清晰可辨。\n\n```xml\n<voice name=\"en-US-JennyNeural\" effect=\"eq_car\">\n  Turn left in 500 meters.\n</voice>\n```\n\n其他选项（calm 风格、音调、语速）影响的是语音表达方式，而非车载音效优化。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 132,
@@ -3322,7 +3458,8 @@
     ],
     "answer": "A",
     "explanation": "`loggingOptOut=true` 参数告知 Azure AI Language 服务**不要将输入数据持久化存储**到微软的日志系统中。这对于处理敏感数据（如医疗记录、财务信息等个人可识别信息）的应用至关重要，可以满足数据隐私合规要求（如 GDPR）。\n\n- `piiCategories`：指定要检测的 PII 类别，不控制数据存储\n- `showStats`：控制响应中是否包含统计信息\n- `model-version`：指定使用的模型版本\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 133,
@@ -3348,7 +3485,8 @@
     ],
     "answer": "C",
     "explanation": "**配置 ta1 的虚拟网络设置（C）** 是限制 Azure AI 服务仅对特定 VNet 开放访问的标准方式：\n\n在 Azure 门户 → ta1 → \"网络（Networking）\" → \"防火墙和虚拟网络\" → 选择\"已选定的网络和私有端点\" → 添加 vnet1 的子网\n\n这样只有来自 vnet1 子网的流量才能访问 ta1，互联网和其他 VNet 的请求将被拒绝。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 134,
@@ -3374,7 +3512,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Agent Service 支持通过**函数工具（Function Tool）** 将自定义 API 集成到代理中：\n\n```python\nfunctions = FunctionTool(functions=[get_order_status_function])\nagent = project_client.agents.create_agent(\n    model=\"gpt-4\",\n    tools=functions.definitions\n)\n```\n\n通过 OpenAPI 或 Python 函数定义描述 API 的输入/输出格式，代理在对话中自动判断何时调用该函数并将结果整合到回答中。这是 Azure AI Agent Service 的标准集成模式。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 135,
@@ -3400,7 +3539,8 @@
     ],
     "answer": "C",
     "explanation": "根据 Azure AI Agent Service 的服务限制，可以上传到服务的**所有文件的最大总大小为 100 GB**。\n\n单个文件大小通常有独立限制（如 512 MB 或更大），但所有文件累计不超过 100 GB。\n\n这个限制对于评估是否适合大规模文件处理场景（如需要处理 TB 级数据）非常重要。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 136,
@@ -3430,7 +3570,8 @@
     ],
     "answer": "A、C",
     "explanation": "在 Semantic Kernel 中，支持复杂对象（含子属性）的提示词模板格式：\n\n- **Liquid（A）**：一种模板语言，支持通过 `{{ object.property }}` 和 `{{ object.nested.property }}` 访问嵌套属性，以及循环、条件等逻辑\n- **Handlebars（C）**：另一种流行的模板语言，支持 `{{object.property}}` 和 `{{#each items}}` 等语法访问复杂对象结构\n\nYAML 是配置文件格式，不是模板引擎；JSONL 是数据格式；Semantic Kernel 原生模板（使用 `{{$variable}}` 语法）对复杂对象的支持有限。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、C"
   },
   {
     "id": 137,
@@ -3460,7 +3601,8 @@
     ],
     "answer": "D",
     "explanation": "> ⚠️ **争议说明**：原题（278）答案为 D（File2.jpg 和 File3.tiff），暗示 File1.pdf 不可用。这可能是因为 PDF 文件的某个特定问题（如超过页数限制、加密等），但原题 PDF 中有图表说明了具体限制。\n\nAzure AI Document Intelligence Standard S0 层支持的文件格式包括：\n- **PDF**（通常支持，最多 2,000 页/文件）✅\n- **JPEG/JPG** ✅\n- **PNG** ✅\n- **TIFF** ✅\n- **BMP**（部分版本支持）\n\n通常情况下三种格式都应该支持。若原题答案为 D，可能是 PDF 文件有特定问题（如超规格），请以原始题目中的文件参数说明为准。\n\n---",
-    "controversy": "原题（278）答案为 D（File2.jpg 和 File3.tiff），暗示 File1.pdf 不可用。这可能是因为 PDF 文件的某个特定问题（如超过页数限制、加密等），但原题 PDF 中有图表说明了具体限制。\n\nAzure AI Document Intelligence Standard S0 层支持的文件格式包括：\n- **PDF**（通常支持，最多 2,000 页/文件）✅\n- **JPEG/JPG** ✅\n- **PNG** ✅\n- **TIFF** ✅\n- **BMP**（部分版本支持）\n\n通常情况下三种格式都应该支持。若原题答案为 D，可能是 PDF 文件有特定问题（如超规格），请以原始题目中的文件参数说明为准。"
+    "controversy": "原题（278）答案为 D（File2.jpg 和 File3.tiff），暗示 File1.pdf 不可用。这可能是因为 PDF 文件的某个特定问题（如超过页数限制、加密等），但原题 PDF 中有图表说明了具体限制。\n\nAzure AI Document Intelligence Standard S0 层支持的文件格式包括：\n- **PDF**（通常支持，最多 2,000 页/文件）✅\n- **JPEG/JPG** ✅\n- **PNG** ✅\n- **TIFF** ✅\n- **BMP**（部分版本支持）\n\n通常情况下三种格式都应该支持。若原题答案为 D，可能是 PDF 文件有特定问题（如超规格），请以原始题目中的文件参数说明为准。",
+    "answer_key": "D"
   },
   {
     "id": 138,
@@ -3486,16 +3628,18 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Translator SDK（`Azure.AI.Translation.Text` NuGet 包）使用以下类和方法进行文本翻译：\n\n```csharp\nvar client = new TextTranslationClient(new AzureKeyCredential(key), region);\nvar response = await client.TranslateAsync(\n    targetLanguages: new[] { \"zh-Hans\" },\n    content: new[] { \"Hello World\" }\n);\n```\n\n- **客户端类**：`TextTranslationClient`\n- **翻译方法**：`TranslateAsync()`（或同步版 `Translate()`）\n\n`TextAnalyticsClient` 是 Azure AI Language 服务的客户端，用于情感分析、NER 等，不提供翻译功能。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 139,
     "background": "你有一个 Azure OpenAI 资源，需要构建一个应用来写新闻稿（Press Releases），使用 Azure OpenAI Studio 部署模型。",
     "title": "在 Azure OpenAI Studio 中，应按顺序执行哪三项操作来完成部署？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "在 Azure OpenAI Studio 中部署模型的标准三步流程：\n\n1. **打开 Deployments 页面（A）**：在 Azure OpenAI Studio 左侧导航中选择\"Deployments\"（部署）\n2. **选择基础模型（B）**：点击\"Create new deployment\"，从可用模型列表中选择适合文本生成的模型（如 GPT-4、GPT-3.5-Turbo）\n3. **命名并完成部署（C）**：输入部署名称（供 API 调用时使用），设置容量参数，完成创建\n\n部署完成后可以在 Playground 中测试，但测试（D）不是部署操作的必要步骤。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 140,
@@ -3521,16 +3665,18 @@
     ],
     "answer": "A",
     "explanation": "在 ARM 模板中启用 CMK 加密需要在 `properties` 中配置 `encryption` 属性：\n\n```json\n{\n  \"properties\": {\n    \"encryption\": {\n      \"keySource\": \"Microsoft.KeyVault\",\n      \"keyVaultProperties\": {\n        \"keyVaultUri\": \"https://your-keyvault.vault.azure.net/\",\n        \"keyName\": \"your-key-name\",\n        \"keyVersion\": \"your-key-version\"\n      }\n    }\n  }\n}\n```\n\n同时，资源通常需要系统分配的托管标识（System-Assigned Managed Identity）来访问 Key Vault，但仅有托管标识（D）不足以启用 CMK，还需要 `encryption.keyVaultProperties` 配置。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 141,
     "background": "你有一个含有 DockerFile 的本地开发环境，并有 Azure 订阅中的自定义语音转文字模型（model1）。\n\n你需要在名为 Host1 的 Docker 主机上运行 model1。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "在 Docker 主机上运行自定义语音转文字模型的步骤：\n\n1. **导出 model1（A）**：从 Azure 门户或 Azure CLI 将自定义语音模型导出为容器镜像，使其可以在 Docker 环境中运行\n2. **运行容器（B）**：在 Host1 上使用 `docker run` 命令启动容器，包含 Billing 端点和 API 密钥参数\n3. **配置日志记录（C）**（可选但推荐）：配置磁盘日志以监控容器的运行状态和性能\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 142,
@@ -3556,7 +3702,8 @@
     ],
     "answer": "A",
     "explanation": "Azure Speech Translation SDK 使用 `AddTargetLanguage()` 方法**逐一添加目标翻译语言**：\n\n```csharp\nvar translationConfig = SpeechTranslationConfig.FromSubscription(key, region);\ntranslationConfig.SpeechRecognitionLanguage = \"en-US\";  // 源语言\ntranslationConfig.AddTargetLanguage(\"fr\");    // 添加法语\ntranslationConfig.AddTargetLanguage(\"de\");    // 添加德语\ntranslationConfig.AddTargetLanguage(\"es\");    // 添加西班牙语\n```\n\n注意：目标语言使用 **ISO 639-1 两字母代码**（如 `\"fr\"`），而非区域代码（如 `\"fr-FR\"`）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 143,
@@ -3582,7 +3729,8 @@
     ],
     "answer": "B",
     "explanation": "**瀑布对话（Waterfall Dialog）** 定义了一系列有序执行的步骤（Steps），非常适合固定流程的线性引导：\n\n```csharp\nvar waterfallSteps = new WaterfallStep[]\n{\n    AskOrderNumberStepAsync,    // 步骤1：询问订单号\n    AskReturnReasonStepAsync,   // 步骤2：询问退货原因\n    AskRefundPreferenceStepAsync, // 步骤3：询问退款偏好\n    FinalStepAsync              // 步骤4：提交并确认\n};\nAddDialog(new WaterfallDialog(nameof(WaterfallDialog), waterfallSteps));\n```\n\n每个步骤完成后自动进入下一步，非常直观。\n\nAdaptive Dialog 支持事件驱动，更适合复杂分支逻辑；Prompt 用于单个输入请求；Component 用于封装复用的对话模块。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 144,
@@ -3608,16 +3756,18 @@
     ],
     "answer": "B",
     "explanation": "**`OnMembersAddedAsync`** 是 `ActivityHandler` 类中专门处理\"新成员加入对话\"事件的方法。当用户（或机器人自身）加入对话时，该方法被触发，开发者可以在这里实现欢迎消息逻辑：\n\n```csharp\nprotected override async Task OnMembersAddedAsync(\n    IList<ChannelAccount> membersAdded,\n    ITurnContext<IConversationUpdateActivity> turnContext,\n    CancellationToken cancellationToken)\n{\n    foreach (var member in membersAdded)\n    {\n        if (member.Id != turnContext.Activity.Recipient.Id)\n        {\n            await turnContext.SendActivityAsync(MessageFactory.Text(\"Welcome!\"));\n        }\n    }\n}\n```\n\n`OnMessageActivityAsync` 处理用户发送的消息，不适合欢迎逻辑。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 145,
     "background": "你有一个 Azure 认知搜索（Azure Cognitive Search）服务，其中一个使用主管理密钥的 Web 应用在安全审查中发现主密钥可能已被泄露，存在未授权的**索引管理操作**。\n\n你需要防止未授权访问，且解决方案必须**最小化停机时间**。",
     "title": "应按顺序执行哪些步骤？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "零停机轮换管理密钥的正确流程：\n\n1. **重新生成辅助管理密钥（A）**：此时应用仍使用主密钥正常运行，生成新的辅助密钥作为切换目标\n2. **将应用切换到辅助管理密钥（B）**：更新应用配置，使用新的辅助密钥，应用继续正常运行（无停机）\n3. **重新生成主管理密钥（C）**：旧的泄露主密钥失效，未授权访问被终止\n\n注意：不能直接删除管理密钥（D），Azure 认知搜索服务始终保持两个管理密钥；切换到查询密钥（E）会导致索引管理功能不可用。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 146,
@@ -3643,7 +3793,8 @@
     ],
     "answer": "C",
     "explanation": "当多个传感器之间**存在物理关联性**时（如发动机的温度和转速通常同步变化），仅靠单独分析每个传感器（单变量）无法发现\"温度正常但压力异常低\"这类跨传感器复合异常。\n\n**多变量异常检测（Multivariate Anomaly Detection）** 通过同时分析多条时间序列之间的相关性，能够发现这类组合异常，更适合工业设备监控场景。\n\n单变量异常检测适合独立分析单一时间序列（如电力消耗曲线），不能捕获跨传感器的联合异常。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 147,
@@ -3665,7 +3816,8 @@
     ],
     "answer": "C",
     "explanation": "**Direct Line Speech 频道** 是 Bot Framework 中专门为语音交互设计的频道，特点是：\n\n- 与 Azure AI Speech 服务深度集成，支持语音输入/输出\n- 支持多种客户端（网页 SDK、移动 SDK、IoT 设备等）\n- 提供低延迟的实时双向语音通信\n\n- **Cortana 频道**（A）：已被微软逐步淘汰，2021 年后不再支持新应用接入\n- **Microsoft Teams 频道**（B）：支持语音（通话），但主要针对 Teams 内的协作场景，不是通用的多客户端语音解决方案\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 148,
@@ -3674,7 +3826,8 @@
     "options": [],
     "answer": "A、B、E",
     "explanation": "调用 Content Moderator Text Moderation API 的必要配置：\n\n- **`language`（A）**：指定文本语言（如 `\"eng\"`），有助于提高检测准确率\n- **`classify=true`（B）**：启用三类内容分类（Category1：成人，Category2：性暗示，Category3：冒犯性），返回各类别的置信度分数\n- **`Ocp-Apim-Subscription-Key`（E）**：API 认证头，必须包含在所有 Content Moderator API 请求中\n\n`autocorrect`（C）是可选的拼写纠错功能，不是必须配置的检测参数；置信度阈值（D）由调用方在接收响应后自行判断，不是 API 参数。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、E"
   },
   {
     "id": 149,
@@ -3700,7 +3853,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Language NER API 的响应中，每个实体包含：\n- `text`：实体文本内容\n- `category`：实体类别（如 Person、Location、Organization 等）\n- `subcategory`：子类别（可选）\n- **`offset`**：实体在原文中的起始字符位置 ✅\n- **`length`**：实体文本的字符长度 ✅\n- `confidenceScore`：置信度\n\n- Wikipedia 链接属于**实体链接（Entity Linking）** API 的功能，而非 NER\n- NER 实体每次识别只有一个主类别（Category）\n- NER 支持的实体类别约为 20+ 种（如 Person、Location、Organization、DateTime、Quantity 等），不是 200+\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 150,
@@ -3726,7 +3880,8 @@
     ],
     "answer": "B",
     "explanation": "**函数调用（Function Calling）** 是 Azure OpenAI 中允许模型在对话中**主动决定调用外部函数**的功能：\n\n1. 在 API 请求中定义函数（如 `query_inventory(product_id)`）的名称、描述和参数\n2. 当用户询问库存时，模型生成函数调用请求（包含参数）\n3. 应用执行实际的数据库查询\n4. 将查询结果返回给模型，模型生成最终回答\n\n这种方式支持实时查询（数据不需要预先索引），开发工作量小，是标准的 AI + 数据库集成模式。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 151,
@@ -3752,7 +3907,8 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Content Safety SDK 使用 `ContentSafetyClient.AnalyzeTextAsync()` 方法分析文本内容，通过 `categories` 参数指定要检测的类别：\n\n```python\nfrom azure.ai.contentsafety import ContentSafetyClient\nfrom azure.ai.contentsafety.models import AnalyzeTextOptions, TextCategory\n\nclient = ContentSafetyClient(endpoint, credential)\nrequest = AnalyzeTextOptions(\n    text=\"user input text\",\n    categories=[TextCategory.HATE]\n)\nresponse = client.analyze_text(request)\nhate_result = response.categories_analysis[0]  # Hate 类别的得分\n```\n\n`TextAnalyticsClient` 是 Azure AI Language 的客户端，情感分析和仇恨检测是不同功能。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 152,
@@ -3778,7 +3934,8 @@
     ],
     "answer": "B",
     "explanation": "`RecognizeEntities`（命名实体识别）从文本中识别命名实体：\n\n- **\"Paris\"**：地理位置实体（Location）✅\n- **\"Eiffel Tower\"**：地理位置/地标实体（Location）✅\n- \"tour\"、\"visit\"：普通名词/动词，不是命名实体\n- 整个句子不会作为实体返回\n\n输出的 `entities` 集合包含两个实体对象，各有 `Text`、`Category`、`ConfidenceScore` 等属性。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 153,
@@ -3804,7 +3961,8 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Translator **文档翻译（Document Translation）** 服务的特点：\n\n- **支持格式**：.docx、.pptx、.xlsx、.pdf、.html、.txt 等多种文档格式 ✅\n- **保留格式**：翻译后保持原始文档的布局、字体、样式等 ✅\n- **异步操作**：大型文档翻译是异步批处理任务，需要轮询状态\n- **支持自定义术语表**：可以上传 TSV/XLIFF 格式的术语表，确保专业术语翻译的一致性 ✅\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 154,
@@ -3830,7 +3988,8 @@
     ],
     "answer": "B",
     "explanation": "Key Phrase Extraction（关键短语提取）从文本中提取**语义上最重要的短语**，过滤掉停用词和功能性词汇：\n\n- **\"Paris\"**：高语义价值的地名关键词 ✅\n- **\"Eiffel Tower\"**：高语义价值的地标名称关键词 ✅\n- \"Our tour\"、\"visit\"：相对通用的短语，关键性较低，通常不被提取\n\n注意：关键短语提取与 NER 不同，它关注文本的主题重点，不局限于命名实体类别。具体提取结果可能因模型版本略有差异，但 Paris 和 Eiffel Tower 是最典型的关键短语。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 155,
@@ -3839,7 +3998,8 @@
     "options": [],
     "answer": "A、B",
     "explanation": "`AzureAISearchTool` 的最小必要配置：\n\n```python\nfrom azure.ai.projects.models import AzureAISearchTool\n\nsearch_tool = AzureAISearchTool(\n    index_connection_id=ai_search_connection.id,  # 必须：连接 ID\n    index_name=\"your-index-name\"                  # 必须：索引名称\n)\n```\n\n- **连接 ID（A）**：通过 AI Foundry 项目中预先创建的连接（Connection）提供，包含认证信息（无需直接传入 Admin Key）\n- **索引名称（B）**：指定要搜索的具体索引\n\n管理员密钥（C）通过连接对象隐式传递，不需要直接在工具中指定；字段列表（D）和 Top K（E）是可选配置参数。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 156,
@@ -3865,7 +4025,8 @@
     ],
     "answer": "A",
     "explanation": "通话是**音频流**，需要先进行语音识别（Speech-to-Text）才能分析语言。**Azure AI Speech 服务**提供内置的语言识别功能（Auto Language Detection），可以在语音转文字的同时自动检测说话者使用的语言：\n\n```python\nauto_detect_config = AutoDetectSourceLanguageConfig(\n    languages=[\"fr-FR\", \"de-DE\"]\n)\n```\n\n- Azure AI Language 的语言检测（B）处理的是**文本**输入，不能直接处理音频\n- Translator（C）的语言检测也是文本处理，不适用于音频流\n\n对于实时通话场景，需要先将语音转为文字再检测语言，Azure AI Speech 的实时语言检测是最直接的方案。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 157,
@@ -3891,7 +4052,8 @@
     ],
     "answer": "C",
     "explanation": "Video Indexer Widget 功能分工：\n\n- **Player Widget**：负责视频播放和字幕显示，通过 URL 参数 `language=en-US` 设置字幕语言\n- **Cognitive Insights Widget**：负责显示 AI 分析结果，包括：\n  - 关键词（Keywords）搜索\n  - 人物（People）识别与显示\n  - 情感、话题、品牌等其他洞察\n\n两个 Widget 通过 `videoId` 同步，Player 中的播放位置变化会同步到 Cognitive Insights 的时间线。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 158,
@@ -3917,7 +4079,8 @@
     ],
     "answer": "D",
     "explanation": "Azure Face API 提供多个**检测模型（Detection Models）**，针对不同场景优化：\n\n| 模型 | 特点 |\n|------|------|\n| `detection_01` | 默认模型，适合常规正面人脸 |\n| `detection_02` | 对模糊图像和非正面（侧脸）有改善 |\n| `detection_03` | 最新模型，进一步提升了对小人脸、遮挡和侧脸的检测能力 |\n\n将 `detectionModel` 参数从默认值改为 `detection_03`，可以显著提高对模糊图像和侧脸的检测率，无需更换服务。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 159,
@@ -3943,7 +4106,8 @@
     ],
     "answer": "B",
     "explanation": "**OCR Skill（光学字符识别技能）** 是 Azure AI Search 内置技能集中专门用于从扫描文档、图像等中提取文字的技能：\n\n```json\n{\n  \"@odata.type\": \"#Microsoft.Skills.Vision.OcrSkill\",\n  \"detectOrientation\": true,\n  \"inputs\": [{ \"name\": \"image\", \"source\": \"/document/normalized_images/*\" }],\n  \"outputs\": [{ \"name\": \"text\", \"targetName\": \"rawText\" }]\n}\n```\n\n它调用 Azure Computer Vision 的 Read API 进行 OCR，支持多语言文本提取，是扫描文档全文搜索的必要技能。\n\nDocument Extraction Skill 用于从文件容器中提取内容；Image Analysis Skill 用于图像理解（标签、描述等），不专注于文字提取。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 160,
@@ -3969,7 +4133,8 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Content Safety 图像分析 API 返回每个安全类别的**严重性得分（整数 0-7）**：\n\n- **0**：无检测到的该类别内容\n- 2、4、6：轻度、中度、重度\n- **7**：最高严重性\n\n对于只包含简单几何图形（圆圈）的测试图像，**暴力内容（Violence）** 类别的得分应为 **0**，表示没有检测到任何暴力相关内容。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 161,
@@ -3999,7 +4164,8 @@
     ],
     "answer": "C",
     "explanation": "**增量训练（Incremental Training）** 是扩展已有模型能力的最小工作量方式：\n\n1. 准备新合同格式的标注示例（至少 5 个样本）\n2. 将新样本添加到**现有训练集**中\n3. 使用扩充后的数据集**重新训练**现有模型\n\n这样模型可以在保留原有格式识别能力的同时，学习识别新的合同格式，不需要从头创建新模型（代价最大）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 162,
@@ -4029,7 +4195,8 @@
     ],
     "answer": "A、B",
     "explanation": "- **系统消息（A）**：通过明确指示模型使用\"简洁正式的商务语言\"，直接控制输出风格，是最直接的方法\n- **降低最大响应 Token 数（B）**：简洁回答意味着更少的 Token，降低 `max_tokens` 限制可以直接减少每次调用消耗的 Token，从而降低成本。同时，历史窗口大小（由 `max_context_tokens` 控制，默认保持不变）不受影响\n\n更换模型（C）也可以降低成本，但可能影响输出质量，且题目未提及允许降低质量。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 163,
@@ -4055,7 +4222,8 @@
     ],
     "answer": "B",
     "explanation": "- **产品代码名**：是公司内部专有名词，不在标准 NER 识别范围内，需要**自定义命名实体识别（Custom NER）** 进行训练和识别\n- **信用卡号**：属于个人可识别信息（PII），Azure AI Language 的 **PII Detection** 内置了对信用卡号（`CreditCardNumber` 类别）的检测，无需自定义训练，开发工作量最小\n\n这两种功能都在 Azure AI Language 服务中提供，可以在同一个服务实例中调用。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 164,
@@ -4085,7 +4253,8 @@
     ],
     "answer": "E",
     "explanation": "Azure AI Language（LUIS / CLU）提供多种**预构建实体（Prebuilt Entities）**，无需自定义训练即可识别常见数据类型：\n\n| 预构建实体 | 识别内容 |\n|-----------|---------|\n| `Temperature` | 温度值（25°C、100°F 等） |\n| `Currency` | 货币值（$150、€200 等） |\n| `Email` | 电子邮件地址 |\n| `PhoneNumber` | 电话号码 |\n\n直接在项目中添加这些预构建实体组件即可立即使用，无需准备标注数据或训练，开发工作量最小。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "E"
   },
   {
     "id": 165,
@@ -4111,7 +4280,8 @@
     ],
     "answer": "C",
     "explanation": "> ⚠️ **注意**：原题（165）答案为 A（Enable Active Learning），但从场景分析，**添加 None 意图示例（C）** 是解决\"模型错误匹配无关请求\"问题的直接方案：\n\n**None 意图**（也称为回退意图）用于识别模型不应该处理的请求。向 None 意图添加足够多样的无关示例语料，可以训练模型在遇到不相关问题时返回低置信度或 None 意图，而不是错误地匹配到某个自定义意图。\n\n启用主动学习（A）是从生产流量中改进模型的长期策略，不能立即解决现有的错误分类问题。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 166,
@@ -4137,7 +4307,8 @@
     ],
     "answer": "C",
     "explanation": "**跟进提示（Follow-up Prompts）** 是实现多轮对话的核心功能。为每个问答对配置跟进提示后：\n\n- 当用户触发某个答案时，机器人会显示相关的后续问题选项\n- 用户可以点击选项继续深入探讨，形成多轮对话树\n\n例如，用户问\"如何重置密码？\"→ 机器人回答后显示跟进提示：\n- \"通过邮件重置\"\n- \"通过手机验证码重置\"\n- \"联系管理员\"\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 167,
@@ -4163,7 +4334,8 @@
     ],
     "answer": "B",
     "explanation": "默认的 Audio Config 假设输入为 WAV PCM 格式。要处理 MP3 等压缩格式，需要显式指定音频流格式：\n\n```csharp\nvar compressedFormat = AudioStreamFormat.GetCompressedFormat(AudioStreamContainerFormat.MP3);\nvar audioConfig = AudioConfig.FromStreamInput(pushStream, compressedFormat);\n```\n\n`GetCompressedFormat()` 方法接受 `AudioStreamContainerFormat` 枚举值，支持 MP3、OPUS、OGG 等压缩格式。\n\n若直接使用默认 `FromStreamInput(stream)` 处理 MP3 文件，会因格式不匹配而导致转录失败或错误结果。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 168,
@@ -4189,7 +4361,8 @@
     ],
     "answer": "B",
     "explanation": "1. **正确**：`ExtractKeyPhrases` 方法确实返回关键短语列表（`KeyPhrases` 集合）\n2. **错误**：\"the\" 是英语中最常见的停用词（stop word），没有独立语义意义，不会被作为关键短语提取。对于 \"the cat sat on the mat\"，可能提取 \"cat\" 和 \"mat\" 等有意义的词\n3. **错误**：关键短语提取 API **不返回置信度分数**，只返回短语文本字符串列表。（与情感分析不同，情感分析会返回置信度分数）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 169,
@@ -4215,7 +4388,8 @@
     ],
     "answer": "A",
     "explanation": "Computer Vision 的智能裁剪（Smart Cropping）功能使用 `generateThumbnail` 端点：\n\n```\nPOST https://{region}.api.cognitive.microsoft.com/vision/v3.1/generateThumbnail\n    ?width={width}&height={height}&smartCropping={true/false}\n```\n\n- HTTP 方法：**POST**（在请求体中提供图像 URL 或二进制数据）\n- 端点：`generateThumbnail`（而非 analyze）\n- 关键参数：`smartCropping=True`（启用 AI 智能裁剪，保留图像重要区域）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 170,
@@ -4237,16 +4411,18 @@
     ],
     "answer": "A",
     "explanation": "**Azure Face 服务** 提供人脸检测和面部属性分析功能，可以检测以下遮挡属性（`FaceAttributeType.Occlusion`）：\n- `faceCovered`：面部是否被遮挡（如口罩）\n- `eyeOccluded`：眼部是否被遮挡（如安全眼镜）\n\n这可以直接用于检测员工是否穿戴了 PPE，无需自定义训练，是最简单的实现方式。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 171,
     "background": "你需要使用 Azure OpenAI Studio 对 GPT-4 模型进行图像分析。你需要在 Azure OpenAI Studio 中配置模型以获取图像的文字描述。",
     "title": "在 Azure OpenAI Studio 中，应按顺序执行哪四项操作？",
     "options": [],
-    "answer": "A 、 B 、 C 、 D",
+    "answer": "A → B → C → D",
     "explanation": "使用 Azure OpenAI Studio 分析图像的完整流程：\n\n1. **部署 GPT-4 Vision 模型（A）**：必须选择支持视觉功能的 GPT-4 模型版本（`vision-preview` 或 `gpt-4o`）\n2. **打开 Chat playground（B）**：图像分析通过聊天界面进行，而非 Completions playground\n3. **设置系统消息（C）**：定义助手角色，告知模型处理图像描述任务\n4. **上传图像并提问（D）**：在聊天窗格通过附件上传图像，并输入分析提示词\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C、D"
   },
   {
     "id": 172,
@@ -4272,7 +4448,8 @@
     ],
     "answer": "B",
     "explanation": "1. **正确**：`CreateProperty<T>()` 返回一个 `IStatePropertyAccessor<T>`，用于对状态中的特定属性进行 get/set 操作\n2. **错误**：**Memory Storage 是内存中的临时存储**，机器人进程重启后，所有状态数据**丢失**。生产环境应使用 Azure Blob Storage 或 Cosmos DB 持久化存储\n3. **正确**：在对话轮次（Turn）结束时，必须调用 `await _userState.SaveChangesAsync(turnContext)` 将状态变更写回，否则更改不会持久化\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 173,
@@ -4298,7 +4475,8 @@
     ],
     "answer": "A",
     "explanation": "- **方案 A（有效）**：更高定价层提供更多副本（Replicas）支持，副本数增加可以提高并发查询处理能力，有效缓解查询限速\n- **方案 B（无效）**：添加索引只增加了数据存储和索引复杂度，不提升查询吞吐量，对限速没有帮助\n- **方案 C（无效）**：CMK 加密是数据安全功能，与性能无关，且实际上会**增加**索引大小和**降低**查询性能\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 174,
@@ -4324,7 +4502,8 @@
     ],
     "answer": "B",
     "explanation": "**命名实体识别（NER）** 识别文本中具有语义类型的实体并分类，响应包含：\n- `text`（实体文本）\n- `category`（类别，如 Location、DateTime）\n- `subcategory`（子类别，如 Landmark、GeographicArea）\n- `confidenceScore`（置信度）\n\n题目中的响应格式（地标分类、地理位置分类、日期范围分类）正是 NER 的典型输出。\n\n实体链接（A）额外提供 Wikipedia URL；关键短语提取（C）只返回重要短语字符串，没有类别信息；情感分析（D）返回正/负/中性评分。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 175,
@@ -4350,7 +4529,8 @@
     ],
     "answer": "C",
     "explanation": "**None 意图（None Intent）** 是 CLU/LUIS 中的特殊意图，用于捕获所有不属于任何自定义意图的用户输入。\n\n向 None 意图添加足够多样的无关示例，可以让模型学会区分：\n- 相关请求 → 匹配具体自定义意图\n- 无关请求 → 匹配 None 意图（低置信度，触发回退逻辑）\n\n这直接解决\"对无关问题返回错误匹配\"的问题。最佳实践是 None 意图的示例数量应与所有其他意图示例数量之和相当。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 176,
@@ -4384,16 +4564,18 @@
     ],
     "answer": "B、D、F",
     "explanation": "分析四个语料：\n- 前两条：\"设置/关闭灯\"→ **更改设置（change setting）** 类意图\n- 后两条：一条是查询，一条是调整 → 可以合并为\"设备控制\"意图或拆分\n\n模型元素设计：\n- **`change setting` 实体（B）**：从语料中提取\"设置值\"（如 on/off、five degrees）的实体\n- **`change setting` 意图（D）**：涵盖\"设置/调整\"类操作（前两条 + 第四条）\n- **`device` 实体（F）**：提取语料中的设备对象（lights、thermostat）",
-    "controversy": "原题答案为 B（change setting entity）、**C（device intent）**、F（device entity），这意味着\"device 意图\"覆盖设备操作，而非分为 change setting 和 query setting 两个意图。不同版本的解析有差异，请结合具体考试版本判断。"
+    "controversy": "原题答案为 B（change setting entity）、**C（device intent）**、F（device entity），这意味着\"device 意图\"覆盖设备操作，而非分为 change setting 和 query setting 两个意图。不同版本的解析有差异，请结合具体考试版本判断。",
+    "answer_key": "B、D、F"
   },
   {
     "id": 177,
     "background": "你正在使用 Bot Framework SDK 构建一个机器人，并需要在**本地计算机上以交互方式测试**该机器人。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "在本地交互测试机器人的步骤：\n\n1. **本地启动机器人（A）**：在命令行或 IDE 中运行机器人项目（如 `dotnet run` 或 `node index.js`），使其监听本地端口（默认 3978）\n2. **打开 Bot Framework Emulator（B）**：启动 Emulator 桌面应用\n3. **连接本地端点（C）**：在 Emulator 中点击\"Open Bot\"，输入本地端点 URL `http://localhost:3978/api/messages`，即可开始交互测试\n\n不需要部署到 Azure（D）或注册（E）即可进行本地测试。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 178,
@@ -4419,7 +4601,8 @@
     ],
     "answer": "B",
     "explanation": "两个需求都可以由 **Azure Face API** 满足：\n\n- **检测学习者是否在场**：Face API 的 `Detect` 接口可以实时检测视频帧中是否有人脸（有人脸 = 在场）\n- **识别每个学习者身份**：Face API 的 `Identify` 接口，通过预先注册（Enrollment）每个学习者的面部特征，可以在检测到人脸时识别是哪位学习者\n\n使用单一服务（Face API）完成两个任务，是最小化开发工作量的方案。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 179,
@@ -4445,7 +4628,8 @@
     ],
     "answer": "A",
     "explanation": "分析需求：用户要在联系人列表中按**地点**搜索联系人，\"在 London 搜索\"、\"在 Seattle 认识谁\"等，这些都是针对地点的联系人查找行为。\n\n**方案 A（正确）**：为\"位置搜索\"创建一个新的独立意图，并将这三个地点相关的语料添加到该意图中，有助于模型区分通用的 Find Contact 和按地点查找联系人的不同场景\n\n**方案 B（错误）**：创建实体而非意图；虽然\"地点\"应该是实体，但题目要求的是\"实现这些短语\"（即让模型能处理按地点的联系人搜索），需要意图层面的处理\n\n**方案 C（错误）**：模式（Pattern）在已有意图中添加规律，但这里需要的是新意图来区分场景\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 180,
@@ -4471,16 +4655,18 @@
     ],
     "answer": "B",
     "explanation": "1. **错误**：`${user.name}` 在值为空时通常返回空字符串，LG 框架不会因此抛出错误（可以使用 `coalesce()` 函数处理空值情况）\n2. **错误**：`# Greet(user)` 是一个 **LG 函数模板**（可被调用的模板），不是 Bot Composer 中的\"发送响应（Send a response）\"操作节点\n3. **正确**：`${Greeting()}` 使用 `${}` 语法调用了另一个名为 `Greeting` 的 LG 模板，实现模板复用\n\n---\n\n*第 101–180 题整理完毕。*\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 181,
     "background": "你有一个自定义 Azure Vision 项目，用于通用对象检测（General 领域），其中包含一个已训练的模型。你需要将该模型**导出用于断网环境（Disconnected Network）**。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "离线/导出部署的流程：\n\n1. **切换到紧凑型域（A）**：标准 General 域的模型**不可导出**，必须先切换为 General (compact) 或 Object Detection (compact) 等紧凑型域\n2. **重新训练（B）**：更换域后需要重新训练模型\n3. **导出模型（C）**：导出为适合目标平台的格式，如 TensorFlow（Android）、CoreML（iOS）、ONNX（Windows ML）、Docker 容器等\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 182,
@@ -4506,7 +4692,8 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI 微调（Fine-tuning）要求训练数据以 **JSONL** 格式提供，每行包含一个完整的对话示例：\n\n```jsonl\n{\"messages\": [{\"role\": \"system\", \"content\": \"You are...\"}, {\"role\": \"user\", \"content\": \"Q\"}, {\"role\": \"assistant\", \"content\": \"A\"}]}\n{\"messages\": [{\"role\": \"system\", \"content\": \"You are...\"}, {\"role\": \"user\", \"content\": \"Q2\"}, {\"role\": \"assistant\", \"content\": \"A2\"}]}\n```\n\n这种格式既支持结构化数据（每行独立 JSON），又便于流式处理大型文件。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 183,
@@ -4532,7 +4719,8 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Content Safety 图像分析 API 的响应结构为：\n\n```json\n{\n  \"categoriesAnalysis\": [\n    {\"category\": \"Hate\", \"severity\": 0},\n    {\"category\": \"SelfHarm\", \"severity\": 0},\n    {\"category\": \"Sexual\", \"severity\": 0},\n    {\"category\": \"Violence\", \"severity\": 0}\n  ]\n}\n```\n\n- 每个请求中可以指定**多个**检测类别\n- 每个类别返回独立的严重性得分（整数，0-7）\n- 所有得分为 0 是完全正常的响应（表示没有检测到任何有害内容），不会返回错误\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 184,
@@ -4558,7 +4746,8 @@
     ],
     "answer": "B",
     "explanation": "- **情感分析（Sentiment Analysis）**：检测用户消息是正面、负面还是中性，用于区分不同情感并给出相应回复\n- **语言检测（Language Detection）**：识别用户使用的语言，多语言机器人需要先知道语言才能选择对应的回复模板或翻译策略\n\n这两个功能配合使用，可以实现\"检测语言 → 选择对应语言模型 → 分析情感 → 给出合适回复\"的完整流程。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 185,
@@ -4584,7 +4773,8 @@
     ],
     "answer": "A",
     "explanation": "**Cognitive Services OpenAI User** 角色权限包括：\n- 查看端点和凭据 ✅\n- 浏览可用模型列表 ✅\n- 通过 API 或 Studio 使用已部署模型生成内容 ✅\n\n此角色**不包括**：创建部署、上传数据、微调模型等管理操作。\n\n题目要求的三项操作均在 OpenAI User 权限范围内，且不需要更高级别的 Contributor 或管理权限，符合最小权限原则。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 186,
@@ -4610,16 +4800,18 @@
     ],
     "answer": "A",
     "explanation": "微软负责任 AI 原则中的**问责制（Accountability）** 和 **公平性（Fairness）** 要求：\n\n- 对于影响人类的重大决策（如经济奖惩），不应完全依赖 AI 自动判断\n- 必须有**人工监督（Human-in-the-loop）**：在 AI 给出建议后，由有权限的人员进行审核并做出最终决定\n\n选项 A 正确体现了这一原则：在情感分析结果影响奖金决策之前，加入人工审核和审批环节。\n\n选项 C 违反隐私原则（已删除账户的数据不应继续使用）；选项 B 可能导致低质量数据影响结果。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 187,
     "background": "你构建了一个 Language Understanding（LUIS）Docker 容器解决方案。\n\n你从 Microsoft Container Registry（MCR）下载了 Language Understanding 容器镜像。\n\n你需要**将容器镜像部署到主机计算机**。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "D 、 B 、 C",
+    "answer": "D → B → C",
     "explanation": "部署 LUIS 容器的步骤：\n\n1. **拉取容器镜像（D）**：`docker pull mcr.microsoft.com/azure-cognitive-services/luis:latest`\n2. **运行容器（B）**：使用 `docker run` 命令，必须包含计费端点（`Billing`）和 API 密钥（`ApiKey`）参数，否则容器无法启动\n3. **配置日志（C）**：（可选但推荐）配置日志输出以便监控容器运行状态\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D、B、C"
   },
   {
     "id": 188,
@@ -4645,7 +4837,8 @@
     ],
     "answer": "C",
     "explanation": "Bot Framework SDK 的三种状态作用域：\n\n| 作用域 | 生命周期 |\n|-------|---------|\n| **Turn Scope（轮次）** | 仅在当前轮次（单次请求-响应）内有效，轮次结束后自动过期 ✅ |\n| Conversation Scope（对话） | 在整个对话会话内有效，对话结束（如用户关闭聊天窗口）后过期 |\n| User Scope（用户） | 与用户绑定，不会过期（跨多次对话持久保留） |\n\n选项 C 正确描述了轮次作用域的行为。\n\n- 选项 A 错误：用户作用域不会在对话结束后清除\n- 选项 D 错误：对话作用域跟随对话，不跟随用户账户\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 189,
@@ -4671,7 +4864,8 @@
     ],
     "answer": "C",
     "explanation": "**\"Keys and Endpoint\"（密钥和终结点）** 刀片包含：\n- 端点 URL（Endpoint URL）\n- 订阅密钥（Subscription Key 1 和 Key 2）\n- 知识库 ID（Knowledge Base ID）等连接所需的全部信息\n\n这是所有 Azure AI 服务连接信息的标准存储位置，机器人连接 QnA Maker 应用时需要这些凭据。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 190,
@@ -4697,7 +4891,8 @@
     ],
     "answer": "D",
     "explanation": "加速大规模索引的最佳实践：\n\n1. **拆分数据**：将数据分布到多个虚拟文件夹（或容器），每个文件夹对应一个数据源\n2. **多个索引器**：为每个数据源创建独立的索引器，所有索引器都指向同一个搜索索引\n3. **增加搜索单元**：每个搜索单元（SU）可以同时运行一个索引器，多个 SU 实现真正的并行处理\n4. **并行执行**：配置所有索引器并行运行（而非顺序）\n\n选项 B 错误在于使用了顺序执行（sequential），无法充分利用多个索引器的并行优势。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 201,
@@ -4723,7 +4918,8 @@
     ],
     "answer": "A",
     "explanation": "**实体链接（Entity Linking）** API 的核心功能：\n\n1. 识别文本中可链接到知识库的实体（如 Wikipedia 中的已知实体）\n2. 为每个实体返回：\n   - `name`（规范化名称）\n   - `url`（Wikipedia 链接）✅\n   - `bingId`（Bing 知识图谱 ID）\n   - `matches`（实体在文中的位置和置信度）✅\n\n\"Microsoft\" 和 \"OpenAI\" 都是 Wikipedia 中有词条的知名实体，实体链接 API 会同时返回链接和位置信息。\n\n关键短语提取（B）和情感分析（C）是独立的 API；命名实体识别（D）只分类不提供链接。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 202,
@@ -4749,7 +4945,8 @@
     ],
     "answer": "C",
     "explanation": "**`describeImage`**（或新版 Azure AI Vision 4.x 中的 `analyze` 接口 + `caption` 特性）生成图像的**自然语言完整句子描述**（如 \"A red bicycle leaning against a brick wall\"），这正是 Alt Text 所需的格式。\n\n- `tagImage`（A）返回关键词列表（如 \"bicycle, outdoor, red\"），不是完整句子，不适合 Alt Text\n- `generateThumbnail`（B）生成缩略图，不生成文字\n- `detectObjects`（D）返回对象位置坐标，不生成描述文字\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 203,
@@ -4775,7 +4972,8 @@
     ],
     "answer": "A",
     "explanation": "两个需求对应的属性：\n\n| 需求 | 所需属性 |\n|------|---------|\n| 用户可对字段内容进行关键词搜索 | **Searchable** |\n| 搜索结果中显示该字段的值 | **Retrievable** |\n\n- Sortable：允许按此字段排序，非题目需求\n- Facetable：支持分面导航（下钻过滤），非题目需求\n- Filterable：允许在 `$filter` 表达式中使用，非题目需求\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 204,
@@ -4801,7 +4999,8 @@
     ],
     "answer": "B",
     "explanation": "自定义问题解答服务通过**替代问法（Alternate Questions）** 解决语义等价但措辞不同的问题：\n\n1. 在 Language Studio 中打开对应问答对\n2. 在\"Alternate questions\"区域添加 \"How much does Product X cost?\"\n3. 保存 → 训练 → 发布\n\n此后，两种问法都能匹配到同一个答案，无需创建实体（实体是 CLU 的概念，不适用于问题解答服务）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 205,
@@ -4827,7 +5026,8 @@
     ],
     "answer": "A",
     "explanation": "`loggingOptOut=true` 告知 Azure AI Language 服务**不记录和存储请求数据**，防止输入内容被持久化到微软的遥测系统中。\n\n这对于处理敏感的 PII 数据尤为重要，是 GDPR 和数据隐私合规的关键设置。\n\n在 REST API 请求中以查询参数形式附加：\n```\nPOST {endpoint}/language/:analyze-text?api-version=2023-04-01&loggingOptOut=true\n```\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 206,
@@ -4853,7 +5053,8 @@
     ],
     "answer": "C",
     "explanation": "部署 Azure Bot 时，需要 Azure Active Directory 应用注册的两个核心凭据：\n\n- **appId（Application ID / Client ID）**：Azure AD 应用的唯一标识符，用于身份验证\n- **appSecret（Client Secret）**：应用的密钥，与 appId 配合用于 OAuth 认证\n\n这两个值在 Bot Channels Registration 的 Settings → Configuration 中配置，是机器人与 Azure Bot Service 通信的必要凭据。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 207,
@@ -4879,7 +5080,8 @@
     ],
     "answer": "A",
     "explanation": "两个控制输出随机性的核心参数：\n\n- **Temperature（温度）**：接近 0 时，模型几乎总是选择最高概率的词汇（确定性），接近 2 时输出最随机\n- **Top P（核采样）**：接近 0 时，模型只从极少数高概率词汇中选择（更保守），接近 1 时考虑更多词汇\n\n同时降低两者，使输出尽可能确定性、不创新，适合精确问答。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 208,
@@ -4905,7 +5107,8 @@
     ],
     "answer": "B",
     "explanation": "`Adult` 是 Computer Vision Analyze Image API 的一个 `visualFeatures` 选项，返回：\n\n```json\n\"adult\": {\n    \"isAdultContent\": false,\n    \"isRacyContent\": false,\n    \"isGoryContent\": false,\n    \"adultScore\": 0.003,\n    \"racyScore\": 0.002,\n    \"goreScore\": 0.001\n}\n```\n\n通过检查 `isAdultContent` 布尔值和 `adultScore` 置信度分数，可以判断图像是否包含成人内容。\n\n> **注意**：对于更细粒度的内容安全检测（包括暴力、仇恨等类别），推荐使用 **Azure AI Content Safety** 服务。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 209,
@@ -4931,7 +5134,8 @@
     ],
     "answer": "C",
     "explanation": "**OCR 技能** 使用 Azure AI Vision 的 Read API 从图像中提取文字内容：\n\n```json\n{\n  \"@odata.type\": \"#Microsoft.Skills.Vision.OcrSkill\",\n  \"defaultLanguageCode\": \"en\",\n  \"inputs\": [\n    {\"name\": \"image\", \"source\": \"/document/normalized_images/*\"}\n  ],\n  \"outputs\": [\n    {\"name\": \"text\", \"targetName\": \"rawText\"},\n    {\"name\": \"layoutText\", \"targetName\": \"layoutText\"}\n  ]\n}\n```\n\n提取的文字随后可以映射到搜索索引的 Searchable 字段，实现对扫描文档内容的全文搜索。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 210,
@@ -4957,7 +5161,8 @@
     ],
     "answer": "B",
     "explanation": "两个关键点分析：\n\n1. **项目类型**：需要\"识别缺陷**并定位缺陷位置**\"，说明需要知道缺陷在图像中的位置（bounding box），这是**对象检测（Object Detection）** 的特征；图像分类只给出整体标签，不提供位置\n2. **域**：工厂有**间歇性互联网连接**，模型需要能离线运行，必须使用 **compact 域**（可导出为 TensorFlow/ONNX 等格式在本地运行）\n\n因此选择\"对象检测 + General (compact)\"。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 211,
@@ -4983,7 +5188,8 @@
     ],
     "answer": "B",
     "explanation": "**瀑布对话（Waterfall Dialog）** 定义了一系列有序的步骤，每个步骤完成后自动进入下一步，非常适合固定的分步引导流程（如产品设置向导）：\n\n```csharp\nnew WaterfallDialog(\"productSetup\", new WaterfallStep[]\n{\n    ChooseProductTypeAsync,  // 步骤1\n    ConfigureOptionsAsync,   // 步骤2\n    ConfirmSetupAsync,       // 步骤3\n    FinishSetupAsync         // 步骤4\n})\n```\n\n组件对话（A）用于封装可复用逻辑模块；自适应对话（C）适合复杂事件驱动场景；技能对话（D）用于调用远程部署的技能服务。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 212,
@@ -5005,7 +5211,8 @@
     ],
     "answer": "B",
     "explanation": "**媒体资产管理（Media asset management）** 模板提供对视频内容的综合分析能力，包括情感检测、关键词提取、语音转文字等功能，是进行视频情感分析的最全面且开发工作量最小的模板选择。\n\n视频镜头分析（A）专注于视频场景切换和镜头分类；广告分析（C）针对广告特定内容（品牌、产品出现频率等）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 213,
@@ -5031,7 +5238,8 @@
     ],
     "answer": "B",
     "explanation": "知识存储三种投影类型的适用场景：\n\n| 投影类型 | 存储格式 | 适用场景 |\n|---------|---------|---------|\n| **Object（对象）** | Blob Storage 中的 JSON 文件 | 非结构化/半结构化 JSON 数据 ✅ |\n| Table（表格） | Azure Table Storage | 结构化、关系型数据 |\n| File（文件） | Blob Storage 中的二进制文件 | 图像、PDF 等文件 |\n\n社交媒体帖子的富化结果（含情感分数、实体、关键词等）以 JSON 格式存储，最适合**对象投影**。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 214,
@@ -5061,7 +5269,8 @@
     ],
     "answer": "A、B",
     "explanation": "限制特定 VNet 访问 Azure AI 服务资源的步骤：\n\n1. **在 vnet1 中为 CSAccount1 启用服务端点（A）**：为 vnet1 的子网启用 `Microsoft.CognitiveServices` 服务端点，使流量通过微软骨干网直达服务，而非公共互联网\n2. **创建虚拟子网（B）**：如果 vnet1 中还没有适当的子网，需要先创建子网，然后在子网上启用服务端点\n\n完成后，在 CSAccount1 的\"网络\"设置中添加 vnet1 的子网到允许列表，即可实现访问限制。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 215,
@@ -5087,7 +5296,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Content Safety `AnalyzeText` API 使用 **JSON 数组格式**指定要检测的内容类别：\n\n```json\n{\n  \"text\": \"user input\",\n  \"categories\": [\"Hate\", \"Violence\", \"Sexual\"],\n  \"outputType\": \"FourSeverityLevels\"\n}\n```\n\n单次 API 调用即可同时检测多个类别，响应中包含每个类别的独立严重性评分，无需发送多次请求。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 216,
@@ -5113,7 +5323,8 @@
     ],
     "answer": "B",
     "explanation": "**Azure AI Foundry** 是微软统一的 AI 开发平台，提供：\n- 创建和管理 AI 代理（Agent）的完整工作流\n- 集成 Azure OpenAI（生成文本答案）\n- 集成 Azure AI Speech（将文本转为语音输出）\n- 连接自定义数据源和工具\n\n所有这些能力可以在 Azure AI Foundry 的统一界面中配置，是构建多模态代理的最佳入口。\n\nLanguage Studio（A）专注于 NLP 功能配置；Speech Studio（C）专注于语音模型定制；Azure 门户（D）用于资源管理，不是代理开发环境。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 217,
@@ -5139,7 +5350,8 @@
     ],
     "answer": "B",
     "explanation": "**`prebuilt-read`** 模型是 Azure AI Document Intelligence 中专门用于文本提取的模型，它：\n- 支持**打印文字**和**手写文字** ✅\n- 支持 PDF、图像（JPEG、PNG、TIFF 等）格式\n- 支持多种语言\n- 返回文字内容、行、单词及其位置信息\n\n`prebuilt-document` 额外提取键值对和表格，但对手写识别的支持与 `prebuilt-read` 相同；`prebuilt-layout` 专注于文档结构分析。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 218,
@@ -5165,7 +5377,8 @@
     ],
     "answer": "C",
     "explanation": "分析两个关键点：\n\n1. **数据源**：内容存储在 **Azure Cosmos DB**，应使用 **Cosmos DB 索引器**（而非 Blob Storage 索引器）\n2. **技能需求**：\n   - **文档提取技能（Document Extraction Skill）**：从 Cosmos DB 文档中提取文本内容\n   - **文本翻译技能（Text Translation Skill）**：将内容翻译为所需语言\n\n不需要语言检测技能，因为 Translator API 可以自动检测源语言，无需预先检测。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 219,
@@ -5191,16 +5404,18 @@
     ],
     "answer": "D",
     "explanation": "**Computer Vision Image Analysis API** 的 `Tags` 功能可以：\n- 为图像生成描述性标签列表\n- 通过 `language` 参数支持多种输出语言（英语、法语、西班牙语等）\n\n```\nPOST https://{endpoint}/vision/v3.2/analyze?visualFeatures=Tags&language=fr\n```\n\n无需自定义训练，直接调用 API 即可获得多语言标签，开发工作量最小。\n\nCustom Vision（A）需要训练数据；Content Moderator（B）用于内容安全；Custom Translator（C）用于文本翻译，不生成图像标签。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 220,
     "background": "你有一个使用 Azure Anomaly Detector 服务的监控解决方案。你配置了一台名为 Server1 的服务器，具有间歇性互联网访问。\n\n你需要**在 Server1 上部署 Azure AI 异常检测器服务**。",
     "title": "应按顺序执行哪四项操作？",
     "options": [],
-    "answer": "B 、 D 、 A 、 C",
+    "answer": "B → D → A → C",
     "explanation": "在服务器上部署 Azure AI 容器的完整流程：\n\n1. **创建 Azure 资源（B）**：在 Azure 门户创建 Anomaly Detector 资源，获取端点 URL 和 API 密钥（容器运行时需要向 Azure 汇报计费信息）\n2. **安装 Docker（D）**：在 Server1 上安装 Docker Engine（先决条件）\n3. **拉取容器镜像（A）**：`docker pull mcr.microsoft.com/azure-cognitive-services/decision/anomaly-detector:latest`\n4. **运行容器（C）**：`docker run` 命令中必须包含 `Billing={ENDPOINT}` 和 `ApiKey={KEY}` 参数\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、D、A、C"
   },
   {
     "id": 221,
@@ -5209,7 +5424,8 @@
     "options": [],
     "answer": "A、B、F",
     "explanation": "使用 Orchestrator 实现多机器人路由：\n\n1. **安装 Orchestrator 包（F）**：`npm install @microsoft/bf-orchestrator-cli` 安装必要的 CLI 工具\n2. **创建 Orchestrator 模型（A）**：使用 Orchestrator CLI 基于各子机器人的意图训练路由模型\n3. **更改 Recognizer 类型（B）**：在主机器人的 Bot Composer 中，将 Recognizer 类型从 LUIS 更改为 Orchestrator，使其使用训练好的路由模型\n\nOrchestrator 是微软专为多机器人路由设计的轻量级 NLU 引擎，通过语义相似度实现动态路由。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、F"
   },
   {
     "id": 222,
@@ -5235,7 +5451,8 @@
     ],
     "answer": "B",
     "explanation": "Speech Translation SDK 的语言设置规范：\n\n- **`SpeechRecognitionLanguage`（源语言）**：使用**区域代码格式**（BCP-47），如 `\"fr-FR\"`（法语-法国）\n- **`AddTargetLanguage()`（目标语言）**：使用 **ISO 639-1 两字母代码**，如 `\"de\"`（德语）\n\n这两个参数使用不同的格式是 Speech Translation API 的特有规范，需要特别注意。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 223,
@@ -5261,7 +5478,8 @@
     ],
     "answer": "B",
     "explanation": "**Azure AI Foundry service**（即 Azure AI Services 多服务资源，也称全功能资源）提供：\n- 通过**单一密钥和端点**访问多种 Azure AI 服务\n- 涵盖 Speech、Language、Vision、Decision 等多个类别\n- 统一计费\n\n单独的 Language 资源（A）或 Speech 资源（C）只能访问各自对应的服务，无法实现单一端点访问两个服务。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 224,
@@ -5287,7 +5505,8 @@
     ],
     "answer": "D",
     "explanation": "检测\"学员向讲师提问\"需要分析**语音内容**（而非视频图像），具体流程：\n\n1. **语音转文字（D）**：实时将学员的语音转换为文本\n2. 基于文本内容（如检测到疑问句结尾、问号等特征）判断是否在提问\n\n**Azure AI Speech 的语音转文字**服务提供实时流式识别，是最直接的实现方式，无需处理视频帧，开发工作量最小。\n\n对象检测（A）、Face 服务（B）分析的是视觉内容，无法检测语音提问；语言检测（C）识别文本语言，不转录语音。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 225,
@@ -5313,7 +5532,8 @@
     ],
     "answer": "D",
     "explanation": "**预设引导（Priming）** 通过系统消息预先设定模型的角色、行为方式和输出风格：\n- \"你是一个帮助解决数学谜题的 AI 助手\"→ 设定角色\n- \"用 4 岁小孩能理解的方式解释\"→ 设定输出风格\n\n这种通过初始上下文\"预热\"模型的技术称为 Priming（预设引导）。\n\n- 少样本学习（A）：通过提供具体输入-输出示例来引导模型\n- 思维链（C）：要求模型逐步推理（\"Let's think step by step\"）\n- Affordance（B）：利用模型对特定上下文语境的自然理解能力\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 226,
@@ -5339,7 +5559,8 @@
     ],
     "answer": "A",
     "explanation": "在 Azure AI Search 实体识别技能（Entity Recognition Skill）中：\n\n- **`categories`**：指定要提取的实体类别，`[\"Location\", \"Person\", \"Organization\"]` 精确匹配需求\n- **`outputs` 中的 `entities`**：返回的 `entities` 输出包含实体的完整信息，**包括 Wikipedia 链接**（wikis = true 时）\n\n```json\n{\n  \"@odata.type\": \"#Microsoft.Skills.Text.EntityRecognitionSkill\",\n  \"categories\": [\"Location\", \"Person\", \"Organization\"],\n  \"includeTypelessEntities\": true,\n  \"outputs\": [\n    {\"name\": \"entities\", \"targetName\": \"entities\"},\n    {\"name\": \"namedEntities\", \"targetName\": \"namedEntities\"}\n  ]\n}\n```\n\n`entities` 输出包含 Wikipedia 相关信息（URL、ID 等），而 `namedEntities` 仅包含基本实体信息，不含链接。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 227,
@@ -5365,7 +5586,8 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Search 自定义技能（Custom Skill）的特点：\n\n- **类型**：在技能集 JSON 中使用 `\"@odata.type\": \"#Microsoft.Skills.Custom.WebApiSkill\"` ✅\n- **位置**：可以是技能集中的任意位置（不限于第一个）\n- **输出映射**：自定义技能的输出**可以**通过 `outputFieldMappings` 映射到搜索索引字段\n- **部署方式**：支持任何可公开访问的 HTTP/HTTPS 端点，不限于 Azure Functions（Azure API Management、Azure App Service 等均可）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 228,
@@ -5391,7 +5613,8 @@
     ],
     "answer": "C",
     "explanation": "Custom Vision 训练完成后，在模型性能界面提供以下指标：\n\n- **Precision（精确率）**：预测为某类的样本中，真正属于该类的比例\n- **Recall（召回率）**：真正属于某类的样本中，被正确预测的比例\n- **AP（Average Precision）**：各类别精确率的平均值",
-    "controversy": "原题（30）答案为 A（Recall）和 D（Precision），与此题相同（Precision + Recall）。不同资料列出的指标略有差异（某些版本还列出 AP），但 Precision 和 Recall 是最标准的两个评估指标。"
+    "controversy": "原题（30）答案为 A（Recall）和 D（Precision），与此题相同（Precision + Recall）。不同资料列出的指标略有差异（某些版本还列出 AP），但 Precision 和 Recall 是最标准的两个评估指标。",
+    "answer_key": "C"
   },
   {
     "id": 229,
@@ -5421,7 +5644,8 @@
     ],
     "answer": "C、D",
     "explanation": "两种可以检测图像不当内容的方案：\n\n- **Azure AI Vision（C）**：`Analyze Image` API 的 `Adult` 特性可以检测图像中的成人内容（`isAdultContent`、`isRacyContent`），无需训练，开发工作量极小\n- **Azure AI Content Safety（D）**：专门的内容安全服务，`Image:analyze` 端点支持检测 Sexual、Violence、Hate、SelfHarm 四个类别，更全面\n\nAzure AI Custom Vision（B）需要自定义训练标注数据，开发工作量大；Document Intelligence（E）用于文档分析，与图像内容审核无关。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C、D"
   },
   {
     "id": 230,
@@ -5447,7 +5671,8 @@
     ],
     "answer": "C",
     "explanation": "**预构建的 `geographyV2` 实体** 专门用于识别地理位置（国家、城市、省份等），无需提供训练示例即可使用：\n\n```json\n{\n  \"prebuiltEntities\": [\n    {\"name\": \"geographyV2\"}\n  ]\n}\n```\n\n它能自动识别 \"London\"、\"Seattle\"、\"Ukraine\" 等地名，与题目中的训练语料完全匹配，且无需标注训练数据，开发工作量最小。\n\n机器学习实体（A）需要提供标注示例；Regex（B）无法覆盖所有城市名；列表实体（D）需要穷举所有可能的值。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 231,
@@ -5473,7 +5698,8 @@
     ],
     "answer": "A",
     "explanation": "**同义词图（Synonym Map）** 是 Azure AI Search 的功能，允许定义等价词组：\n\n```json\n{\n  \"synonyms\": \"automobile,car,vehicle\\ncomputer,pc,laptop\"\n}\n```\n\n创建同义词图后，将其关联到索引字段，搜索时自动扩展查询词，无需用户明确知道同义词。\n\n- 建议器（B）用于自动完成/建议，基于前缀匹配\n- 自定义分析器（C）用于自定义分词逻辑，不是同义词扩展\n- 关键短语提取（D）是富化技能，提取文档关键词，不实现搜索时的同义词扩展\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 232,
@@ -5499,7 +5725,8 @@
     ],
     "answer": "B",
     "explanation": "`DescribeImageInStreamAsync()`（或其 URL 版本 `DescribeImageAsync()`）调用 Computer Vision 的 **Describe Image** 功能，返回：\n\n```json\n{\n  \"description\": {\n    \"captions\": [\n      {\"text\": \"a red coffee mug on a wooden table\", \"confidence\": 0.95}\n    ],\n    \"tags\": [\"coffee\", \"mug\", \"table\", \"red\"]\n  }\n}\n```\n\n`captions[0].text` 是一个完整的自然语言句子，最适合用作图像的 Alt Text。\n\n`GetReadResultAsync()`（A）用于 OCR 结果；`AnalyzeImageByDomainInStreamAsync()`（C）用于领域特定分析；`TagImageInStreamAsync()`（D）返回标签列表（不是句子）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 233,
@@ -5525,7 +5752,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Content Safety 图像分析响应的 `severity` 字段：\n\n- 类型：**整数（0, 2, 4, 6 四个级别）**（部分文档描述为 0-7 范围）\n- **0**：未检测到该类别的有害内容\n- **2**：轻度\n- **4**：中度\n- **6**（或 7）：重度\n\n支持四个类别：**Hate**、**SelfHarm**、**Sexual**、**Violence**，单次调用可同时检测多个类别。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 234,
@@ -5551,7 +5779,8 @@
     ],
     "answer": "C",
     "explanation": "Azure OpenAI 的\"在自有数据上使用（On Your Data）\"功能通过以下架构实现：\n\n1. **Azure Blob Storage**：存储原始文档文件（PDF、DOCX、TXT 等）\n2. **Azure AI Search**：对文档内容创建向量索引，支持语义搜索\n\n工作流：\n- 文档上传到 Blob Storage\n- AI Search 索引器自动处理文档，创建可搜索的知识库\n- 用户提问时，Azure OpenAI 先查询 AI Search，将相关文档片段作为上下文提供给 GPT-4\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 235,
@@ -5577,7 +5806,8 @@
     ],
     "answer": "B",
     "explanation": "三种异常检测模式的适用场景：\n\n| 模式 | 适用场景 |\n|------|---------|\n| **批处理检测（Batch）** | 对历史数据集进行离线分析，一次性扫描整个数据集 |\n| **流式/实时检测（Streaming）** | 对实时数据流进行在线检测，每个新数据点到来时立即判断是否异常 ✅ |\n| 变化点检测（Change Point） | 检测时间序列中长期趋势的变化点 |\n| 多变量检测（Multivariate） | 分析多条相关时间序列之间的联合异常 |\n\n题目要求检测\"实时用户消息流\"中的异常，应使用**流式/实时检测**。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 236,
@@ -5603,7 +5833,8 @@
     ],
     "answer": "C",
     "explanation": "**Azure AI Document Intelligence 预构建发票模型（prebuilt-invoice）** 专为发票信息提取设计，开箱即用，无需训练：\n\n可提取字段包括：\n- `VendorName`（供应商名称）\n- `InvoiceTotal`（发票总金额）\n- `InvoiceDate`（发票日期）\n- `CustomerName`（客户名称）\n- 明细行项目等\n\n直接调用 API 上传发票图像，即可获得结构化的 JSON 提取结果，开发工作量最小。\n\nComputer Vision Read API（D）只进行 OCR 文字提取，还需要额外的逻辑解析字段，工作量更大。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 237,
@@ -5629,7 +5860,8 @@
     ],
     "answer": "C",
     "explanation": "**下钻过滤导航（Faceted Navigation）** 允许用户在搜索结果页面看到各类别的文档数量，并点击类别名称筛选结果。这需要字段启用 **Facetable** 属性。\n\n- `Retrievable`：使字段值出现在搜索结果中（显示 category 值）\n- `Facetable`：支持分面查询，启用下钻过滤导航 ✅\n- `Searchable`：支持全文搜索，不是下钻导航所必需\n- `Filterable`：允许在 `$filter` 中使用，但不自动提供分面统计\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 238,
@@ -5655,7 +5887,8 @@
     ],
     "answer": "B",
     "explanation": "- **Computer Vision** 的人脸检测（`Faces` 特性）仅返回基本信息：人脸位置、估计年龄范围等，**不进行个人身份识别**\n- **Azure Face API** 提供更完整的人脸功能：人员识别（Identify）、相似人脸搜索、情感检测等\n\n两者功能不同，不互相替代：\n- Computer Vision：适合快速检测图像中是否有人脸，以及获取基本属性\n- Face API：适合人员身份验证、识别等高级场景（需要申请受限访问权限）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 239,
@@ -5681,7 +5914,8 @@
     ],
     "answer": "D",
     "explanation": "**Azure AI Language 服务**提供**语言检测（Language Detection）** 功能，可以识别文本中使用的语言并返回语言代码和置信度：\n\n```python\nresponse = client.detect_language(documents=[\"Bonjour! Comment allez-vous?\"])\n# 返回: {\"language\": \"French\", \"iso6391Name\": \"fr\", \"confidenceScore\": 0.99}\n```\n\n对于文本消息的语言检测，Azure AI Language 是最直接的选择。\n\nAzure AI Translator（C）也提供语言检测功能（通过 `/detect` 端点），但其主要定位是翻译服务；Azure AI Language 的语言检测功能更专注且 API 更简洁。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 240,
@@ -5707,16 +5941,18 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Language 自定义问题解答的 `generateAnswer` 端点：\n\n```json\nPOST {endpoint}/language/query-knowledgebases/projects/{project}/deployments/{deployment}/query\n{\n  \"question\": \"用户问题\",\n  \"scoreThreshold\": 0.95,\n  \"top\": 1\n}\n```\n\n- 参数名：**`scoreThreshold`**（而非 confidenceThreshold 或 minimumScore）\n- 值范围：0.0 到 1.0 的浮点数（0.95 = 95%）\n- 当最高匹配答案的分数低于此值时，返回 \"No good match found\" 默认响应\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 241,
     "background": "你有一个 Azure DevOps 流水线，用于部署一个使用 Azure AI Search 的应用。你怀疑查询密钥已被泄露，需要在**最小化停机时间**的前提下更换密钥。",
     "title": "应按什么顺序执行以下操作？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "零停机密钥轮换的标准流程（针对查询密钥）：\n\n1. **创建新查询密钥（A）**：在 Azure AI Search 的\"密钥（Keys）\"页面创建新的查询密钥，此时旧密钥仍有效，应用不中断\n2. **更新应用配置（B）**：将 Web 应用、API 或 CI/CD 流水线中的查询密钥替换为新密钥，完成后验证应用正常运行\n3. **删除旧密钥（C）**：确认新密钥正常工作后，删除被泄露的旧密钥，彻底阻断未授权访问\n\n此流程确保在任何时刻都有有效密钥，无需停机。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 242,
@@ -5746,16 +5982,18 @@
     ],
     "answer": "B、C",
     "explanation": "不需要训练/微调的两种最小开发工作量方法：\n\n- **接地数据（B）**：在提示词中提供相关背景信息（如从知识库检索的文档片段），让模型基于事实数据回答，减少幻觉\n- **示例对（C）**：在对话历史中包含几个示例问答对（Few-shot prompting），引导模型按照期望的格式和风格回答\n\n微调（A）、重新训练（D）、训练自定义 LLM（E）均需要大量数据和计算资源，开发工作量大。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、C"
   },
   {
     "id": 243,
     "background": "你正在使用 Azure AI 语言服务中的**自定义问题解答（Custom Question Answering）** 功能，需要将一个 QnA 项目从一个 Language Service 实例迁移到**另一个 Azure 区域**的 Language Service 实例。",
     "title": "应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "跨区域迁移自定义问题解答项目的步骤：\n\n1. **导出项目（A）**：在 Language Studio 中导出现有项目（生成 JSON/TSV 格式文件，包含所有问答对）\n2. **在目标实例创建新项目（B）**：在目标区域的 Language Service 实例中创建一个新的问题解答项目\n3. **导入数据（C）**：将导出文件导入新项目\n\n完成后还需要重新训练和发布（D），但题目问的是\"迁移\"的核心三步，通常答案为 A → B → C（或 A → C → D 取决于是否先建项目）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 244,
@@ -5781,7 +6019,8 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Video Indexer 的**自定义语言模型（Custom Language Model）** 功能允许：\n- 上传包含行业专用词汇、产品名称、技术术语的文本文件（TXT 格式）\n- Video Indexer 在转录时优先识别这些自定义词汇\n\n这直接解决了技术术语识别不准确的问题，是 \"Can transcribe jargon with high accuracy\"（能以高准确率转录行业术语）需求的标准解决方案。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 245,
@@ -5807,7 +6046,8 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI 的\"使用自有数据\"功能通过 `data_sources` 参数实现：\n\n```python\nresponse = client.chat.completions.create(\n    model=\"gpt-4\",\n    messages=[{\"role\": \"user\", \"content\": \"question\"}],\n    extra_body={\n        \"data_sources\": [{\n            \"type\": \"azure_search\",\n            \"parameters\": {\n                \"endpoint\": \"https://search.search.windows.net\",\n                \"index_name\": \"your-index\",\n                \"authentication\": {\n                    \"type\": \"system_assigned_managed_identity\"\n                }\n            }\n        }]\n    }\n)\n```\n\n`data_sources` 告知 OpenAI API 在生成回答前先查询指定的 Azure AI Search 索引，使回答基于索引中的文档。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 246,
@@ -5833,7 +6073,8 @@
     ],
     "answer": "B",
     "explanation": "**受保护材料检测（Protected material detection）** 是 Azure AI Content Safety 的功能，用于检测模型输出中是否包含：\n- 受版权保护的文本内容\n- **个人可识别信息（PII）**\n- 其他受保护的材料\n\n当模型输出触发受保护材料检测时，可以自动拦截或替换相关内容，防止训练数据中的个人信息被泄露。\n\n越狱检测（A）用于防止绕过安全限制的攻击；内容过滤器（C）主要针对有害类别（仇恨、暴力等）；PII 检测（D）在 Language 服务中处理用户输入，不是针对模型输出。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 247,
@@ -5859,7 +6100,8 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI 部署的 `sku.capacity` 以**千 Token 每分钟（K TPM）** 为单位：\n\n- `capacity: 60` = 60,000 TPM（Tokens Per Minute）\n- 标准推断：60,000 TPM ≈ 600 RPM（每分钟请求数，假设每个请求平均 100 tokens）\n\nARM 模板示例：\n```json\n{\n  \"type\": \"Microsoft.CognitiveServices/accounts/deployments\",\n  \"sku\": {\n    \"name\": \"Standard\",\n    \"capacity\": 60\n  }\n}\n```\n\n注意：capacity 单位是 K TPM（千），而非 TPM（token）或 RPM（请求）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 248,
@@ -5885,7 +6127,8 @@
     ],
     "answer": "B",
     "explanation": "1. **正确**：`extract_key_phrases()` 确实返回关键短语列表（Python SDK 中为 `result.key_phrases`）\n2. **错误**：`\"the\"` 是英语停用词，没有独立语义价值，不会被提取为关键短语。对于 \"the cat sat on the mat\"，可能提取 \"cat\" 和 \"mat\"\n3. **错误**：关键短语提取 API **不返回置信度分数**，只返回短语字符串列表（与命名实体识别不同，NER 返回置信度）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 249,
@@ -5911,16 +6154,18 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Translator **批量文档翻译（Document Translation）** 服务的特性：\n\n- **支持格式**：DOCX、PPTX、XLSX、PDF、HTML、TXT 等多种格式 ✅\n- **格式保留**：翻译后保持原始文档的布局、字体、表格、图片位置等样式 ✅\n- **自定义术语表**：支持 TSV 或 XLIFF 格式的术语表文件，确保专业词汇翻译一致性 ✅\n- 术语表格式为 **TSV 或 XLIFF**，不是 PDF\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 250,
     "background": "你正在使用 Azure AI Speech 服务构建一个**转录技术播客**的服务。在测试中发现，服务无法准确识别技术术语（如 API 名称、编程语言关键词等）。\n\n你需要提高转录准确性。",
     "title": "应按顺序执行哪五项操作？",
     "options": [],
-    "answer": "A 、 B 、 C 、 D 、 E",
+    "answer": "A → B → C → D → E",
     "explanation": "Custom Speech 模型训练流程（与原题 240 一致）：\n\n1. **创建项目（A）**：在 Speech Studio 中新建 Custom Speech 项目\n2. **上传测试数据（B）**：上传评估用的音频和转录文本，用于训练前后对比\n3. **上传训练数据（C）**：包含技术术语的文本语料（相关文本）和/或带标注的音频\n4. **训练模型（D）**：使用上传的数据训练自定义语音模型\n5. **部署到端点（E）**：将训练好的模型部署为自定义端点，应用程序使用该端点进行转录\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C、D、E"
   },
   {
     "id": 251,
@@ -5946,7 +6191,8 @@
     ],
     "answer": "B",
     "explanation": "调用 Azure AI Translator REST API 所需的请求头：\n\n```http\nPOST https://api.cognitive.microsofttranslator.com/translate?api-version=3.0&to=zh-Hans\nOcp-Apim-Subscription-Key: {your-key}\nOcp-Apim-Subscription-Region: eastus\nContent-Type: application/json\n```\n\n三个必要头：\n1. **`Ocp-Apim-Subscription-Key`**（订阅密钥）：身份验证\n2. **`Ocp-Apim-Subscription-Region`**（订阅区域）：多服务资源使用时必须提供\n3. **`Content-Type: application/json`**：请求体格式\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 252,
@@ -5976,7 +6222,8 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Video Indexer 通过**自定义人物模型（Custom Person Model）** 实现基于人物的视频搜索：\n\n1. 创建人物模型（可包含多人）\n2. 为每个人添加面部示例图像\n3. 在上传/重新索引视频时关联该人物模型\n\nVideo Indexer 会在索引视频时识别这些人物，之后可以通过人物姓名搜索视频中的特定片段。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 253,
@@ -6002,7 +6249,8 @@
     ],
     "answer": "D",
     "explanation": "两组数据结构的区别：\n\n| 数据结构 | 最大容量 | 适用场景 |\n|---------|---------|---------|\n| FaceList | 1,000 张人脸 | 小规模相似人脸搜索 |\n| LargeFaceList | 1,000,000 张人脸 | 大规模相似人脸搜索 |\n| PersonGroup | 10,000 人 | 中小规模人员识别 |\n| **LargePersonGroup** | **1,000,000 人** | 大规模人员识别 ✅ |\n\n员工考勤需要识别**身份**（哪个人），适合 PersonGroup/LargePersonGroup；10,000 名员工虽然在 PersonGroup 的上限之内，但使用 **LargePersonGroup** 更具扩展性。",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 254,
@@ -6028,7 +6276,8 @@
     ],
     "answer": "A",
     "explanation": "自定义技能（Custom Skill）的输出完全可以通过索引器的 `outputFieldMappings` 映射到搜索索引字段：\n\n```json\n{\n  \"outputFieldMappings\": [\n    {\n      \"sourceFieldName\": \"/document/pages/*/sentiment\",\n      \"targetFieldName\": \"sentiment\"\n    }\n  ]\n}\n```\n\n这是 Azure AI Search 富化管道的标准功能，自定义技能与内置技能的输出映射方式完全相同。技能在技能集中的位置不影响输出映射能力。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 255,
@@ -6054,7 +6303,8 @@
     ],
     "answer": "B",
     "explanation": "- **B（正确）**：`max_tokens` 限制模型生成的最大 Token 数。列出 5 种编程语言加上描述可能需要 100+ tokens，若限制为 50 tokens，回答可能在中途被截断\n\n- A（错误）：Temperature=0 使输出接近确定性，但对于涉及排名的问题（存在多种合理答案），即使 Temperature=0 也可能因模型版本、系统消息等因素导致输出略有不同\n\n- C（错误）：系统消息定义的角色和指令不会被用户消息覆盖（除非特殊 jailbreak 攻击），系统消息优先级高于用户消息\n\n- D（错误）：Azure OpenAI 模型基于训练数据，没有实时网络访问能力（除非配置了 RAG 或 Bing 搜索工具）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 256,
@@ -6080,7 +6330,8 @@
     ],
     "answer": "B",
     "explanation": "题目描述的场景涉及：\n\n- **公平性（Fairness）**：AI 系统不因用户的地理位置、种族、性别等因素产生偏见，对所有人提供公平结果\n- **包容性（Inclusiveness）**：AI 系统应该赋能所有人，包括来自不同背景和地区的用户\n\n这两个原则共同确保 AI 系统在设计时考虑到多样性和公平待遇。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 257,
@@ -6106,7 +6357,8 @@
     ],
     "answer": "C",
     "explanation": "声音人才档案（Voice Talent Profile）要求上传**声音原型人的同意声明录音（Consent Statement Recording）**：\n\n- 格式：WAV 或 MP3\n- 内容：声音原型人亲口读出同意创建其合成声音版本的标准声明\n- 这是微软负责任 AI 要求的必要步骤，确保声音使用的合法授权\n\n注意区别：\n- 同意声明文件（C）→ 上传到**声音人才档案**（一次性）\n- 训练数据（多个 WAV + TXT）→ 上传到**训练数据集**（用于实际训练）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 258,
@@ -6132,7 +6384,8 @@
     ],
     "answer": "A",
     "explanation": "Azure AI Content Safety SDK（Python）的正确用法：\n\n```python\nfrom azure.ai.contentsafety import ContentSafetyClient\nfrom azure.ai.contentsafety.models import AnalyzeTextOptions, TextCategory\n\nclient = ContentSafetyClient(endpoint, credential)\nrequest = AnalyzeTextOptions(\n    text=\"input text\",\n    categories=[TextCategory.HATE]\n)\nresponse = client.analyze_text(request)\n\n# 获取仇恨类别的严重性评分\nfor item in response.categories_analysis:\n    if item.category == TextCategory.HATE:\n        print(f\"Hate severity: {item.severity}\")\n```\n\n`TextAnalyticsClient`（B）是 Azure AI Language 的客户端，情感分析不等同于仇恨内容检测；`analyze_image()`（C）用于图像内容检测。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 259,
@@ -6158,7 +6411,8 @@
     ],
     "answer": "B 或 D",
     "explanation": "必须包含的三个参数：\n\n1. **`to=el`**：指定目标语言为希腊语（必填）\n2. **`toScript=Latn`**：指定翻译结果使用拉丁（罗马）字母音译（满足\"罗马字母音译\"要求）\n3. **`textType=html`**：如果源内容是网页（HTML 格式）则使用此参数；若为纯文本则使用 `textType=plain`\n\n题目说\"接收网页内容\"，所以 `textType=html` 是正确的，**选项 B** 正确。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、D"
   },
   {
     "id": 260,
@@ -6184,7 +6438,8 @@
     ],
     "answer": "C",
     "explanation": "Temperature 参数控制模型词汇选择的随机性：\n\n| Temperature 值 | 效果 |\n|--------------|------|\n| 接近 0 | 几乎总是选择最高概率的词，输出确定性强、重复度高 |\n| 0.7（推荐默认） | 平衡创造性和准确性 |\n| 接近 2 | 词汇选择高度随机，输出多样但可能不连贯 |\n\nTemperature=0 不会阻止模型输出，只会使其选择最优路径；Temperature=2 不保证质量，只保证多样性。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 261,
@@ -6218,7 +6473,8 @@
     ],
     "answer": "D、E、F",
     "explanation": "分析四条语料的意图和实体：\n\n| 语料 | 意图 | 实体 |\n|------|------|------|\n| \"Set/Turn off the lights\" | **change setting（D）** | device: lights |\n| \"What is the temperature?\" | **query setting（E）** | device: thermostat |\n| \"Lower temperature by 5 degrees\" | **change setting（D）** | device: thermostat, value: 5 |\n\n- **`change setting` 意图（D）**：涵盖修改设备状态的操作\n- **`query setting` 意图（E）**：涵盖查询设备当前状态的操作\n- **`device` 实体（F）**：从语料中提取操作的目标设备（lights、thermostat）",
-    "controversy": "原题（176）给出的答案为 B（change setting entity）、C（device intent）、F（device entity），与此题略有不同。本题的答案 D、E、F 更符合 CLU 意图设计的最佳实践（两个意图 + 一个实体），而原题将\"device\"设计为意图。请参考具体考试版本的标准答案。"
+    "controversy": "原题（176）给出的答案为 B（change setting entity）、C（device intent）、F（device entity），与此题略有不同。本题的答案 D、E、F 更符合 CLU 意图设计的最佳实践（两个意图 + 一个实体），而原题将\"device\"设计为意图。请参考具体考试版本的标准答案。",
+    "answer_key": "D、E、F"
   },
   {
     "id": 262,
@@ -6244,7 +6500,8 @@
     ],
     "answer": "D",
     "explanation": "**Azure AI Language 服务** 的**情感分析（Sentiment Analysis）** 功能专门用于：\n- 分析文本中的正面/负面/中性情感\n- 评估品牌的公众认知\n- 挖掘客户意见（Opinion Mining）\n\n通过对大量社交媒体帖子进行情感分析，可以得到品牌的整体情感趋势和具体评价，是\"衡量品牌公众认知\"的标准 AI 解决方案。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 263,
@@ -6270,7 +6527,8 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI 内容过滤器（Content Filter）的工作机制：\n\n- **双向过滤**：同时检测**用户输入（Prompt）** 和**模型输出（Completion）** ✅\n- 检测类别：Hate、Violence、Sexual、Self-harm（四个类别）\n- 每个类别都有**严重性级别**（Safe、Low、Medium、High）\n- 可以为每个类别独立配置过滤阈值\n- **默认开启**：所有 Azure OpenAI 资源都有默认内容过滤器\n\n若用户输入触发过滤，API 返回 400 错误；若模型输出触发过滤，该输出被拦截。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 264,
@@ -6296,7 +6554,8 @@
     ],
     "answer": "B",
     "explanation": "- **防止互联网访问**：**私有端点（Private Endpoint）** 使 Azure AI Search 只能通过 Azure 虚拟网络内部访问，完全阻断来自公共互联网的流量（比 IP 防火墙规则更彻底）\n\n- **只读访问**：**查询密钥（Query Key）** 是 Azure AI Search 特有的只读密钥，只允许对文档集合进行搜索查询，**无法进行任何写操作**（如索引管理、文档更新等）\n\nRBAC 角色（如 Reader）控制的是资源管理层面的权限，不是数据层面的读写控制。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 265,
@@ -6322,7 +6581,8 @@
     ],
     "answer": "A",
     "explanation": "**Content Safety Studio 的\"Moderate text content\"** 功能允许：\n1. 输入示例文本（包括可能有害的内容）\n2. 查看各个类别（Hate、Violence、Sexual、Self-harm）的检测结果和严重性评分\n3. 调整检测阈值配置\n4. 验证过滤策略是否有效\n\n这正是\"运行示例问题以测试和优化内容过滤配置\"所需的功能。",
-    "controversy": "原题（307）给出的答案是 B（No），即认为\"Moderate text content\"不满足需求，应使用其他功能。但从逻辑分析，\"Moderate text content\"确实是专门用于文本内容检测测试的功能。多个版本的答案存在分歧，请以最新官方考试指南为准。"
+    "controversy": "原题（307）给出的答案是 B（No），即认为\"Moderate text content\"不满足需求，应使用其他功能。但从逻辑分析，\"Moderate text content\"确实是专门用于文本内容检测测试的功能。多个版本的答案存在分歧，请以最新官方考试指南为准。",
+    "answer_key": "A"
   },
   {
     "id": 266,
@@ -6348,16 +6608,18 @@
     ],
     "answer": "A",
     "explanation": "Bot Framework Composer 中的状态范围：\n\n| 作用域 | 生命周期 | 适用场景 |\n|-------|---------|---------|\n| **dialog（对话）** | 对话（Dialog）活跃期间；对话结束时自动清除 ✅ | 对话流程内的临时数据 |\n| user（用户） | 永久保留，不自动过期 | 需要跨对话保留的用户偏好 |\n| conversation（会话） | 整个对话会话期间 | 会话级共享状态 |\n| turn（轮次） | 单次请求-响应，轮次结束即清除 | 极短暂的临时数据 |\n\n题目要求\"对话结束后自动清除\"，精确匹配 **dialog 作用域**的生命周期。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 267,
     "background": "你正在为 Azure AI Translator 服务的批量文档翻译构建流程。源文档存储在 Azure Blob Storage 的 German-files 容器中，目标是将翻译后的法语文件存储到 French-files 容器。\n\n你已将原始 Word 文档上传到 German-files 容器，并准备好自定义术语表。",
     "title": "接下来应按顺序执行哪三项操作？",
     "options": [],
-    "answer": "A 、 B 、 C",
+    "answer": "A → B → C",
     "explanation": "假设 Translator 资源和 Blob 容器已存在，批量文档翻译的步骤：\n\n1. **上传术语表（A）**：将 TSV 格式的自定义术语表上传到 Blob 容器，获取其 SAS URL（供翻译请求引用）\n2. **提交翻译请求（B）**：调用 `POST /batches` 端点，在请求体中指定：\n   - 源容器 SAS URL（German-files）\n   - 目标容器 SAS URL（French-files）\n   - 语言对：`sourceLanguage: \"de\"`, `targetLanguage: \"fr\"`\n   - 术语表 SAS URL\n3. **轮询状态等待完成（C）**：批量翻译是异步操作，需要定期调用状态查询 API 直到 `status: \"Succeeded\"`\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、C"
   },
   {
     "id": 268,
@@ -6383,7 +6645,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI 服务容器镜像托管在 **Microsoft Container Registry (MCR)**，完整镜像路径格式为：\n\n```\nmcr.microsoft.com/azure-cognitive-services/{service}/{feature}:{tag}\n```\n\n情感分析容器的完整 `docker run` 命令：\n```bash\ndocker run --rm -it -p 5000:5000 \\\n  mcr.microsoft.com/azure-cognitive-services/textanalytics/sentiment \\\n  Eula=accept \\\n  Billing=https://contoso.cognitiveservices.azure.com \\\n  ApiKey={your-key}\n```\n\n容器镜像从 MCR（`mcr.microsoft.com`）拉取，不是 Docker Hub。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 269,
@@ -6409,7 +6672,8 @@
     ],
     "answer": "C",
     "explanation": "根据 Azure AI Agent Service 的官方规格，**可以上传到服务的所有文件的最大总大小为 100 GB**。\n\n这个限制适用于 File Search 工具使用的所有文件的累计大小。对于需要处理更大规模文件的场景，建议使用 Azure AI Search 索引器替代直接文件上传。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 270,
@@ -6435,7 +6699,8 @@
     ],
     "answer": "B",
     "explanation": "Speech Translation API 的语言代码规范：\n\n- **`speech_recognition_language`（源语言）**：使用 BCP-47 格式，如 `\"en-US\"`（完整区域代码）\n- **`add_target_language()`（目标语言）**：使用 ISO 639-1 两字母代码，如 `\"fr\"`、`\"de\"`、`\"es\"`（**不是**区域代码 `\"fr-FR\"`）\n\n这是 Speech Translation 的特有规范，目标语言不包含地区后缀，与源语言的完整区域代码不同。\n\n---\n\n*第 201–270 题整理完毕，继续至 300 题。*\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 271,
@@ -6461,7 +6726,8 @@
     ],
     "answer": "B",
     "explanation": "所有 Azure AI 服务资源的**端点 URL** 和**订阅密钥**（Key 1、Key 2）都存储在 **\"Keys and Endpoint\"** 刀片中：\n\n- **Endpoint**：服务的 HTTPS 端点 URL\n- **KEY 1 / KEY 2**：用于 API 身份验证的订阅密钥（两个密钥互为备份，便于密钥轮换）\n\n这是所有 Azure AI 服务（Cognitive Services、OpenAI、Search 等）的标准位置，无论是 Language、Speech、Vision 还是其他服务。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 272,
@@ -6487,7 +6753,8 @@
     ],
     "answer": "A",
     "explanation": "实体链接（Entity Linking）API 的响应包含：\n\n```json\n{\n  \"entities\": [\n    {\n      \"name\": \"Space Needle\",\n      \"matches\": [\n        {\"text\": \"Space Needle\", \"offset\": 28, \"length\": 12, \"confidenceScore\": 0.97}\n      ],\n      \"url\": \"https://en.wikipedia.org/wiki/Space_Needle\",\n      \"dataSource\": \"Wikipedia\"\n    },\n    {\n      \"name\": \"Seattle\",\n      \"matches\": [...],\n      \"url\": \"https://en.wikipedia.org/wiki/Seattle\"\n    }\n  ]\n}\n```\n\n每个实体包含：Wikipedia URL、文本中的位置（offset）、置信度分数 ✅\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 273,
@@ -6496,7 +6763,8 @@
     "options": [],
     "answer": "C、D、F",
     "explanation": "文档级安全过滤的实现模式：\n\n1. **为文档添加组字段（D）**：在索引每个文档时，添加一个 `group_ids` 字段，记录哪些 Azure AD 组有权访问该文档（Filterable 属性）\n\n2. **获取当前用户的组成员身份（C）**：在用户发起搜索时，通过 Microsoft Graph API 获取该用户所属的所有 Azure AD 组 ID 列表\n\n3. **将组 ID 作为过滤条件（F）**：构建搜索查询时，附加 `$filter=group_ids/any(g:search.in(g, '{user-group-ids}'))` 过滤条件，只返回用户有权访问的文档\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C、D、F"
   },
   {
     "id": 274,
@@ -6505,7 +6773,8 @@
     "options": [],
     "answer": "B、C、D",
     "explanation": "在 Bot Framework Emulator 中测试需要身份验证的机器人，需要配置：\n\n1. **Bot 端点 URL（D）**：本地运行的机器人端点（默认 `http://localhost:3978/api/messages`）\n2. **Microsoft App ID（B）**：Azure AD 应用注册的 Application ID\n3. **Microsoft App Password（C）**：对应的客户端密钥\n\n这三个设置使 Emulator 能够模拟真实的身份验证流程，测试机器人的登录提示功能。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B、C、D"
   },
   {
     "id": 275,
@@ -6514,7 +6783,8 @@
     "options": [],
     "answer": "A、B、D",
     "explanation": "连接 Azure OpenAI 并调用特定部署的最小必要信息：\n\n1. **端点 URL（A）**：资源的 HTTPS 端点，如 `https://your-resource.openai.azure.com/`\n2. **部署名称（B）**：用于在 API 路径中指定使用哪个模型部署（如 `gpt-4-deployment`），Azure OpenAI REST API 使用部署名而非模型名\n3. **API 密钥或令牌（D）**：身份验证凭据\n\n注意：Azure OpenAI 不需要直接提供\"模型名称\"（C），而是提供\"部署名称\"（该部署绑定了某个模型）；订阅 ID（E）不是 API 调用的必要参数。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B、D"
   },
   {
     "id": 276,
@@ -6523,7 +6793,8 @@
     "options": [],
     "answer": "A、C",
     "explanation": "- **A（正确）**：通过在 `categories` 数组中同时指定多个类别，单次调用可检测所有四个类别 ✅\n- **B（错误）**：支持多种格式，包括 JPEG、PNG、GIF、BMP 等\n- **C（正确）**：`AnalyzeImage` 请求体支持 `url`（图像 URL）或 `data`（Base64 编码）两种输入方式 ✅\n- **D（错误）**：Severity 分数是整数（0, 2, 4, 6），不是浮点数\n- **E（部分正确）**：Severity 值实际上是 0、2、4、6 四个离散整数（或 0-7 根据 API 版本）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、C"
   },
   {
     "id": 277,
@@ -6549,7 +6820,8 @@
     ],
     "answer": "C",
     "explanation": "`<voice effect=\"eq_car\">` 是 Azure Speech SSML 中专门为**车载音响环境**优化的属性：\n\n```xml\n<speak version=\"1.0\" xmlns=\"http://www.w3.org/2001/10/synthesis\"\n       xml:lang=\"en-US\">\n  <voice name=\"en-US-JennyNeural\" effect=\"eq_car\">\n    Turn left in 500 meters.\n  </voice>\n</speak>\n```\n\n`eq_car` 效果应用了均衡器调整，使语音在车内嘈杂环境中听起来更清晰，是车载语音导航的标准配置。\n\n其他选项（降速、平静风格、强调）影响的是语音表达方式，不是声学环境优化。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 278,
@@ -6558,7 +6830,8 @@
     "options": [],
     "answer": "A、B",
     "explanation": "`AzureAISearchTool` 的最小必要配置（Python SDK）：\n\n```python\nfrom azure.ai.projects.models import AzureAISearchTool\n\nsearch_tool = AzureAISearchTool(\n    index_connection_id=connection.id,  # 必须：连接 ID\n    index_name=\"product-knowledge-base\"  # 必须：索引名称\n)\n```\n\n- **连接 ID（A）**：通过 AI Foundry 项目中预先创建的 Azure AI Search 连接（Connection）提供，内含端点和认证信息\n- **索引名称（B）**：指定要查询的具体索引\n\n管理员密钥（C）通过连接对象提供，不直接传给工具；向量字段名称（D）和端点（E）包含在连接配置中，不是工具的独立参数。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 279,
@@ -6584,7 +6857,8 @@
     ],
     "answer": "D",
     "explanation": "> ⚠️ **注意**：原题（241）答案为 C（Immersive Reader），但这明显是错误的——Immersive Reader 是为阅读障碍用户提供无障碍阅读体验的服务，完全不适合发票字段提取。\n\n**正确答案是 D（Azure AI Document Intelligence）**，原因：\n- **预构建发票模型（prebuilt-invoice）**：专门提取发票字段（行项目、总金额、供应商名称、客户信息等）\n- **预构建收据模型（prebuilt-receipt）**：如果是收据而非发票，使用此模型\n- 无需自定义训练，开发工作量最小\n\n这是本题库中发现的原始题库明显错误，请以逻辑判断为准。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "D"
   },
   {
     "id": 280,
@@ -6610,7 +6884,8 @@
     ],
     "answer": "B",
     "explanation": "**实体链接（Entity Linking）** 是专门将文本中的实体**链接到外部知识库**（如 Wikipedia）的功能：\n\n- 识别实体（如 \"Eiffel Tower\"）\n- 返回该实体的 Wikipedia URL（`https://en.wikipedia.org/wiki/Eiffel_Tower`）\n- 返回 Bing 知识图谱 ID（`bingId`）\n\n这正是\"提供指向 Wikipedia 参考链接\"的直接实现方式。\n\n命名实体识别（A）只识别实体类型，不提供链接；关键短语提取（C）提取重要词组，不链接知识库。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 281,
@@ -6636,7 +6911,8 @@
     ],
     "answer": "B",
     "explanation": "**Activity Handler（活动处理器）** 是 Bot Framework SDK 中处理各种机器人活动（Activity）的核心机制：\n\n```csharp\npublic class MyBot : ActivityHandler\n{\n    protected override async Task OnMessageActivityAsync(\n        ITurnContext<IMessageActivity> turnContext,\n        CancellationToken cancellationToken)\n    {\n        // 响应用户消息，发送自定义文本\n        await turnContext.SendActivityAsync(\"Custom response text\");\n    }\n    \n    protected override async Task OnMembersAddedAsync(\n        IList<ChannelAccount> membersAdded,\n        ITurnContext<IConversationUpdateActivity> turnContext,\n        CancellationToken cancellationToken)\n    {\n        // 响应成员加入事件\n        await turnContext.SendActivityAsync(\"Welcome!\");\n    }\n}\n```\n\n通过重写 Activity Handler 中的各个方法，可以响应不同类型的事件（消息、成员加入、成员离开等）并发送自定义文本回复。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 282,
@@ -6662,7 +6938,8 @@
     ],
     "answer": "C 或 D",
     "explanation": "> ⚠️ **争议说明**：\n> - **原题 231** 答案为 D（OneDrive），理由是 Video Indexer 网站的文件大小限制为 2 GB，File1.avi（20 GB）超出限制，需要先上传到 OneDrive 生成共享链接再使用 URL 方式索引\n> - **原题 375** 答案为 A（直接上传到 Video Indexer 网站），暗示可以直接上传\n> - **原题 271** 答案为 D（从 OneDrive 创建下载链接）\n\n实际规格：\n- Video Indexer 网站直接上传限制：通常为 2 GB\n- URL 方式上传限制：30 GB\n\n对于 20 GB 文件：\n- 应先上传到 OneDrive（或 Blob Storage），获取可公开访问的 URL\n- 然后在 Video Indexer 中使用 URL 方式索引\n\n**推荐答案：C（先上传到 OneDrive，然后使用链接）**，但不同版本的考题答案不一致，请以最新考试版本为准。\n\n---",
-    "controversy": "> - **原题 231** 答案为 D（OneDrive），理由是 Video Indexer 网站的文件大小限制为 2 GB，File1.avi（20 GB）超出限制，需要先上传到 OneDrive 生成共享链接再使用 URL 方式索引\n> - **原题 375** 答案为 A（直接上传到 Video Indexer 网站），暗示可以直接上传\n> - **原题 271** 答案为 D（从 OneDrive 创建下载链接）\n\n实际规格：\n- Video Indexer 网站直接上传限制：通常为 2 GB\n- URL 方式上传限制：30 GB\n\n对于 20 GB 文件：\n- 应先上传到 OneDrive（或 Blob Storage），获取可公开访问的 URL\n- 然后在 Video Indexer 中使用 URL 方式索引\n\n**推荐答案：C（先上传到 OneDrive，然后使用链接）**，但不同版本的考题答案不一致，请以最新考试版本为准。"
+    "controversy": "> - **原题 231** 答案为 D（OneDrive），理由是 Video Indexer 网站的文件大小限制为 2 GB，File1.avi（20 GB）超出限制，需要先上传到 OneDrive 生成共享链接再使用 URL 方式索引\n> - **原题 375** 答案为 A（直接上传到 Video Indexer 网站），暗示可以直接上传\n> - **原题 271** 答案为 D（从 OneDrive 创建下载链接）\n\n实际规格：\n- Video Indexer 网站直接上传限制：通常为 2 GB\n- URL 方式上传限制：30 GB\n\n对于 20 GB 文件：\n- 应先上传到 OneDrive（或 Blob Storage），获取可公开访问的 URL\n- 然后在 Video Indexer 中使用 URL 方式索引\n\n**推荐答案：C（先上传到 OneDrive，然后使用链接）**，但不同版本的考题答案不一致，请以最新考试版本为准。",
+    "answer_key": "C、D"
   },
   {
     "id": 283,
@@ -6688,7 +6965,8 @@
     ],
     "answer": "B",
     "explanation": "Azure AI Agent Service 的函数工具（Function Tool）集成方式：\n\n```python\ndef get_order_status(order_id: str) -> str:\n    \"\"\"查询订单状态\"\"\"\n    # 调用内部 API\n    return f\"Order {order_id} status: Shipped\"\n\n# 创建函数工具\nfrom azure.ai.projects.models import FunctionTool\nfunctions = FunctionTool(functions=[get_order_status])\n\n# 创建代理并注册工具\nagent = project_client.agents.create_agent(\n    model=\"gpt-4\",\n    tools=functions.definitions,\n    tool_resources=functions.resources\n)\n```\n\n代理在对话中自动判断何时调用该函数，并将结果整合到回答中。函数可以在本地运行，不需要部署为 Azure Function。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 284,
@@ -6714,7 +6992,8 @@
     ],
     "answer": "B",
     "explanation": "- **认证头**：Azure Document Intelligence 使用 `Ocp-Apim-Subscription-Key` 作为订阅密钥头（与其他 Azure AI 服务一致）\n\n- **模型 ID**：\n  - `prebuilt-read`：仅提取文字和结构信息，对**表格支持有限**\n  - `prebuilt-layout`：提取布局结构（文字、表格的位置信息），以 markdown 格式返回表格，但侧重于版式\n  - **`prebuilt-document`**：提取文本、键值对、**表格结构和内容**（最适合含表格的 PDF），适合通用文档分析 ✅\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 285,
@@ -6740,7 +7019,8 @@
     ],
     "answer": "A",
     "explanation": "Azure OpenAI Python SDK 的正确初始化：\n\n```python\nfrom openai import AzureOpenAI\n\nclient = AzureOpenAI(\n    azure_endpoint=\"https://your-resource.openai.azure.com/\",  # endpoint\n    api_key=\"your-api-key\",                                    # api_key\n    api_version=\"2024-02-01\"                                   # api_version（必须）\n)\n\nresponse = client.chat.completions.create(\n    model=\"your-deployment-name\",  # 部署名称（非模型名称）\n    messages=[\n        {\"role\": \"system\", \"content\": \"You are a helpful assistant.\"},\n        {\"role\": \"user\", \"content\": \"Hello!\"}\n    ]\n)\n\n# 正确获取回复文本\nprint(response.choices[0].message.content)  # 非 response.text\n```\n\n- B 错误：`messages` 是必填参数\n- C 错误：回复在 `response.choices[0].message.content` 而非 `response.text`\n- D 错误：`model` 参数应填**部署名称**（Deployment Name），不是全局模型名称\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 286,
@@ -6766,7 +7046,8 @@
     ],
     "answer": "C",
     "explanation": "**命名实体识别（NER）** 可以从文本中提取特定类型的命名实体，包括 **Organization（组织）** 类别，正是用于识别公司名称：\n\n```python\nresponse = client.recognize_entities(\n    documents=[\"Microsoft and OpenAI announced a new partnership.\"]\n)\nfor entity in response[0].entities:\n    if entity.category == \"Organization\":\n        print(entity.text, entity.confidence_score)\n# 输出: Microsoft 0.99, OpenAI 0.98\n```\n\n关键短语提取（A）提取重要词组，但不专门针对组织类实体；情感分析（B）分析情感倾向；语言检测（D）识别语言类型。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 287,
@@ -6792,7 +7073,8 @@
     ],
     "answer": "B",
     "explanation": "**BingGroundingTool** 使代理能够通过 Bing Search API 访问**实时公开网络数据**，包括：\n- 最新新闻（过去几天/几周内发布）\n- 研究论文\n- 公司公告\n- 其他公开网络内容\n\n这是获取模型训练数据截止日期之后发布信息的标准工具。配置时需要提供 Bing Search API 的连接凭据（通过 AI Foundry 连接管理）。\n\n其他工具（FileSearch、CodeInterpreter、AzureAISearch）只能访问预先准备好的静态数据，无法获取实时网络内容。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 288,
@@ -6818,7 +7100,8 @@
     ],
     "answer": "A",
     "explanation": "- **A（正确）**：`confidence: 0.99` 表示该字段（PatientName）被正确识别的置信度为 99%（0 到 1 的浮点数，0.99 = 99%）✅\n\n- **B（错误）**：`\"status\": \"succeeded\"` 明确表示分析**已成功完成**（区别于 \"running\" 表示进行中，\"failed\" 表示失败）\n\n- **C（错误）**：`valueString` 包含的是识别到的**字段文本值**（\"John Doe\"），位置坐标信息存储在 `boundingRegions` 属性中\n\n- **D（错误）**：置信度 1.0 是模型对结果的主观估计，实际上可能仍有极低概率错误（例如两个相似字符的混淆）\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 289,
@@ -6848,7 +7131,8 @@
     ],
     "answer": "A、C",
     "explanation": "在 Semantic Kernel 的提示词模板中，支持复杂对象子属性访问的格式：\n\n**Liquid（A）**：\n```liquid\nHello {{ user.profile.firstName }} {{ user.profile.lastName }}!\nYour order #{{ order.id }} total is {{ order.items | sum: 'price' }}.\n```\n\n**Handlebars（C）**：\n```handlebars\nHello {{user.profile.firstName}} {{user.profile.lastName}}!\n{{#each order.items}}\n  - {{name}}: ${{price}}\n{{/each}}\n```\n\n两者都支持通过点号（`.`）访问对象的嵌套属性，以及循环、条件等逻辑，适合处理复杂数据结构。\n\nJSONL（B）是数据格式，不是模板引擎；YAML（D）是配置格式，不支持模板逻辑。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、C"
   },
   {
     "id": 290,
@@ -6874,7 +7158,8 @@
     ],
     "answer": "B",
     "explanation": "Azure OpenAI \"On Your Data\" 功能通过 `data_sources` 参数（作为 `extra_body` 传递）实现：\n\n```python\nresponse = client.chat.completions.create(\n    model=\"gpt-4-deployment\",\n    messages=messages,\n    extra_body={\n        \"data_sources\": [\n            {\n                \"type\": \"azure_search\",\n                \"parameters\": {\n                    \"endpoint\": \"https://your-search.search.windows.net\",\n                    \"index_name\": \"your-index-name\",\n                    \"authentication\": {\n                        \"type\": \"api_key\",\n                        \"key\": \"your-search-api-key\"\n                    }\n                }\n            }\n        ]\n    }\n)\n```\n\n该配置使 API 在生成回答前先查询 Azure Search 索引，实现 RAG（检索增强生成）模式。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 291,
@@ -6904,7 +7189,8 @@
     ],
     "answer": "A、B",
     "explanation": "- **系统消息（A）**：通过在系统消息中明确要求\"简洁正式的商务语言\"，直接控制机器人的输出风格，这是最直接有效的方式\n- **降低最大响应 Token 数（B）**：简洁回复意味着更少 Token，降低 `max_tokens` 可以：\n  1. 减少每次调用的 Token 消耗，**降低成本** ✅\n  2. 不影响输入历史窗口大小（聊天历史由 `max_context_tokens` 控制，独立设置）✅\n\n切换模型（D）也能降低成本，但题目未明确允许更换模型；Temperature（C）影响创造性，不直接控制简洁度。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 292,
@@ -6930,7 +7216,8 @@
     ],
     "answer": "C",
     "explanation": "Azure AI Content Understanding 视频分析的结果特征：\n\n- **转录文本**：包含带时间戳的语音转文字内容\n- **关键帧**：提取的代表性视频帧，每帧对应一个时间戳（`timestamp`）\n- **异步处理**：视频分析是异步操作，需要轮询状态直到完成\n- 关键帧通常以图像 URL 或 Base64 形式返回，具体取决于存储配置\n\n分析是**异步**的（D 错误）；结果包含时间戳（A 错误）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 293,
@@ -6960,7 +7247,8 @@
     ],
     "answer": "C 或 E",
     "explanation": "Azure AI Video Indexer 支持的**视频格式**：\n- ✅ WMV（File1）\n- ✅ AVI（File2）\n- ✅ MP4（File3）\n- ❌ PDF（File4）—— PDF 不是视频格式，不支持\n\n文件大小限制（网站上传）：通常为 2 GB；URL 方式可达 30 GB。\n\n假设文件大小均在限制范围内，File1、File2、File3 都可以上传，File4（PDF）不可以。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C、E"
   },
   {
     "id": 294,
@@ -6990,7 +7278,8 @@
     ],
     "answer": "A、B",
     "explanation": "构建歧视性语言检测原型的最快路径：\n\n1. **创建 Content Safety 资源（B）**：在 Azure 门户创建资源，获取端点和密钥\n2. **使用 Content Safety Studio（A）**：Content Safety Studio 是一个基于 Web 的界面，允许直接输入文本测试内容检测功能，实时查看 Hate、Violence、Sexual、Self-harm 各类别的检测结果，无需编写任何代码\n\n这是最小化开发工作量的原型构建方式。OpenAI（C）和自定义分类模型（E）成本更高、配置更复杂。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A、B"
   },
   {
     "id": 295,
@@ -7016,7 +7305,8 @@
     ],
     "answer": "B",
     "explanation": "**自定义命名实体识别（Custom NER）** 允许：\n1. 定义自定义实体类型（如\"产品代号\"、\"技术规格型号\"等）\n2. 上传标注数据（在文本中标记出相应实体）\n3. 训练针对特定领域的 NER 模型\n4. 部署后用于识别文档中的行业专有术语\n\n标准 NER 只能识别 Person、Location、Organization 等通用实体类别，无法识别公司特有的技术术语。Custom NER 是解决这类需求的专用功能。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 296,
@@ -7042,7 +7332,8 @@
     ],
     "answer": "B",
     "explanation": "在 Speech Translation SDK 中，`TranslationRecognitionResult` 对象包含 `translations` 字典，键为语言代码，值为翻译文本：\n\n```python\ndef process_translation(result):\n    # 获取法语翻译\n    french_text = result.translations[\"fr\"]\n    # 获取德语翻译\n    german_text = result.translations[\"de\"]\n    # 获取西班牙语翻译\n    spanish_text = result.translations[\"es\"]\n```\n\n访问方式为 `result.translations[\"language_code\"]`，语言代码使用 ISO 639-1 两字母格式（与 `AddTargetLanguage()` 时使用的格式一致）。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "B"
   },
   {
     "id": 297,
@@ -7068,7 +7359,8 @@
     ],
     "answer": "C",
     "explanation": "Semantic Kernel `FunctionChoiceBehavior` 选项：\n\n| 选项 | 行为 |\n|------|------|\n| `None()` | 禁用函数调用 |\n| **`Auto()`** | 让 LLM 自动判断何时调用函数，当指令与函数匹配时触发 ✅ |\n| `Required()` | 强制每次响应都必须调用函数（即使不匹配） |\n\n`Auto()` 是最自然的行为：模型智能地判断哪些函数与当前指令相关并触发它们，同时在函数参数不完整时自动请求用户补充信息。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 298,
@@ -7094,7 +7386,8 @@
     ],
     "answer": "C",
     "explanation": "处理超出范围问题最直接且开发工作量最小的方式是**在系统消息中明确定义边界回复**：\n\n```\n\"You are an AI assistant that helps people find information about our products. \nIf a user asks about anything unrelated to our products, politely respond: \n'I can only answer questions about our products. Please ask about product features, \npricing, or availability.'\"\n```\n\n这通过**提示词工程（Prompt Engineering）** 实现行为控制，无需额外的 AI 组件。\n\n越狱检测（B）用于防止绕过安全限制的攻击，不适用于一般的范围控制；Temperature=0（A）影响随机性，不控制话题范围。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "C"
   },
   {
     "id": 299,
@@ -7120,7 +7413,8 @@
     ],
     "answer": "A",
     "explanation": "最优服务组合：\n\n1. **Azure OpenAI**：用于生成高质量的自然语言文本（GPT 系列模型的优势）\n2. **Azure AI Language**：用于对生成的文本进行：\n   - **命名实体识别（NER）**：提取实体\n   - **情感分析（Sentiment Analysis）**：分析情感倾向\n\nAzure AI Language 提供专门优化的 NER 和情感分析模型，比使用 OpenAI 通过提示词实现这些功能更准确、成本更低、响应更快。\n\n两个服务的 API 都是 REST 接口，可以无缝串联在数据处理流水线中。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   },
   {
     "id": 300,
@@ -7146,6 +7440,7 @@
     ],
     "answer": "A",
     "explanation": "微软负责任 AI 原则中的**问责制（Accountability）** 原则明确要求：\n\n> 当 AI 系统的决策可能对人类产生重大影响（如就业、财务状况等）时，必须保留**人工监督（Human oversight）** 机制，确保由负责任的人类做出最终决定。\n\n\"绩效考核\"直接影响员工的职业发展和收入，属于高影响决策场景，不能完全自动化。AI（情感分析）只能作为**辅助工具**提供参考，最终决策必须由人类审核确认。\n\n这同时也体现了**公平性**原则：情感分析模型可能存在偏差，人工审核可以纠正潜在的不公平判断。\n\n---",
-    "controversy": ""
+    "controversy": "",
+    "answer_key": "A"
   }
 ]

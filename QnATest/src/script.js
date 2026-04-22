@@ -226,8 +226,10 @@ function submitAnswer() {
     const question = questions[currentQuestionIndex];
     
     // 处理多选题和单选题
+    // 使用 answer_key 判断是否为多选题（如果存在），否则使用 answer
     let userAnswer;
-    const isMultiSelect = question.answer.includes('、') || question.answer.includes(',');
+    const answerKeyForCompare = question.answer_key || question.answer;
+    const isMultiSelect = answerKeyForCompare.includes('、') || answerKeyForCompare.includes(',');
     
     if (isMultiSelect) {
         // 多选题：获取所有选中的选项并排序
@@ -242,25 +244,26 @@ function submitAnswer() {
     progressData.answers[question.id] = userAnswer;
     saveProgress();
     
-    // 判断正错
-    const correctAnswer = question.answer;
+    // 判断正错 - 使用 answer_key 进行比较，使用 answer 进行显示
     let isCorrect;
-    
+    const correctAnswerForCompare = answerKeyForCompare;  // 用于判断
+    const correctAnswerForDisplay = question.answer;      // 用于显示（可能包含说明）
+
     if (isMultiSelect) {
         // 多选题：排序后比较
-        const correctAnswerArray = correctAnswer.split('、').sort();
+        const correctAnswerArray = correctAnswerForCompare.split('、').sort();
         const userAnswerArray = userAnswer.split('、').sort();
         isCorrect = correctAnswerArray.join() === userAnswerArray.join();
     } else {
         // 单选题
-        isCorrect = userAnswer === correctAnswer;
+        isCorrect = userAnswer === correctAnswerForCompare;
     }
+
+    // 显示结果（第三个参数使用 answer 字段以显示完整说明）
+    showResult(question, userAnswer, correctAnswerForDisplay, isCorrect, isMultiSelect);
     
-    // 显示结果
-    showResult(question, userAnswer, correctAnswer, isCorrect, isMultiSelect);
-    
-    // 禁用所有选项并高亮显示正确答案
-    const correctAnswerLabels = correctAnswer.split('、').map(s => s.trim());
+    // 禁用所有选项并高亮显示正确答案（基于 answer_key）
+    const correctAnswerLabels = correctAnswerForCompare.split('、').map(s => s.trim());
     document.querySelectorAll('.option').forEach(el => {
         el.disabled = true;
         const label = el.dataset.label;
@@ -381,23 +384,24 @@ function updateSidebar() {
     const answers = progressData.answers;
     const totalCount = questions.length;
     const answeredCount = Object.keys(answers).length;
-    
+
     let correctCount = 0;
     Object.entries(answers).forEach(([qId, userAnswer]) => {
         const question = questions.find(q => q.id == qId);
         if (question) {
-            const correctAnswer = question.answer;
-            const isMultiSelect = correctAnswer.includes('、') || correctAnswer.includes(',');
-            
+            // 使用 answer_key 进行判断，不是 answer
+            const answerKeyForCompare = question.answer_key || question.answer;
+            const isMultiSelect = answerKeyForCompare.includes('、') || answerKeyForCompare.includes(',');
+
             let isCorrect;
             if (isMultiSelect) {
-                const correctAnswerArray = correctAnswer.split('、').map(s => s.trim()).sort();
+                const correctAnswerArray = answerKeyForCompare.split('、').map(s => s.trim()).sort();
                 const userAnswerArray = userAnswer.split('、').map(s => s.trim()).sort();
                 isCorrect = correctAnswerArray.join() === userAnswerArray.join();
             } else {
-                isCorrect = userAnswer === correctAnswer;
+                isCorrect = userAnswer === answerKeyForCompare;
             }
-            
+
             if (isCorrect) {
                 correctCount++;
             }
@@ -422,18 +426,19 @@ function updateCompletionStats() {
     Object.entries(answers).forEach(([qId, userAnswer]) => {
         const question = questions.find(q => q.id == qId);
         if (question) {
-            const correctAnswer = question.answer;
-            const isMultiSelect = correctAnswer.includes('、') || correctAnswer.includes(',');
-            
+            // 使用 answer_key 进行判断，不是 answer
+            const answerKeyForCompare = question.answer_key || question.answer;
+            const isMultiSelect = answerKeyForCompare.includes('、') || answerKeyForCompare.includes(',');
+
             let isCorrect;
             if (isMultiSelect) {
-                const correctAnswerArray = correctAnswer.split('、').map(s => s.trim()).sort();
+                const correctAnswerArray = answerKeyForCompare.split('、').map(s => s.trim()).sort();
                 const userAnswerArray = userAnswer.split('、').map(s => s.trim()).sort();
                 isCorrect = correctAnswerArray.join() === userAnswerArray.join();
             } else {
-                isCorrect = userAnswer === correctAnswer;
+                isCorrect = userAnswer === answerKeyForCompare;
             }
-            
+
             if (isCorrect) {
                 correctCount++;
             }
@@ -464,28 +469,28 @@ function updateStatsView() {
     Object.entries(answers).forEach(([qId, userAnswer]) => {
         const question = questions.find(q => q.id == qId);
         if (question) {
-            // 判断是否正确
+            // 判断是否正确 - 使用 answer_key 进行判断，使用 answer 进行显示
             let isCorrect;
-            const correctAnswer = question.answer;
-            const isMultiSelect = correctAnswer.includes('、') || correctAnswer.includes(',');
-            
+            const answerKeyForCompare = question.answer_key || question.answer;
+            const isMultiSelect = answerKeyForCompare.includes('、') || answerKeyForCompare.includes(',');
+
             if (isMultiSelect) {
                 // 多选题：排序后比较
-                const correctAnswerArray = correctAnswer.split('、').map(s => s.trim()).sort();
+                const correctAnswerArray = answerKeyForCompare.split('、').map(s => s.trim()).sort();
                 const userAnswerArray = userAnswer.split('、').map(s => s.trim()).sort();
                 isCorrect = correctAnswerArray.join() === userAnswerArray.join();
             } else {
-                // 单选题
-                isCorrect = userAnswer === correctAnswer;
+                // 单选题 - 使用 answer_key 进行比较
+                isCorrect = userAnswer === answerKeyForCompare;
             }
-            
+
             if (isCorrect) {
                 correctCount++;
             } else {
                 errorQuestions.push({
                     id: question.id,
                     userAnswer,
-                    correctAnswer: question.answer,
+                    correctAnswer: question.answer,  // 显示完整的 answer（含说明）
                     title: question.title
                 });
             }

@@ -8,8 +8,14 @@ AI-102 问答系统 - 快速启动脚本
 import http.server
 import socketserver
 import os
+import sys
 import webbrowser
 from pathlib import Path
+
+# Fix encoding for Windows
+if sys.stdout.encoding.lower() != 'utf-8':
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 class CustomHandler(http.server.SimpleHTTPRequestHandler):
     """自定义处理器，指定服务器根目录为 src，并正确处理 data 目录映射"""
@@ -18,13 +24,6 @@ class CustomHandler(http.server.SimpleHTTPRequestHandler):
         self.base_dir = directory  # 保存 src 目录路径
         self.project_root = Path(directory).parent  # 项目根目录
         super().__init__(*args, directory=directory, **kwargs)
-    
-    def end_headers(self):
-        """添加缓存控制头，禁用缓存"""
-        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
-        self.send_header('Pragma', 'no-cache')
-        self.send_header('Expires', '0')
-        super().end_headers()
     
     def translate_path(self, path):
         """重写路径转换，允许访问项目的 data 目录"""
