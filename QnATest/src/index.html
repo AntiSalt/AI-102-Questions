@@ -8,59 +8,106 @@
 </head>
 <body>
     <div class="container">
-        <!-- 侧边栏 -->
-        <aside class="sidebar">
-            <div class="sidebar-section">
-                <h3>学习进度</h3>
-                <div class="progress-stats">
-                    <div class="stat-item">
-                        <span class="stat-label">总题数</span>
-                        <span class="stat-value" id="totalCount">-</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">已答题</span>
-                        <span class="stat-value" id="answeredCount">-</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">正确数</span>
-                        <span class="stat-value correct" id="correctCount">-</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">错误数</span>
-                        <span class="stat-value incorrect" id="incorrectCount">-</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-label">正确率</span>
-                        <span class="stat-value" id="correctRate">-</span>
-                    </div>
+
+        <!-- 图标侧边栏 -->
+        <aside class="icon-bar">
+            <div class="icon-btn" data-panel="statsPanel" title="学习统计与操作">📊</div>
+            <div class="icon-btn" data-panel="mapPanel"   title="题目地图与跳转">🗺️</div>
+            <div class="icon-btn" data-panel="searchPanel" title="搜索题目">🔍</div>
+            <div class="icon-spacer"></div>
+            <div class="icon-btn" id="darkModeBtn" title="切换深色模式">🌙</div>
+        </aside>
+
+        <!-- 浮层：统计 + 操作 -->
+        <div class="float-panel" id="statsPanel">
+            <div class="fp-header">
+                <span>📊 学习统计</span>
+                <button class="fp-close" data-panel="statsPanel">×</button>
+            </div>
+            <div class="fp-stats-grid">
+                <div class="fp-stat-item">
+                    <span class="fp-stat-label">总题数</span>
+                    <span class="fp-stat-value" id="totalCount">-</span>
+                </div>
+                <div class="fp-stat-item">
+                    <span class="fp-stat-label">已答题</span>
+                    <span class="fp-stat-value" id="answeredCount">-</span>
+                </div>
+                <div class="fp-stat-item">
+                    <span class="fp-stat-label">正确数</span>
+                    <span class="fp-stat-value correct" id="correctCount">-</span>
+                </div>
+                <div class="fp-stat-item">
+                    <span class="fp-stat-label">错误数</span>
+                    <span class="fp-stat-value incorrect" id="incorrectCount">-</span>
+                </div>
+                <div class="fp-stat-item">
+                    <span class="fp-stat-label">⭐ 收藏</span>
+                    <span class="fp-stat-value" id="starCount">0</span>
+                </div>
+                <div class="fp-stat-item">
+                    <span class="fp-stat-label">正确率</span>
+                    <span class="fp-stat-value primary" id="correctRate">-</span>
                 </div>
             </div>
+            <div class="fp-divider"></div>
+            <button id="startReviewModeBtn" class="btn btn-secondary">📝 错题练习</button>
+            <button id="exitReviewModeBtn"  class="btn btn-warning hidden">✖ 退出错题练习</button>
+            <button id="viewStatsBtn"       class="btn btn-secondary">📋 查看统计</button>
+            <button id="reviewErrorsBtn"    class="btn btn-secondary">❌ 错题回顾</button>
+            <button id="shuffleModeBtn"     class="btn btn-secondary">🔀 随机模式</button>
+            <div class="fp-divider"></div>
+            <button id="exportBtn"          class="btn btn-secondary">💾 导出进度</button>
+            <button id="importBtn"          class="btn btn-secondary">📂 导入进度</button>
+            <div class="fp-divider"></div>
+            <button id="restartBtn"         class="btn btn-danger-ghost">🔄 重新开始</button>
+        </div>
 
-            <div class="sidebar-section">
-                <h3>快速操作</h3>
-                <button id="viewStatsBtn" class="btn btn-secondary">📊 查看统计</button>
-                <button id="reviewErrorsBtn" class="btn btn-secondary">❌ 错题回顾</button>
-                <button id="restartBtn" class="btn btn-secondary">🔄 重新开始</button>
+        <!-- 浮层：题目地图 + 跳转 -->
+        <div class="float-panel" id="mapPanel">
+            <div class="fp-header">
+                <span>🗺️ 题目地图</span>
+                <button class="fp-close" data-panel="mapPanel">×</button>
             </div>
-
-            <div class="sidebar-section">
-                <h3>题目导航</h3>
-                <input type="text" id="jumpInput" placeholder="输入题号跳转" class="jump-input">
+            <div class="fp-map-legend">
+                <span class="legend-dot correct"></span>正确
+                <span class="legend-dot incorrect"></span>错误
+                <span class="legend-dot unanswered"></span>未答
+            </div>
+            <div id="progressMap" class="progress-map"></div>
+            <div class="fp-divider"></div>
+            <p class="fp-section-label">跳转到题目</p>
+            <div class="fp-jump-row">
+                <input type="text" id="jumpInput" placeholder="输入题号" class="jump-input">
                 <button id="jumpBtn" class="btn btn-secondary btn-small">跳转</button>
             </div>
-        </aside>
+        </div>
+
+        <!-- 浮层：搜索 -->
+        <div class="float-panel" id="searchPanel">
+            <div class="fp-header">
+                <span>🔍 搜索题目</span>
+                <button class="fp-close" data-panel="searchPanel">×</button>
+            </div>
+            <input type="text" id="searchInput" placeholder="输入关键词…" class="jump-input">
+            <div id="searchResults" class="search-results"></div>
+        </div>
 
         <!-- 主内容区域 -->
         <main class="main-content">
+
             <!-- 页头 -->
             <header class="app-header">
-                <h1>🎓 AI-102 问答系统</h1>
-                <div class="header-info">
-                    <span id="questionNumber">第 - 题</span>
+                <div class="header-left">
+                    <span class="app-title">🎓 AI-102</span>
+                    <span id="questionNumber" class="question-number">第 - 题</span>
+                    <div id="reviewModeIndicator" class="review-mode-badge hidden">📝 错题练习</div>
+                </div>
+                <div class="header-right">
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressBar"></div>
                     </div>
-                    <span id="progressText">0 / -</span>
+                    <span id="progressText" class="progress-text">0 / -</span>
                 </div>
             </header>
 
@@ -70,56 +117,62 @@
                 <p>正在加载题库...</p>
             </div>
 
-            <!-- 主要内容（隐藏）-->
+            <!-- 主要内容 -->
             <div id="mainState" class="state-container main-state hidden">
-                <!-- 题目容器 -->
+
+                <!-- 题目区 -->
                 <section class="question-section">
                     <div class="background-box">
                         <h3>背景信息</h3>
                         <div id="questionBackground" class="background-content"></div>
                     </div>
-
                     <div class="question-box">
                         <h3>题目</h3>
                         <div id="questionText" class="question-text"></div>
                     </div>
                 </section>
 
-                <!-- 选项容器 -->
+                <!-- 选项区 -->
                 <section class="options-section">
                     <h3>请选择答案</h3>
                     <div id="optionsContainer" class="options-grid"></div>
                 </section>
 
-                <!-- 按钮操作区 -->
+                <!-- 操作区（重设计：主次两层） -->
                 <section class="action-section">
-                    <button id="submitBtn" class="btn btn-primary btn-large" disabled>提交答案</button>
-                    <button id="nextBtn" class="btn btn-success btn-large hidden">下一题 →</button>
+                    <div class="action-primary">
+                        <button id="submitBtn" class="btn btn-primary btn-large" disabled>提交答案</button>
+                        <button id="nextBtn"   class="btn btn-success btn-large hidden">下一题 →</button>
+                    </div>
+                    <div class="action-secondary">
+                        <span class="timer-display">⏱ <span id="questionTimer">0s</span></span>
+                        <div class="mark-buttons">
+                            <button id="markStarBtn"  class="btn btn-mark" title="收藏此题">⭐ 收藏</button>
+                            <button id="markDoubtBtn" class="btn btn-mark" title="标记存疑">❓ 存疑</button>
+                        </div>
+                    </div>
+                    <p class="keyboard-hint"><kbd>1</kbd>=A &nbsp;<kbd>2</kbd>=B &nbsp;<kbd>3</kbd>=C &nbsp;<kbd>4</kbd>=D &nbsp;|&nbsp; <kbd>Enter</kbd> 提交 / 下一题</p>
                 </section>
 
-                <!-- 答题结果区（初始隐藏）-->
+                <!-- 答题结果区 -->
                 <section id="resultSection" class="result-section hidden">
                     <div class="result-header">
                         <div id="resultStatus" class="result-status"></div>
                         <p id="resultMessage" class="result-message"></p>
                     </div>
-
                     <div class="result-body">
                         <div class="result-item">
                             <h4>你的答案</h4>
                             <p id="userAnswer" class="user-answer"></p>
                         </div>
-
                         <div class="result-item">
                             <h4>正确答案</h4>
                             <div id="correctAnswer" class="correct-answer"></div>
                         </div>
-
                         <div class="result-item">
                             <h4>详细解析</h4>
                             <div id="explanation" class="explanation-text"></div>
                         </div>
-
                         <div id="controversyBox" class="result-item controversy-box hidden">
                             <h4>⚠️ 争议说明</h4>
                             <p id="controversy"></p>
@@ -145,9 +198,17 @@
                             <div class="stat-number" id="finalRate">-</div>
                             <div class="stat-label">正确率</div>
                         </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="finalTotalTime">-</div>
+                            <div class="stat-label">总用时</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-number" id="finalAvgTime">-</div>
+                            <div class="stat-label">平均每题</div>
+                        </div>
                     </div>
                     <div class="completion-actions">
-                        <button id="reviewBtn" class="btn btn-primary btn-large">📋 查看错题</button>
+                        <button id="reviewBtn"       class="btn btn-primary btn-large">📋 查看错题</button>
                         <button id="restartAgainBtn" class="btn btn-secondary btn-large">🔄 重新开始</button>
                     </div>
                 </div>
@@ -188,6 +249,7 @@
                     </div>
                 </div>
             </div>
+
         </main>
     </div>
 

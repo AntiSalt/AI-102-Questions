@@ -12,6 +12,26 @@ let progressData = {
 };
 
 const STORAGE_KEY = 'ai102_progress';
+const MARKS_KEY = 'ai102_marks'; // { questionId: 'star' | 'doubt' | null }
+
+let marksData = {};
+
+// 计时器
+let questionStartTime = null;
+let questionElapsedSeconds = 0;
+let timerInterval = null;
+let totalTimeSeconds = 0;     // 累计总用时（秒）
+let questionTimes = {};       // { questionId: seconds }
+
+// 随机模式
+let shuffleModeActive = false;
+let originalQuestions = []; // 保留原始顺序
+
+// 错题练习模式
+let reviewModeActive = false;
+let reviewQueue = [];       // 本轮错题列表（题目对象数组）
+let reviewIndex = 0;        // 当前在 reviewQueue 中的位置
+let reviewAnswers = {};     // 本轮错题练习的作答记录
 
 // ============ 初始化 ============
 document.addEventListener('DOMContentLoaded', initializeApp);
@@ -23,6 +43,8 @@ async function initializeApp() {
         
         // 恢复进度
         loadProgress();
+        loadMarks();
+        initDarkMode();
         
         // 如果有已保存的进度，显示恢复对话
         if (Object.keys(progressData.answers).length > 0) {
@@ -110,24 +132,32 @@ function hideAllStates() {
 
 // ============ 题目显示 ============
 function loadQuestion(index) {
+    const activeList = reviewModeActive ? reviewQueue : questions;
+
     // 边界检查
-    if (index >= questions.length) {
-        showCompletionState();
+    if (index >= activeList.length) {
+        reviewModeActive ? showReviewCompletion() : showCompletionState();
         return;
     }
-    
-    if (index < 0) {
-        index = 0;
+    if (index < 0) index = 0;
+
+    if (reviewModeActive) {
+        reviewIndex = index;
+    } else {
+        currentQuestionIndex = index;
     }
-    
-    currentQuestionIndex = index;
-    const question = questions[index];
-    
+
+    const question = activeList[index];
+
     // 更新页头
-    document.getElementById('questionNumber').textContent = `第 ${question.id} 题`;
-    document.getElementById('progressText').textContent = `${index + 1} / ${questions.length}`;
-    
-    const progress = ((index + 1) / questions.length) * 100;
+    if (reviewModeActive) {
+        document.getElementById('questionNumber').textContent = `错题练习 ${index + 1}/${activeList.length}（第 ${question.id} 题）`;
+    } else {
+        document.getElementById('questionNumber').textContent = `第 ${question.id} 题`;
+    }
+    document.getElementById('progressText').textContent = `${index + 1} / ${activeList.length}`;
+
+    const progress = ((index + 1) / activeList.length) * 100;
     document.getElementById('progressBar').style.width = progress + '%';
     
     // 显示题目内容
@@ -153,7 +183,9 @@ function loadQuestion(index) {
     document.getElementById('nextBtn').classList.add('hidden');
     
     // 恢复之前的答案（如果有）
-    const savedAnswer = progressData.answers[question.id];
+    const savedAnswer = reviewModeActive
+        ? reviewAnswers[question.id]
+        : progressData.answers[question.id];
     if (savedAnswer) {
         const savedAnswerLabels = savedAnswer.split('、').map(s => s.trim());
         const optionEls = document.querySelectorAll('.option');
@@ -167,7 +199,13 @@ function loadQuestion(index) {
     
     // 更新侧边栏统计
     updateSidebar();
-    
+
+    // 启动本题计时器
+    startQuestionTimer();
+
+    // 更新标记按钮状态
+    updateMarkButtons(question.id);
+
     // 滚动到顶部
     window.scrollTo(0, 0);
 }
@@ -240,9 +278,16 @@ function submitAnswer() {
         userAnswer = selectedOptions[0].dataset.label;
     }
     
+    // 记录本题用时
+    recordQuestionTime(question.id);
+
     // 保存答案
-    progressData.answers[question.id] = userAnswer;
-    saveProgress();
+    if (reviewModeActive) {
+        reviewAnswers[question.id] = userAnswer;
+    } else {
+        progressData.answers[question.id] = userAnswer;
+        saveProgress();
+    }
     
     // 判断正错 - 使用 answer_key 进行比较，使用 answer 进行显示
     let isCorrect;
@@ -340,8 +385,320 @@ function showResult(question, userAnswer, correctAnswer, isCorrect, isMultiSelec
     }, 100);
 }
 
+// ============ 题库搜索 ============
+function performSearch() {
+    const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+    const resultContainer = document.getElementById('searchResults');
+
+    if (!keyword) {
+        resultContainer.innerHTML = '';
+        return;
+    }
+
+    const matched = questions.filter(q => {
+        const text = [
+            q.title,
+            q.background,
+            ...q.options.map(o => o.text),
+            q.explanation || ''
+        ].join(' ').toLowerCase();
+        return text.includes(keyword);
+    });
+
+    if (matched.length === 0) {
+        resultContainer.innerHTML = '<p class="search-empty">未找到匹配题目</p>';
+        return;
+    }
+
+    resultContainer.innerHTML = matched.slice(0, 20).map(q => {
+        const idx = questions.indexOf(q);
+        const preview = q.title.length > 50 ? q.title.slice(0, 50) + '…' : q.title;
+        return `<div class="search-item" data-index="${idx}">
+            <span class="search-item-num">第 ${q.id} 题</span>
+            <span class="search-item-text">${preview}</span>
+        </div>`;
+    }).join('');
+
+    if (matched.length > 20) {
+        resultContainer.innerHTML += `<p class="search-empty">还有 ${matched.length - 20} 条结果，请缩小关键词范围</p>`;
+    }
+
+    resultContainer.querySelectorAll('.search-item').forEach(el => {
+        el.addEventListener('click', () => {
+            const idx = parseInt(el.dataset.index);
+            showMainState();
+            loadQuestion(idx);
+            resultContainer.innerHTML = '';
+            document.getElementById('searchInput').value = '';
+            closeAllPanels();
+        });
+    });
+}
+
+// ============ 进度可视化 ============
+function updateProgressMap() {
+    const container = document.getElementById('progressMap');
+    if (!container) return;
+    container.innerHTML = '';
+
+    questions.forEach((q, idx) => {
+        const cell = document.createElement('div');
+        cell.className = 'progress-cell';
+        cell.title = `第 ${q.id} 题`;
+
+        const userAnswer = progressData.answers[q.id];
+        if (userAnswer !== undefined) {
+            const key = q.answer_key || q.answer;
+            const isMulti = key.includes('、') || key.includes(',');
+            let isCorrect;
+            if (isMulti) {
+                isCorrect = key.split('、').map(s=>s.trim()).sort().join() ===
+                            userAnswer.split('、').map(s=>s.trim()).sort().join();
+            } else {
+                isCorrect = userAnswer === key;
+            }
+            cell.classList.add(isCorrect ? 'cell-correct' : 'cell-incorrect');
+        } else {
+            cell.classList.add('cell-unanswered');
+        }
+
+        if (!reviewModeActive && idx === currentQuestionIndex) {
+            cell.classList.add('cell-current');
+        }
+
+        if (marksData[q.id] === 'star') cell.classList.add('cell-star');
+        else if (marksData[q.id] === 'doubt') cell.classList.add('cell-doubt');
+
+        cell.addEventListener('click', () => {
+            if (!reviewModeActive) jumpToQuestion(idx);
+        });
+        container.appendChild(cell);
+    });
+}
+
+// ============ 深色模式 ============
+function initDarkMode() {
+    const saved = localStorage.getItem('ai102_theme');
+    if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        document.getElementById('darkModeBtn').textContent = '☀️ 浅色';
+    }
+}
+
+function toggleDarkMode() {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('ai102_theme', 'light');
+        document.getElementById('darkModeBtn').textContent = '🌙 深色';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('ai102_theme', 'dark');
+        document.getElementById('darkModeBtn').textContent = '☀️ 浅色';
+    }
+}
+
+// ============ 题目标记 ============
+function loadMarks() {
+    const saved = localStorage.getItem(MARKS_KEY);
+    marksData = saved ? JSON.parse(saved) : {};
+}
+
+function saveMarks() {
+    localStorage.setItem(MARKS_KEY, JSON.stringify(marksData));
+}
+
+function toggleMark(type) {
+    const activeList = reviewModeActive ? reviewQueue : questions;
+    const question = activeList[reviewModeActive ? reviewIndex : currentQuestionIndex];
+    if (!question) return;
+    const qId = question.id;
+    if (marksData[qId] === type) {
+        delete marksData[qId];
+    } else {
+        marksData[qId] = type;
+    }
+    saveMarks();
+    updateMarkButtons(qId);
+    updateSidebar();
+}
+
+function updateMarkButtons(questionId) {
+    const mark = marksData[questionId];
+    const starBtn = document.getElementById('markStarBtn');
+    const doubtBtn = document.getElementById('markDoubtBtn');
+    starBtn.classList.toggle('active-mode', mark === 'star');
+    doubtBtn.classList.toggle('active-mode', mark === 'doubt');
+}
+
+// ============ 计时器 ============
+function startQuestionTimer() {
+    stopQuestionTimer();
+    questionStartTime = Date.now();
+    questionElapsedSeconds = 0;
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+        questionElapsedSeconds = Math.floor((Date.now() - questionStartTime) / 1000);
+        updateTimerDisplay();
+    }, 1000);
+}
+
+function stopQuestionTimer() {
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
+}
+
+function recordQuestionTime(questionId) {
+    const elapsed = questionStartTime
+        ? Math.floor((Date.now() - questionStartTime) / 1000)
+        : 0;
+    questionTimes[questionId] = elapsed;
+    totalTimeSeconds += elapsed;
+    stopQuestionTimer();
+}
+
+function formatTime(seconds) {
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return m > 0 ? `${m}m ${s}s` : `${s}s`;
+}
+
+function updateTimerDisplay() {
+    const el = document.getElementById('questionTimer');
+    if (el) el.textContent = formatTime(questionElapsedSeconds);
+}
+
+// ============ 进度导出/导入 ============
+function exportProgress() {
+    const data = JSON.stringify(progressData, null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ai102_progress_${new Date().toISOString().slice(0,10)}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+function importProgress() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json';
+    input.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            try {
+                const data = JSON.parse(ev.target.result);
+                if (!data.answers || typeof data.answers !== 'object') {
+                    showError('文件格式不正确');
+                    return;
+                }
+                progressData = data;
+                saveProgress();
+                currentQuestionIndex = progressData.lastViewedIndex || 0;
+                showMainState();
+                loadQuestion(currentQuestionIndex);
+                alert(`导入成功！已恢复 ${Object.keys(data.answers).length} 条答题记录。`);
+            } catch {
+                showError('文件解析失败，请确认是有效的进度文件');
+            }
+        };
+        reader.readAsText(file);
+    });
+    input.click();
+}
+
+// ============ 随机顺序模式 ============
+function toggleShuffleMode() {
+    if (shuffleModeActive) {
+        // 关闭随机模式，恢复原始顺序
+        shuffleModeActive = false;
+        questions = originalQuestions.slice();
+        originalQuestions = [];
+        document.getElementById('shuffleModeBtn').textContent = '🔀 随机模式';
+        document.getElementById('shuffleModeBtn').classList.remove('active-mode');
+    } else {
+        // 开启随机模式
+        if (originalQuestions.length === 0) {
+            originalQuestions = questions.slice();
+        }
+        shuffleModeActive = true;
+        // Fisher-Yates shuffle
+        const arr = questions.slice();
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        questions = arr;
+        document.getElementById('shuffleModeBtn').textContent = '🔀 随机中…';
+        document.getElementById('shuffleModeBtn').classList.add('active-mode');
+    }
+    currentQuestionIndex = 0;
+    showMainState();
+    loadQuestion(0);
+}
+
+// ============ 错题练习模式 ============
+function getErrorQuestions() {
+    const errors = [];
+    Object.entries(progressData.answers).forEach(([qId, userAnswer]) => {
+        const question = questions.find(q => q.id == qId);
+        if (!question) return;
+        const key = question.answer_key || question.answer;
+        const isMulti = key.includes('、') || key.includes(',');
+        let isCorrect;
+        if (isMulti) {
+            isCorrect = key.split('、').map(s=>s.trim()).sort().join() ===
+                        userAnswer.split('、').map(s=>s.trim()).sort().join();
+        } else {
+            isCorrect = userAnswer === key;
+        }
+        if (!isCorrect) errors.push(question);
+    });
+    return errors;
+}
+
+function startReviewMode() {
+    const errors = getErrorQuestions();
+    if (errors.length === 0) {
+        showError('目前没有错题，继续加油！');
+        return;
+    }
+    reviewModeActive = true;
+    reviewQueue = errors;
+    reviewIndex = 0;
+    reviewAnswers = {};
+    showMainState();
+    loadQuestion(0);
+    // 更新标题提示
+    document.getElementById('reviewModeIndicator').classList.remove('hidden');
+}
+
+function exitReviewMode() {
+    reviewModeActive = false;
+    reviewQueue = [];
+    reviewIndex = 0;
+    reviewAnswers = {};
+    document.getElementById('reviewModeIndicator').classList.add('hidden');
+    showMainState();
+    loadQuestion(currentQuestionIndex);
+}
+
 // ============ 导航 ============
 function nextQuestion() {
+    if (reviewModeActive) {
+        if (reviewIndex + 1 >= reviewQueue.length) {
+            showReviewCompletion();
+        } else {
+            reviewIndex++;
+            loadQuestion(reviewIndex);
+        }
+        return;
+    }
     if (currentQuestionIndex + 1 >= questions.length) {
         showCompletionState();
     } else {
@@ -350,16 +707,53 @@ function nextQuestion() {
 }
 
 function previousQuestion() {
+    if (reviewModeActive) {
+        if (reviewIndex > 0) {
+            reviewIndex--;
+            loadQuestion(reviewIndex);
+        }
+        return;
+    }
     if (currentQuestionIndex > 0) {
         loadQuestion(currentQuestionIndex - 1);
     }
 }
 
 function jumpToQuestion(questionIndex) {
+    if (reviewModeActive) return; // 错题模式下禁用跳转
     if (questionIndex >= 0 && questionIndex < questions.length) {
         loadQuestion(questionIndex);
     } else {
         showError('题号无效');
+    }
+}
+
+function showReviewCompletion() {
+    const total = reviewQueue.length;
+    let correct = 0;
+    Object.entries(reviewAnswers).forEach(([qId, userAnswer]) => {
+        const question = questions.find(q => q.id == qId);
+        if (!question) return;
+        const key = question.answer_key || question.answer;
+        const isMulti = key.includes('、') || key.includes(',');
+        let isCorrect;
+        if (isMulti) {
+            isCorrect = key.split('、').map(s=>s.trim()).sort().join() ===
+                        userAnswer.split('、').map(s=>s.trim()).sort().join();
+        } else {
+            isCorrect = userAnswer === key;
+        }
+        if (isCorrect) correct++;
+    });
+    const rate = total > 0 ? ((correct / total) * 100).toFixed(1) + '%' : '0%';
+    const msg = `错题练习完成！\n\n共练习：${total} 题\n答对：${correct} 题\n答错：${total - correct} 题\n正确率：${rate}\n\n是否退出错题练习模式？`;
+    if (confirm(msg)) {
+        exitReviewMode();
+    } else {
+        // 重新开始本轮
+        reviewIndex = 0;
+        reviewAnswers = {};
+        loadQuestion(0);
     }
 }
 
@@ -418,6 +812,15 @@ function updateSidebar() {
     document.getElementById('correctCount').textContent = correctCount;
     document.getElementById('incorrectCount').textContent = incorrectCount;
     document.getElementById('correctRate').textContent = correctRate;
+
+    const starCount = Object.values(marksData).filter(v => v === 'star').length;
+    const doubtCount = Object.values(marksData).filter(v => v === 'doubt').length;
+    const starEl = document.getElementById('starCount');
+    const doubtEl = document.getElementById('doubtCount');
+    if (starEl) starEl.textContent = starCount;
+    if (doubtEl) doubtEl.textContent = doubtCount;
+
+    updateProgressMap();
 }
 
 function updateCompletionStats() {
@@ -454,6 +857,9 @@ function updateCompletionStats() {
     document.getElementById('finalCorrect').textContent = correctCount;
     document.getElementById('finalIncorrect').textContent = incorrectCount;
     document.getElementById('finalRate').textContent = correctRate;
+    document.getElementById('finalTotalTime').textContent = formatTime(totalTimeSeconds);
+    const avgTime = answeredCount > 0 ? Math.round(totalTimeSeconds / answeredCount) : 0;
+    document.getElementById('finalAvgTime').textContent = formatTime(avgTime);
 }
 
 function updateStatsView() {
@@ -565,44 +971,145 @@ function updateStatsView() {
     }
 }
 
+// ============ 浮层面板管理 ============
+function openPanel(panelId) {
+    // 关闭所有面板，再打开目标面板
+    document.querySelectorAll('.float-panel').forEach(p => {
+        p.classList.remove('panel-visible');
+    });
+    document.querySelectorAll('.icon-btn[data-panel]').forEach(b => {
+        b.classList.remove('panel-open');
+    });
+
+    const panel = document.getElementById(panelId);
+    if (panel) panel.classList.add('panel-visible');
+
+    const btn = document.querySelector(`.icon-btn[data-panel="${panelId}"]`);
+    if (btn) btn.classList.add('panel-open');
+}
+
+function closeAllPanels() {
+    document.querySelectorAll('.float-panel').forEach(p => p.classList.remove('panel-visible'));
+    document.querySelectorAll('.icon-btn[data-panel]').forEach(b => b.classList.remove('panel-open'));
+}
+
+function togglePanel(panelId) {
+    const panel = document.getElementById(panelId);
+    if (panel && panel.classList.contains('panel-visible')) {
+        closeAllPanels();
+    } else {
+        openPanel(panelId);
+    }
+}
+
 // ============ 事件绑定 ============
 function bindEvents() {
     // 提交和下一题
     document.getElementById('submitBtn').addEventListener('click', submitAnswer);
     document.getElementById('nextBtn').addEventListener('click', nextQuestion);
-    
-    // 侧边栏
-    document.getElementById('viewStatsBtn').addEventListener('click', showStatsState);
-    document.getElementById('reviewErrorsBtn').addEventListener('click', () => {
-        showStatsState();
-        document.getElementById('errorListContainer').scrollIntoView({ behavior: 'smooth' });
+
+    // ── 图标栏面板切换 ──
+    document.querySelectorAll('.icon-btn[data-panel]').forEach(btn => {
+        btn.addEventListener('click', () => togglePanel(btn.dataset.panel));
     });
+
+    // 面板关闭按钮
+    document.querySelectorAll('.fp-close').forEach(btn => {
+        btn.addEventListener('click', () => closeAllPanels());
+    });
+
+    // 点击面板外部关闭
+    document.addEventListener('click', (e) => {
+        const inPanel  = e.target.closest('.float-panel');
+        const inIconBar = e.target.closest('.icon-bar');
+        if (!inPanel && !inIconBar) closeAllPanels();
+    });
+
+    // ── 统计面板内的操作按钮 ──
+    document.getElementById('viewStatsBtn').addEventListener('click', () => {
+        closeAllPanels();
+        showStatsState();
+    });
+    document.getElementById('reviewErrorsBtn').addEventListener('click', () => {
+        closeAllPanels();
+        showStatsState();
+        setTimeout(() => document.getElementById('errorListContainer').scrollIntoView({ behavior: 'smooth' }), 100);
+    });
+    document.getElementById('startReviewModeBtn').addEventListener('click', () => {
+        startReviewMode();
+        if (reviewModeActive) {
+            document.getElementById('startReviewModeBtn').classList.add('hidden');
+            document.getElementById('exitReviewModeBtn').classList.remove('hidden');
+            closeAllPanels();
+        }
+    });
+    document.getElementById('exitReviewModeBtn').addEventListener('click', () => {
+        exitReviewMode();
+        document.getElementById('exitReviewModeBtn').classList.add('hidden');
+        document.getElementById('startReviewModeBtn').classList.remove('hidden');
+        closeAllPanels();
+    });
+    document.getElementById('shuffleModeBtn').addEventListener('click', toggleShuffleMode);
+    document.getElementById('exportBtn').addEventListener('click', exportProgress);
+    document.getElementById('importBtn').addEventListener('click', importProgress);
     document.getElementById('restartBtn').addEventListener('click', confirmRestart);
-    
-    // 题目导航
+
+    // ── 图标栏底部：深色模式（不展开面板，直接切换）──
+    document.getElementById('darkModeBtn').addEventListener('click', toggleDarkMode);
+
+    // ── 题目标记按钮 ──
+    document.getElementById('markStarBtn').addEventListener('click',  () => toggleMark('star'));
+    document.getElementById('markDoubtBtn').addEventListener('click', () => toggleMark('doubt'));
+
+    // ── 地图面板：跳转 ──
     document.getElementById('jumpBtn').addEventListener('click', () => {
         const input = document.getElementById('jumpInput');
-        const qNum = parseInt(input.value);
-        const qIndex = qNum - 1;
-        if (isNaN(qNum) || qIndex < 0 || qIndex >= questions.length) {
+        const qNum  = parseInt(input.value);
+        const qIdx  = qNum - 1;
+        if (isNaN(qNum) || qIdx < 0 || qIdx >= questions.length) {
             showError('请输入有效的题号 (1-' + questions.length + ')');
         } else {
-            jumpToQuestion(qIndex);
+            jumpToQuestion(qIdx);
             input.value = '';
+            closeAllPanels();
         }
     });
-    
     document.getElementById('jumpInput').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            document.getElementById('jumpBtn').click();
+        if (e.key === 'Enter') document.getElementById('jumpBtn').click();
+    });
+
+    // ── 搜索面板 ──
+    document.getElementById('searchInput').addEventListener('input', performSearch);
+
+    // ── 键盘快捷键 ──
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (document.getElementById('mainState').classList.contains('hidden')) return;
+
+        const resultVisible = !document.getElementById('resultSection').classList.contains('hidden');
+        const numToLabel = { '1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E' };
+
+        if (!resultVisible && numToLabel[e.key]) {
+            const optionEl = document.querySelector(`.option[data-label="${numToLabel[e.key]}"]`);
+            if (optionEl) { selectOption(optionEl); e.preventDefault(); }
+        } else if (e.key === 'Enter') {
+            const submitBtn = document.getElementById('submitBtn');
+            const nextBtn   = document.getElementById('nextBtn');
+            if (!resultVisible && !submitBtn.disabled && !submitBtn.classList.contains('hidden')) {
+                submitBtn.click(); e.preventDefault();
+            } else if (resultVisible && !nextBtn.classList.contains('hidden')) {
+                nextBtn.click(); e.preventDefault();
+            }
+        } else if (e.key === 'Escape') {
+            closeAllPanels();
         }
     });
-    
-    // 完成状态
+
+    // ── 完成页 ──
     document.getElementById('reviewBtn').addEventListener('click', showStatsState);
     document.getElementById('restartAgainBtn').addEventListener('click', confirmRestart);
-    
-    // 统计视图
+
+    // ── 统计视图返回 ──
     document.getElementById('backToQuestionBtn').addEventListener('click', () => {
         showMainState();
         loadQuestion(currentQuestionIndex);
