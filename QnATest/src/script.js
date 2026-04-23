@@ -130,6 +130,12 @@ function hideAllStates() {
     document.getElementById('statsState').classList.add('hidden');
 }
 
+// ============ 当前题目工具函数 ============
+// 不论普通模式还是错题练习模式，统一获取当前正在显示的题目对象
+function getCurrentQuestion() {
+    return reviewModeActive ? reviewQueue[reviewIndex] : questions[currentQuestionIndex];
+}
+
 // ============ 题目显示 ============
 function loadQuestion(index) {
     const activeList = reviewModeActive ? reviewQueue : questions;
@@ -234,7 +240,7 @@ function createOptionElement(option, questionId) {
 }
 
 function selectOption(optionEl) {
-    const question = questions[currentQuestionIndex];
+    const question = getCurrentQuestion();
     const isMultiSelect = question.answer.includes('、') || question.answer.includes(',');
     
     if (isMultiSelect) {
@@ -260,8 +266,8 @@ function submitAnswer() {
         showError('请选择至少一个答案');
         return;
     }
-    
-    const question = questions[currentQuestionIndex];
+
+    const question = getCurrentQuestion();
     
     // 处理多选题和单选题
     // 使用 answer_key 判断是否为多选题（如果存在），否则使用 answer
@@ -684,6 +690,9 @@ function exitReviewMode() {
     reviewIndex = 0;
     reviewAnswers = {};
     document.getElementById('reviewModeIndicator').classList.add('hidden');
+    // 无论从哪里调用，都重置面板内的按钮状态
+    document.getElementById('exitReviewModeBtn').classList.add('hidden');
+    document.getElementById('startReviewModeBtn').classList.remove('hidden');
     showMainState();
     loadQuestion(currentQuestionIndex);
 }
@@ -1044,9 +1053,7 @@ function bindEvents() {
         }
     });
     document.getElementById('exitReviewModeBtn').addEventListener('click', () => {
-        exitReviewMode();
-        document.getElementById('exitReviewModeBtn').classList.add('hidden');
-        document.getElementById('startReviewModeBtn').classList.remove('hidden');
+        exitReviewMode();   // 按钮切换已在 exitReviewMode() 内处理
         closeAllPanels();
     });
     document.getElementById('shuffleModeBtn').addEventListener('click', toggleShuffleMode);
