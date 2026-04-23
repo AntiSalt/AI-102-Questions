@@ -35,8 +35,8 @@ def parse_markdown():
         title_match = re.search(r'\*\*题目\*\*\n\n(.*?)\n\n\*\*选项\*\*', question_block, re.DOTALL)
         title = title_match.group(1).strip() if title_match else ""
         
-        # 解析选项
-        options_match = re.search(r'\*\*选项\*\*\n\n(.*?)\n\n&nbsp;', question_block, re.DOTALL)
+        # 解析选项（[^\n]* 兼容排序题格式：**选项**（排序题，...））
+        options_match = re.search(r'\*\*选项\*\*[^\n]*\n\n(.*?)\n\n&nbsp;', question_block, re.DOTALL)
         options_text = options_match.group(1).strip() if options_match else ""
         
         options = parse_options(options_text)
@@ -53,12 +53,16 @@ def parse_markdown():
         controversy_match = re.search(r'> ⚠️ \*\*争议说明\*\*：(.*?)(?=\n\n---|$)', question_block, re.DOTALL)
         controversy = controversy_match.group(1).strip() if controversy_match else ""
         
+        # 排序题 answer 格式 "A → B → C" 转为多选题格式 "A、B、C"
+        normalized_answer = re.sub(r'\s*→\s*', '、', answer)
+
         questions.append({
             "id": question_num,
             "background": background,
             "title": title,
             "options": options,
-            "answer": answer,
+            "answer": normalized_answer,
+            "answer_key": normalized_answer,
             "explanation": explanation,
             "controversy": controversy
         })
